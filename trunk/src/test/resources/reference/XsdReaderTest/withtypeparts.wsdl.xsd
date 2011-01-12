@@ -1,0 +1,14 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://example.com/stockquote.wsdl" xmlns:xsd1="http://example.com/stockquote.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://example.com/stockquote.xsd">
+    <complexType name="TradePriceRequest">
+        <all>
+            <element name="tickerSymbol" type="string"/>
+        </all>
+    </complexType>
+    <complexType name="TradePrice">
+        <all>
+            <element name="price" type="float"/>
+        </all>
+    </complexType>
+    <element name="body" type="xsd1:TradePrice"/>
+    <element name="bodyTradePriceRequest" type="xsd1:TradePriceRequest"/>
+</schema>
