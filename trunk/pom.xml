@@ -216,7 +216,6 @@
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <inherited>true</inherited>
                 <executions>
                     <execution>
                         <id>project-sources</id>
@@ -227,7 +226,19 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
+
 
     </build>
 
