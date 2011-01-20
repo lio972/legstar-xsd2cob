@@ -24,7 +24,7 @@ import com.legstar.xsd.XsdObjectProcessor;
  * Extracts the COBOL annotations and restore the COBOL statement. TODO partial
  * implementation for now
  */
-public class XsdCobolGenerator implements XsdObjectProcessor {
+public class Xsd2CobGenerator implements XsdObjectProcessor {
 
     /** All output goes to the writer. Use toString to get the COBOL */
     StringWriter _writer = new StringWriter();

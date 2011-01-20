@@ -16,7 +16,7 @@ import com.legstar.xsd.XsdMappingException;
 import com.legstar.xsd.XsdNavigator;
 import com.legstar.xsd.XsdReader;
 import com.legstar.xsd.XsdToCobolStringResult;
-import com.legstar.xsd.cob.XsdCobolGenerator;
+import com.legstar.xsd.cob.Xsd2CobGenerator;
 
 /**
  * XSD to COBOL Translator API.
@@ -98,7 +98,7 @@ public class Xsd2Cob {
             XsdNavigator visitor = new XsdNavigator(schema, annotator);
             visitor.visit();
 
-            XsdCobolGenerator generator = new XsdCobolGenerator();
+            Xsd2CobGenerator generator = new Xsd2CobGenerator();
             visitor = new XsdNavigator(schema, generator);
             visitor.visit();
 

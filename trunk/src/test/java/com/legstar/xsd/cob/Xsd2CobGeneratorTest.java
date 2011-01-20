@@ -14,7 +14,7 @@ import com.legstar.xsd.XsdReader;
  * Test the COBOL generator.
  * 
  */
-public class XsdCobolGeneratorTest extends AbstractTest {
+public class Xsd2CobGeneratorTest extends AbstractTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
@@ -31,9 +31,9 @@ public class XsdCobolGeneratorTest extends AbstractTest {
      * @throws Exception if generation fails
      */
     public void testGen() throws Exception {
-        XsdCobolGenerator gen = new XsdCobolGenerator();
-        Document doc = DocumentFactory.parse(new File(
-                XSD_REF_FOLDER, "DefaultXsdAnnotatorTest/MSNSearch.wsdl.xsd"));
+        Xsd2CobGenerator gen = new Xsd2CobGenerator();
+        Document doc = DocumentFactory.parse(new File(XSD_REF_FOLDER,
+                "Xsd2CobAnnotatorTest/MSNSearch.wsdl.xsd"));
         XmlSchema schema = XsdReader.read(doc);
         gen.setUp();
 
