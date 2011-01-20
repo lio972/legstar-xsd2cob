@@ -11,7 +11,7 @@ import com.legstar.xsd.XsdToCobolStringResult;
  * Test the XsdToCobolStructure API.
  * 
  */
-public class XsdToCobTest extends AbstractTest {
+public class Xsd2CobTest extends AbstractTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
