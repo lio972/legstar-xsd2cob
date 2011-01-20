@@ -2,10 +2,10 @@ package com.legstar.xsd.def;
 
 import junit.framework.TestCase;
 
-public class DefaultXsdConfigTest extends TestCase {
+public class Xsd2CobConfigTest extends TestCase {
 	
 	public void testLoading() throws Exception {
-		DefaultXsdConfig xsdConfig = new DefaultXsdConfig();
+		Xsd2CobConfig xsdConfig = new Xsd2CobConfig();
 		xsdConfig.load();
 		assertEquals(32, xsdConfig.getAlphanumericLen());
 		assertEquals(32, xsdConfig.getOctetStreamLen());

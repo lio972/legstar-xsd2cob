@@ -19,4 +19,8 @@ public class XsdMappingException extends Exception {
 	public XsdMappingException(final String message, Throwable cause) {
 		super(message, cause);
 	}
+
+	public XsdMappingException(Throwable cause) {
+		super(cause);
+	}
 }

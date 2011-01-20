@@ -26,7 +26,7 @@ public class XsdReaderTest extends AbstractTest {
             Document doc = DocumentFactory.parse("<a>no xsd</a>");
             XsdReader.read(doc);
             fail();
-        } catch (InvalidDocumentException e) {
+        } catch (InvalidXsdException e) {
             assertEquals("Unable to locate an XML Schema in input document",
                     e.getMessage());
         } catch (Exception e) {

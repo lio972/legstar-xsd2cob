@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * A simple configuration model based on a properties file loaded
  * from classpath.
@@ -16,13 +19,47 @@ public abstract class AbstractXsdConfig extends Properties {
     /** Serial ID. */
 	private static final long serialVersionUID = 1L;
 
-    public void load() throws IOException {
-    	loadProperties(this, getLocation());
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
+
+    /**
+     * At construction time, we attempt to load from file system but
+     * just ignore any failures (User did not provide a
+     * configuration on file and wants to use defaults).
+     */
+    public AbstractXsdConfig() {
+        try {
+            load();
+        } catch (IOException e) {
+            _log.info("File " + getLocation() + " was not found. Using defaults.");
+            return;
+        }
     }
     
-    public abstract String getLocation();
+    /**
+     * Create a configuration from a previous set of properties.
+     * @param props the previous property set
+     */
+    public AbstractXsdConfig(final Properties props) {
+        putAll(props);
+    }
+    
     
 
+    /**
+     * Load the properties from file system.
+     * @throws IOException if file not readable
+     */
+    public void load() throws IOException {
+        loadProperties(this, getLocation());
+    }
+    
+    /**
+     * @return the location of the configuration file on file system
+     */
+    public abstract String getLocation();
+    
+    
 	/**
 	 * Loads a properties file from a location.
 	 * <p/>
@@ -54,5 +91,37 @@ public abstract class AbstractXsdConfig extends Properties {
 		}
 
 	}
+	
+	/**
+	 * Return a property value.
+	 * @param propertyName the property name
+	 * @param defaultValue the default value
+	 * @return the property value or default if there are no values
+	 */
+	public int getIntProperty(final String propertyName, final int defaultValue) {
+		String value = getProperty(propertyName);
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return Integer.parseInt(value);
+		}
+	}
+
+    /**
+     * Set a property value.
+     * @param propertyName the property name
+     * @param value the value
+     */
+    public void setIntProperty(final String propertyName, final int value) {
+        setProperty(propertyName, Integer.toString(value));
+    }
+    
+    /**
+     * Serialize to another set of properties.
+     * @param props the other property set
+     */
+    public void toProperties(final Properties props) {
+        props.putAll(this);
+    }
 
 }

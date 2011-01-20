@@ -237,12 +237,31 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
 
     </build>
 
     <dependencies>
+
+        <!-- Apache ANT -->    
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.6.5</version>
+        </dependency>
 
         <!-- Apache Logging API -->    
         <dependency>
@@ -283,6 +302,13 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-coxbapi</artifactId>
+            <version>${legstarVersion}</version>
+        </dependency>
+
+        <!-- LegStar Code Generation API -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
             <version>${legstarVersion}</version>
         </dependency>
 

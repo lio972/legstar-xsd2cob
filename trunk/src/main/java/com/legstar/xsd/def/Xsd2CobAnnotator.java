@@ -41,36 +41,36 @@ import com.legstar.xsd.XsdMappingException;
  * <p/>
  *
  */
-public class DefaultXsdAnnotator extends AbstractXsdAnnotator {
+public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
 	/** Logging. */
 	private Log _log = LogFactory.getLog(getClass());
 	
 	/** Configuration data. */
-	private DefaultXsdConfig _xsdConfig;
+	private Xsd2CobConfig _xsdConfig;
 	
 	/**
 	 * Construct the annotator.
 	 */
-	public DefaultXsdAnnotator() {
-		this(new DefaultXsdConfig());
+	public Xsd2CobAnnotator() {
+		this(new Xsd2CobConfig());
 	}
 	
 	/**
 	 * Construct the annotator.
 	 * @param xsdConfig the configuration data
 	 */
-	public DefaultXsdAnnotator(final DefaultXsdConfig xsdConfig) {
+	public Xsd2CobAnnotator(final Xsd2CobConfig xsdConfig) {
 		_xsdConfig = xsdConfig;
 	}
 	
-	public DefaultXsdAnnotator(
+	public Xsd2CobAnnotator(
 			Map<String, String> complexTypeToJavaClassMap) {
-		this(new DefaultXsdConfig(), complexTypeToJavaClassMap);
+		this(new Xsd2CobConfig(), complexTypeToJavaClassMap);
 	}
 
-	public DefaultXsdAnnotator(
-			final DefaultXsdConfig xsdConfig,
+	public Xsd2CobAnnotator(
+			final Xsd2CobConfig xsdConfig,
 			Map<String, String> complexTypeToJavaClassMap) {
 		super(complexTypeToJavaClassMap);
 		_xsdConfig = xsdConfig;

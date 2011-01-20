@@ -5,18 +5,22 @@ package com.legstar.xsd;
  * or does not contain a valid XML Schema.
  *
  */
-public class InvalidDocumentException extends Exception {
+public class InvalidXsdException extends Exception {
 
 	/**
 	 * A serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public InvalidDocumentException(final String message) {
+	public InvalidXsdException(final String message) {
 		super(message);
 	}
 
-	public InvalidDocumentException(final String message, Throwable cause) {
+	public InvalidXsdException(final String message, Throwable cause) {
 		super(message, cause);
+	}
+
+	public InvalidXsdException(Throwable cause) {
+		super(cause);
 	}
 }

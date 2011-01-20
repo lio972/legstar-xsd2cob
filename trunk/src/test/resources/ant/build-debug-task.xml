@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script translates XML Schema to COBOL.
+  -->
+<project basedir="../../../.." default="xsdToCobol" name="xsdToCobol">
+
+  <!-- ===========================================================  -->
+  <!-- Setup environment
+    -->
+  <target name="init">
+  	
+    <!--  Create a valid file URI -->
+  	<path id="basedir.path">
+  	    <pathelement path="${basedir}" />
+  	</path>
+  	<pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
+  	<property name="uri" value="file:///${basedir.unix}/src/test/resources/cases/customertype.xsd"/> 
+    <property name="targetXsdDir" value="${basedir}/target/gen/schema"/>
+    <property name="targetXsdFileName" value="customertype.xsd"/>
+    <property name="targetCobolDir" value="${basedir}/target/gen/cobol"/>
+    <property name="targetCobolFileName" value="customertype.cpy"/>
+  	
+  	<!--  XML Schema to COBOL translator ant task -->
+    <taskdef name="xsd2cob"
+        classname="com.legstar.xsd.def.XsdToCobolStructureTask">
+        <classpath>
+            <fileset dir="${basedir}/target/dependency" includes="*.jar"/>
+            <pathelement location="${basedir}/target/classes"/>
+        </classpath>
+    </taskdef>
+
+  </target>
+
+  <!-- ===========================================================  -->
+  <!-- Translate XML Schema.
+    -->
+  <target name="xsdToCobol" depends="init">
+    <echo message="Translating ${uri}" />
+  	<xsd2cob>
+  	    <options 
+  	      inputXsdUri="${uri}"
+  	      targetXsdDir="${targetXsdDir}"
+          targetXsdFileName="${targetXsdFileName}"
+          targetCobolDir="${targetCobolDir}"
+          targetCobolFileName="${targetCobolFileName}"
+  	    />
+  	</xsd2cob>
+    <echo message="XML Schema successfully translated" />
+    <echo message="COBOL copybook generated in ${targetCobolDir}/${targetCobolFileName}" />
+    <echo message="COBOL-annotated XML schema generated in ${targetXsdDir}/${targetXsdFileName}" />
+  </target>
+
+</project>

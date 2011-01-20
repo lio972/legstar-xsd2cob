@@ -22,7 +22,7 @@ public class DocumentFactoryTest extends TestCase {
         } catch (Exception e) {
             assertEquals(
                     "The element type \"a\" must be terminated by the matching end-tag \"</a>\".",
-                    e.getMessage());
+                    e.getCause().getMessage());
         }
 
     }

@@ -2,7 +2,7 @@ package com.legstar.xsd.def;
 
 import com.legstar.xsd.AbstractTest;
 
-public class DefaultXsdAnnotatorTest extends AbstractTest {
+public class Xsd2CobAnnotatorTest extends AbstractTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
@@ -14,22 +14,22 @@ public class DefaultXsdAnnotatorTest extends AbstractTest {
     }
 
     public void testSimple() throws Exception {
-        visitAndCheck("simple.xsd", new DefaultXsdAnnotator());
+        visitAndCheck("simple.xsd", new Xsd2CobAnnotator());
     }
 
     public void testCustomer() throws Exception {
-        visitAndCheck("customertype.xsd", new DefaultXsdAnnotator());
+        visitAndCheck("customertype.xsd", new Xsd2CobAnnotator());
     }
 
     public void testWsdlWithTypeParts() throws Exception {
-        visitAndCheck("withtypeparts.wsdl", new DefaultXsdAnnotator());
+        visitAndCheck("withtypeparts.wsdl", new Xsd2CobAnnotator());
     }
 
     public void testXsdIncludes() throws Exception {
-        visitAndCheck("include.xsd", new DefaultXsdAnnotator());
+        visitAndCheck("include.xsd", new Xsd2CobAnnotator());
     }
 
     public void testWsdlMSNSearch() throws Exception {
-        visitAndCheck("MSNSearch.wsdl", new DefaultXsdAnnotator());
+        visitAndCheck("MSNSearch.wsdl", new Xsd2CobAnnotator());
     }
 }
