@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.legstar.xsd.AbstractTest;
 import com.legstar.xsd.InvalidParameterException;
+import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 
 /**
@@ -131,8 +132,28 @@ public class Xsd2CobIOTest extends AbstractTest {
         assertEquals("     01 A PIC X.", cobolContent);
     }
 
-    public void testTranslation() {
+    /**
+     * Test a complete translation.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testTranslation() throws Exception {
+        _xsd2cob.getModel().setInputXsdUri(
+                (new File(XSD_FOLDER, "customertype.xsd")).toURI());
+        _xsd2cob.getModel().setTargetXsdFile(GEN_XSD_FOLDER);
+        _xsd2cob.getModel().setTargetCobolFile(GEN_COBOL_FOLDER);
+        _xsd2cob.getModel().addNewRootElement(
+                new XsdRootElement("customer", "CustomerType"));
 
+        _xsd2cob.execute();
+
+        String xsdContent = FileUtils.readFileToString(new File(GEN_XSD_FOLDER,
+                "customertype.xsd"));
+        assertTrue(xsdContent
+                .contains("<cb:cobolElement cobolName=\"customer\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
+        String cobolContent = FileUtils.readFileToString(new File(
+                GEN_COBOL_FOLDER, "customertype.cpy"));
+        assertTrue(cobolContent.contains("         03  name PIC X(32)."));
     }
 
 }

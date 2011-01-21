@@ -35,7 +35,7 @@ public class Xsd2CobIO extends Xsd2Cob {
     private final Log _log = LogFactory.getLog(getClass());
 
     public Xsd2CobIO(final Xsd2CobModel model) {
-        super(model.getXsdConfig(), model.getNewRootElements());
+        super(model.getXsdConfig());
         _model = model;
     }
 
@@ -79,6 +79,9 @@ public class Xsd2CobIO extends Xsd2Cob {
             throw new InvalidParameterException(
                     "No target folder or file was specified for COBOL copybook");
         }
+
+        /* Make sure the API knows about additional root elements */
+        setNewRootElements(getModel().getNewRootElements());
     }
 
     /**
@@ -98,6 +101,14 @@ public class Xsd2CobIO extends Xsd2Cob {
                 + "." + COBOL_FILE_EXTENSION);
         results.toFileSystem(xsdFile, cobolFile, getModel()
                 .getTargetCobolEncoding());
+
+        if (_log.isDebugEnabled()) {
+            _log.debug("Result COBOL-annotated XML Schema " + xsdFile);
+            _log.debug(results.getCobolXsd());
+            _log.debug("Result COBOL copybook " + cobolFile);
+            _log.debug(results.getCobolStructure());
+        }
+
     }
 
     /**

@@ -3,6 +3,7 @@ package com.legstar.xsd.def;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -177,9 +178,6 @@ public class Xsd2Cob {
         StringWriter writer = new StringWriter();
         schema.write(writer);
         String result = writer.toString();
-        if (_log.isDebugEnabled()) {
-            _log.debug(result);
-        }
         return result;
     }
 
@@ -188,6 +186,23 @@ public class Xsd2Cob {
      */
     public Xsd2CobConfig getConfig() {
         return _xsdConfig;
+    }
+
+    /**
+     * @param newRootElements a list of root elements to add
+     */
+    public void setNewRootElements(final List < XsdRootElement > newRootElements) {
+        _newRootElements = newRootElements;
+    }
+
+    /**
+     * @param xsdRootElement a root element to add to the XML Schema
+     */
+    public void addNewRootElement(final XsdRootElement xsdRootElement) {
+        if (_newRootElements == null) {
+            _newRootElements = new ArrayList < XsdRootElement >();
+        }
+        _newRootElements.add(xsdRootElement);
     }
 
     /**
