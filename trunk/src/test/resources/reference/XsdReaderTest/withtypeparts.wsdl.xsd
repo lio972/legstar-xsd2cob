@@ -9,6 +9,6 @@
             <element name="price" type="float"/>
         </all>
     </complexType>
-    <element name="body" type="xsd1:TradePrice"/>
-    <element name="bodyTradePriceRequest" type="xsd1:TradePriceRequest"/>
+    <element name="body" type="xsd1:TradePriceRequest"/>
+    <element name="bodyTradePrice" type="xsd1:TradePrice"/>
 </schema>

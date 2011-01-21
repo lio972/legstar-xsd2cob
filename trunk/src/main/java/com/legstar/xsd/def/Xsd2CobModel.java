@@ -2,10 +2,13 @@ package com.legstar.xsd.def;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.AbstractAntBuildModel;
+import com.legstar.xsd.XsdRootElement;
 
 /**
  * This class gathers execution parameters for the XML Schema to COBOL utility.
@@ -38,6 +41,9 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /** COBOL source target encoding. */
     public static final String TARGET_COBOL_ENCODING = "targetCobolEncoding";
 
+    /** New root elements to add. */
+    public static final String NEW_ROOT_ELEMENTS = "newRootElements";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -58,6 +64,15 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     private Xsd2CobConfig _xsdConfig;
 
     /**
+     * New root elements to add to XML schema.
+     * <p/>
+     * These elements will be added at the XML Schema root elements.
+     * <p/>
+     * Each element must map to an existing XML schema complex type.
+     */
+    private List < XsdRootElement > _newRootElements;
+
+    /**
      * A no-Arg constructor.
      */
     public Xsd2CobModel() {
@@ -76,6 +91,8 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         setTargetXsdFile(getFile(props, TARGET_XSD_FILE, null));
         setTargetCobolFile(getFile(props, TARGET_COBOL_FILE, null));
         setTargetCobolEncoding(getString(props, TARGET_COBOL_ENCODING, null));
+        setNewRootElements(toRootElements(getStringList(props,
+                NEW_ROOT_ELEMENTS, null)));
         _xsdConfig = new Xsd2CobConfig(props);
     }
 
@@ -163,6 +180,30 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     }
 
     /**
+     * @return the list of root elements to be added.
+     */
+    public List < XsdRootElement > getNewRootElements() {
+        return _newRootElements;
+    }
+
+    /**
+     * @param newRootElements a list of root elements to add
+     */
+    public void setNewRootElements(final List < XsdRootElement > newRootElements) {
+        _newRootElements = newRootElements;
+    }
+
+    /**
+     * @param xsdRootElement a root element to add to the XML Schema
+     */
+    public void addNewRootElement(final XsdRootElement xsdRootElement) {
+        if (_newRootElements == null) {
+            _newRootElements = new ArrayList < XsdRootElement >();
+        }
+        _newRootElements.add(xsdRootElement);
+    }
+
+    /**
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
@@ -171,7 +212,43 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         putFile(props, TARGET_XSD_FILE, getTargetXsdFile());
         putFile(props, TARGET_COBOL_FILE, getTargetCobolFile());
         putString(props, TARGET_COBOL_ENCODING, getTargetCobolEncoding());
+        putStringList(props, NEW_ROOT_ELEMENTS,
+                toStringList(getNewRootElements()));
         _xsdConfig.toProperties(props);
         return props;
+    }
+
+    /**
+     * Helper to serialize the list of root elements to a properties file.
+     * 
+     * @param rootElements the list of root elements
+     * @return a list of strings
+     */
+    protected List < String > toStringList(List < XsdRootElement > rootElements) {
+        List < String > stringList = new ArrayList < String >();
+        if (rootElements != null) {
+            for (XsdRootElement rootElement : rootElements) {
+                stringList.add(rootElement.toString());
+            }
+        }
+        return stringList;
+    }
+
+    /**
+     * Helper to deserialize a list of root elements from a properties file.
+     * 
+     * @param stringList a list of strings
+     * @return a list of root elements
+     */
+    protected List < XsdRootElement > toRootElements(List < String > stringList) {
+        if (stringList != null) {
+            List < XsdRootElement > rootElements = new ArrayList < XsdRootElement >();
+            for (String string : stringList) {
+                rootElements.add(new XsdRootElement(string));
+            }
+            return rootElements;
+        } else {
+            return null;
+        }
     }
 }

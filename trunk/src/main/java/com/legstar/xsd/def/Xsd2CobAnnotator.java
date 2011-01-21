@@ -35,68 +35,64 @@ import com.legstar.xsd.XsdMappingException;
 /**
  * The default annotator produces COBOL annotations by inference.
  * <p/>
- * The COBOL layout inferred maps to the XSD hierarchy starting from
- * root Elements and descending into children by following the 
- * Complex Types sequences.
+ * The COBOL layout inferred maps to the XSD hierarchy starting from root
+ * Elements and descending into children by following the Complex Types
+ * sequences.
  * <p/>
- *
+ * 
  */
 public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
-	/** Logging. */
-	private Log _log = LogFactory.getLog(getClass());
-	
-	/** Configuration data. */
-	private Xsd2CobConfig _xsdConfig;
-	
-	/**
-	 * Construct the annotator.
-	 */
-	public Xsd2CobAnnotator() {
-		this(new Xsd2CobConfig());
-	}
-	
-	/**
-	 * Construct the annotator.
-	 * @param xsdConfig the configuration data
-	 */
-	public Xsd2CobAnnotator(final Xsd2CobConfig xsdConfig) {
-		_xsdConfig = xsdConfig;
-	}
-	
-	public Xsd2CobAnnotator(
-			Map<String, String> complexTypeToJavaClassMap) {
-		this(new Xsd2CobConfig(), complexTypeToJavaClassMap);
-	}
+    /** Logging. */
+    private Log _log = LogFactory.getLog(getClass());
 
-	public Xsd2CobAnnotator(
-			final Xsd2CobConfig xsdConfig,
-			Map<String, String> complexTypeToJavaClassMap) {
-		super(complexTypeToJavaClassMap);
-		_xsdConfig = xsdConfig;
-	}
+    /** Configuration data. */
+    private Xsd2CobConfig _xsdConfig;
 
-    public void setUp() throws IOException {
-    	super.setUp();
-    	_xsdConfig.load();
+    /**
+     * Construct the annotator.
+     */
+    public Xsd2CobAnnotator() {
+        this(new Xsd2CobConfig());
     }
 
-	/**
-	 * Create a set of Cobol annotation mapping the corresponding XML schema
-	 * element attributes.
-	 * 
-	 * @param schema  the XML Schema being annotated
-	 * @param xsdElement the XML Schema element to annotate
-	 * @param level
-	 *            the current level in the elements hierarchy. This is used to
-	 *            create Cobol levels with the same depth as the input XML
-	 *            schema.
-	 * @throws XsdMappingException if annotation fails
-	 */
-    public void processElement(
-            final XmlSchema schema,
-            final XmlSchemaElement xsdElement,
-            final int level) throws XsdMappingException {
+    /**
+     * Construct the annotator.
+     * 
+     * @param xsdConfig the configuration data
+     */
+    public Xsd2CobAnnotator(final Xsd2CobConfig xsdConfig) {
+        _xsdConfig = xsdConfig;
+    }
+
+    public Xsd2CobAnnotator(Map < String, String > complexTypeToJavaClassMap) {
+        this(new Xsd2CobConfig(), complexTypeToJavaClassMap);
+    }
+
+    public Xsd2CobAnnotator(final Xsd2CobConfig xsdConfig,
+            Map < String, String > complexTypeToJavaClassMap) {
+        super(complexTypeToJavaClassMap);
+        _xsdConfig = xsdConfig;
+    }
+
+    public void setUp() throws IOException {
+        super.setUp();
+    }
+
+    /**
+     * Create a set of Cobol annotation mapping the corresponding XML schema
+     * element attributes.
+     * 
+     * @param schema the XML Schema being annotated
+     * @param xsdElement the XML Schema element to annotate
+     * @param level the current level in the elements hierarchy. This is used to
+     *            create Cobol levels with the same depth as the input XML
+     *            schema.
+     * @throws XsdMappingException if annotation fails
+     */
+    public void processElement(final XmlSchema schema,
+            final XmlSchemaElement xsdElement, final int level)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setAttributes started for element  = "
@@ -118,18 +114,19 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
             _log.debug("   XmlSchemaElement FixedValue     = "
                     + xsdElement.getFixedValue());
         }
-        
-        String coxbPrefix = schema.getNamespaceContext().getPrefix(CobolMarkup.NS);
-        Element elc = ElementFactory.createElement(
-        		CobolMarkup.NS, coxbPrefix + ":" + CobolMarkup.ELEMENT);
+
+        String coxbPrefix = schema.getNamespaceContext().getPrefix(
+                CobolMarkup.NS);
+        Element elc = ElementFactory.createElement(CobolMarkup.NS, coxbPrefix
+                + ":" + CobolMarkup.ELEMENT);
 
         /* Add cobol attributes valid for all types */
         elc.setAttribute(CobolMarkup.LEVEL_NUMBER, Integer.toString(level));
-        elc.setAttribute(CobolMarkup.COBOL_NAME, getCobolName(xsdElement.getName()));
+        elc.setAttribute(CobolMarkup.COBOL_NAME,
+                getCobolName(xsdElement.getName()));
 
         if (_log.isDebugEnabled()) {
-            _log.debug("   Cobol level          = "
-                    + level);
+            _log.debug("   Cobol level          = " + level);
             _log.debug("   Cobol name           = "
                     + elc.getAttribute(CobolMarkup.COBOL_NAME));
         }
@@ -148,7 +145,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         if (xsdElement.getMaxOccurs() > 1) {
             if (xsdElement.getMaxOccurs() > Short.MAX_VALUE) {
                 elc.setAttribute(CobolMarkup.MAX_OCCURS,
-                		toString(_xsdConfig.getDefaultMaxOccurs()));
+                        toString(_xsdConfig.getDefaultMaxOccurs()));
                 _log.warn("Max occurs for element " + xsdElement.getName()
                         + " has been set to default value "
                         + _xsdConfig.getDefaultMaxOccurs());
@@ -171,28 +168,29 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         /* Examine inner simple and complex types */
         XmlSchemaType xsdType = null;
         if (xsdElement.getSchemaType() != null) {
-        	xsdType = xsdElement.getSchemaType();
+            xsdType = xsdElement.getSchemaType();
         } else if (xsdElement.getSchemaTypeName() != null) {
-        	QName name = new QName(schema.getTargetNamespace(),
-        			xsdElement.getSchemaTypeName().getLocalPart());
-        	xsdType = schema.getTypeByName(name);
+            QName name = new QName(schema.getTargetNamespace(), xsdElement
+                    .getSchemaTypeName().getLocalPart());
+            xsdType = schema.getTypeByName(name);
         }
-        
-		if (xsdType instanceof XmlSchemaSimpleType) {
-			setSimpleTypeAttributes(schema, (XmlSchemaSimpleType) xsdType, elc);
-		} else if (xsdType instanceof XmlSchemaComplexType) {
-			setComplexTypeAttributes(schema, (XmlSchemaComplexType) xsdType,
-					elc, level);
-		}
-        
+
+        if (xsdType instanceof XmlSchemaSimpleType) {
+            setSimpleTypeAttributes(schema, (XmlSchemaSimpleType) xsdType, elc);
+        } else if (xsdType instanceof XmlSchemaComplexType) {
+            setComplexTypeAttributes(schema, (XmlSchemaComplexType) xsdType,
+                    elc, level);
+        }
+
         /* Add the annotation to the XML schema object */
         annotate(schema, xsdElement, elc);
 
         if (_log.isDebugEnabled()) {
-            _log.debug("setAttributes ended for element = " + xsdElement.getName());
+            _log.debug("setAttributes ended for element = "
+                    + xsdElement.getName());
         }
-        
-     }
+
+    }
 
     /**
      * Create a set of cobol attributes for a simple XML schema type.
@@ -202,10 +200,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the DOM Element representing the Cobol annotation
      * @throws XsdMappingException if annotation fails
      */
-    protected void setSimpleTypeAttributes(
-            final XmlSchema schema,
-            final XmlSchemaSimpleType xsdSimpleType,
-            final Element elc) throws XsdMappingException {
+    protected void setSimpleTypeAttributes(final XmlSchema schema,
+            final XmlSchemaSimpleType xsdSimpleType, final Element elc)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setSimpleTypeAttributes started for type = "
@@ -228,8 +225,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         /* From the primitive XML schema type we infer a candidate Cobol type */
         CobolType cobolType = getXsdCobolTypeMap().get(primitiveType);
         if (cobolType == null) {
-            throw new XsdMappingException(
-                    "Unsupported XML Schema type " + xsdSimpleType.getQName());
+            throw new XsdMappingException("Unsupported XML Schema type "
+                    + xsdSimpleType.getQName());
         }
         elc.setAttribute(CobolMarkup.TYPE, cobolType.name());
         if (_log.isDebugEnabled()) {
@@ -238,14 +235,14 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         }
 
         /*
-         * Simple types can derive from xsd:list, in which case we need to
-         * map them to arrays. Lists being unbounded, we need to artificially
-         * set a maximum bound to the corresponding Cobol array.
+         * Simple types can derive from xsd:list, in which case we need to map
+         * them to arrays. Lists being unbounded, we need to artificially set a
+         * maximum bound to the corresponding Cobol array.
          */
         if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeList) {
             elc.setAttribute(CobolMarkup.MIN_OCCURS, "1");
             elc.setAttribute(CobolMarkup.MAX_OCCURS,
-            		toString(_xsdConfig.getDefaultMaxOccurs()));
+                    toString(_xsdConfig.getDefaultMaxOccurs()));
             if (_log.isDebugEnabled()) {
                 _log.debug("   Cobol minOccurs      = "
                         + elc.getAttribute(CobolMarkup.MIN_OCCURS));
@@ -279,8 +276,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
             setOctetStreamAttributes(primitiveType, facets, elc);
             break;
         default:
-            throw new XsdMappingException(
-                    "Cobol type inferred is invalid");
+            throw new XsdMappingException("Cobol type inferred is invalid");
         }
         if (_log.isDebugEnabled()) {
             _log.debug("setSimpleTypeAttributes ended for type = "
@@ -297,10 +293,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setAlphaNumericAttributes(
-            final QName primitiveType,
-            final XsdFacets facets,
-            final Element elc) throws XsdMappingException {
+    protected void setAlphaNumericAttributes(final QName primitiveType,
+            final XsdFacets facets, final Element elc)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setAlphaNumericAttributes started for type = "
@@ -321,11 +316,10 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
         /*
          * TODO add analysis of pattern facet to refine type and picture
-         * inference
-         * TODO see if there is a way to set isJustifiedRight
+         * inference TODO see if there is a way to set isJustifiedRight
          */
-        elc.setAttribute(CobolMarkup.PICTURE, "X("
-                + Integer.toString(byteLength) + ")");
+        elc.setAttribute(CobolMarkup.PICTURE,
+                "X(" + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
 
         if (_log.isDebugEnabled()) {
@@ -346,10 +340,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setOctetStreamAttributes(
-            final QName primitiveType,
-            final XsdFacets facets,
-            final Element elc) throws XsdMappingException {
+    protected void setOctetStreamAttributes(final QName primitiveType,
+            final XsdFacets facets, final Element elc)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setOctetStreamAttributes started for type = "
@@ -364,8 +357,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
             byteLength = _xsdConfig.getOctetStreamLen();
         }
 
-        elc.setAttribute(CobolMarkup.PICTURE, "X("
-                + Integer.toString(byteLength) + ")");
+        elc.setAttribute(CobolMarkup.PICTURE,
+                "X(" + Integer.toString(byteLength) + ")");
         elc.setAttribute(CobolMarkup.USAGE, "DISPLAY");
 
         if (_log.isDebugEnabled()) {
@@ -387,10 +380,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setBinaryAttributes(
-            final QName primitiveType,
-            final XsdFacets facets,
-            final Element elc) throws XsdMappingException {
+    protected void setBinaryAttributes(final QName primitiveType,
+            final XsdFacets facets, final Element elc)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setBinaryAttributes started for type = "
@@ -438,8 +430,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
          * TODO add analysis of pattern facet to refine type and picture
          * inference
          */
-        elc.setAttribute(CobolMarkup.PICTURE, "9("
-                + Integer.toString(totalDigits) + ")");
+        elc.setAttribute(CobolMarkup.PICTURE,
+                "9(" + Integer.toString(totalDigits) + ")");
         elc.setAttribute(CobolMarkup.TOTAL_DIGITS,
                 Integer.toString(totalDigits));
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
@@ -468,10 +460,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setDecimalAttributes(
-            final QName primitiveType,
-            final XsdFacets facets,
-            final Element elc) throws XsdMappingException {
+    protected void setDecimalAttributes(final QName primitiveType,
+            final XsdFacets facets, final Element elc)
+            throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("setDecimalAttributes started for type = "
@@ -494,11 +485,12 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         /* Consider decimals as always signed */
         boolean signed = true;
 
-        elc.setAttribute(CobolMarkup.PICTURE, "9("
-                + Integer.toString(totalDigits - fractionDigits)
-                + ((fractionDigits > 0)
-                        ? ")V9(" + Integer.toString(fractionDigits) : "")
-                        + ")");
+        elc.setAttribute(
+                CobolMarkup.PICTURE,
+                "9("
+                        + Integer.toString(totalDigits - fractionDigits)
+                        + ((fractionDigits > 0) ? ")V9("
+                                + Integer.toString(fractionDigits) : "") + ")");
         elc.setAttribute(CobolMarkup.TOTAL_DIGITS,
                 Integer.toString(totalDigits));
         elc.setAttribute(CobolMarkup.FRACTION_DIGITS,
@@ -529,8 +521,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setSingleFloatAttributes(
-            final QName primitiveType,
+    protected void setSingleFloatAttributes(final QName primitiveType,
             final Element elc) throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
@@ -555,8 +546,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @param elc the annotated element
      * @throws XsdMappingException if attributes cannot be set
      */
-    protected void setDoubleFloatAttributes(
-            final QName primitiveType,
+    protected void setDoubleFloatAttributes(final QName primitiveType,
             final Element elc) throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
@@ -579,20 +569,22 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * because types can form a hierarchy and restrict each other.
      * 
      * @param schema the XML Schema being annotated
-     * @param xsdSimpleType the type from which a primitive type should be inferred
+     * @param xsdSimpleType the type from which a primitive type should be
+     *            inferred
      * @return the primitive type
      * @throws XsdMappingException if primitive type cannot be inferred
      */
-    protected QName getPrimitiveType(
-            final XmlSchema schema,
+    protected QName getPrimitiveType(final XmlSchema schema,
             final XmlSchemaSimpleType xsdSimpleType) throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {
-            _log.debug("getPrimitiveType started for type = " + xsdSimpleType.getName());
+            _log.debug("getPrimitiveType started for type = "
+                    + xsdSimpleType.getName());
         }
 
         QName typeName = xsdSimpleType.getQName();
-        if (typeName != null && XsdConstants.XSD_NS.equals(typeName.getNamespaceURI())) {
+        if (typeName != null
+                && XsdConstants.XSD_NS.equals(typeName.getNamespaceURI())) {
             if (_log.isDebugEnabled()) {
                 _log.debug("getPrimitiveType ended for type = "
                         + xsdSimpleType.getName());
@@ -602,8 +594,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         }
         if (xsdSimpleType.getContent() != null) {
             if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeRestriction) {
-                XmlSchemaSimpleTypeRestriction restriction =
-                        (XmlSchemaSimpleTypeRestriction) xsdSimpleType.getContent();
+                XmlSchemaSimpleTypeRestriction restriction = (XmlSchemaSimpleTypeRestriction) xsdSimpleType
+                        .getContent();
                 /*
                  * For an unknown reason, getBaseType() sometimes returns null.
                  * In such a case we have to locate the type using
@@ -612,7 +604,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
                 if (restriction.getBaseType() == null) {
                     typeName = restriction.getBaseTypeName();
                     if (typeName != null) {
-                        if (XsdConstants.XSD_NS.equals(typeName.getNamespaceURI())) {
+                        if (XsdConstants.XSD_NS.equals(typeName
+                                .getNamespaceURI())) {
                             if (_log.isDebugEnabled()) {
                                 _log.debug("getPrimitiveType ended for type = "
                                         + xsdSimpleType.getName());
@@ -622,15 +615,13 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
                         }
                         /*
                          * Since restriction base type is not an XML Schema
-                         * standard type, it must be defined in this schema.
-                         * We don't support restrictions that are not simple
-                         * types.
+                         * standard type, it must be defined in this schema. We
+                         * don't support restrictions that are not simple types.
                          */
-                        XmlSchemaType restrictionBaseType =
-                                schema.getTypeByName(typeName);
+                        XmlSchemaType restrictionBaseType = schema
+                                .getTypeByName(typeName);
                         if (restrictionBaseType != null
-                                && restrictionBaseType
-                                instanceof XmlSchemaSimpleType) {
+                                && restrictionBaseType instanceof XmlSchemaSimpleType) {
                             return getPrimitiveType(schema,
                                     (XmlSchemaSimpleType) restrictionBaseType);
                         }
@@ -641,8 +632,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
             } else if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeList) {
                 /* If this is a list, look for items type. */
-                XmlSchemaSimpleTypeList listType =
-                        (XmlSchemaSimpleTypeList) xsdSimpleType.getContent();
+                XmlSchemaSimpleTypeList listType = (XmlSchemaSimpleTypeList) xsdSimpleType
+                        .getContent();
                 return getPrimitiveType(schema, listType.getItemType());
 
             } else if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeUnion) {
@@ -655,13 +646,13 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
                                 .getItem(0));
             }
         }
-        throw new XsdMappingException(
-                "Cannot infer primitive type for " + typeName);
+        throw new XsdMappingException("Cannot infer primitive type for "
+                + typeName);
     }
 
     /**
-     * Search for the all facets found in an XML schema type hierarchy. Since
-     * we start from the most detailed type, the first facets encountered take
+     * Search for the all facets found in an XML schema type hierarchy. Since we
+     * start from the most detailed type, the first facets encountered take
      * precedence over the ones we encounter higher in the hierarchy.
      * 
      * @param schema the XML Schema being annotated
@@ -670,60 +661,56 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
      * @throws XsdMappingException if facets cannot be located
      */
     @SuppressWarnings("unchecked")
-    protected void getFacets(
-            final XmlSchema schema,
-            final XmlSchemaSimpleType xsdSimpleType,
-            final XsdFacets facets) throws XsdMappingException {
+    protected void getFacets(final XmlSchema schema,
+            final XmlSchemaSimpleType xsdSimpleType, final XsdFacets facets)
+            throws XsdMappingException {
 
         /* facets are found in types restrictions */
         if (xsdSimpleType.getContent() == null) {
             return;
         }
         if (_log.isDebugEnabled()) {
-            _log.debug("getFacets started for type = " + xsdSimpleType.getName());
+            _log.debug("getFacets started for type = "
+                    + xsdSimpleType.getName());
         }
 
         if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeRestriction) {
-            XmlSchemaSimpleTypeRestriction restriction =
-                    (XmlSchemaSimpleTypeRestriction) xsdSimpleType.getContent();
+            XmlSchemaSimpleTypeRestriction restriction = (XmlSchemaSimpleTypeRestriction) xsdSimpleType
+                    .getContent();
             if (restriction.getFacets() != null) {
                 XmlSchemaObjectCollection collection = restriction.getFacets();
-                for (Iterator < XmlSchemaObject > i =
-                        collection.getIterator(); i.hasNext();) {
+                for (Iterator < XmlSchemaObject > i = collection.getIterator(); i
+                        .hasNext();) {
                     XmlSchemaObject facet = i.next();
                     /*
-                     * When a facet value is found, we keep it only if
-                     * no previous type did set the same facet value
+                     * When a facet value is found, we keep it only if no
+                     * previous type did set the same facet value
                      */
                     if (facet instanceof XmlSchemaLengthFacet) {
-                        XmlSchemaLengthFacet xsef =
-                                (XmlSchemaLengthFacet) facet;
+                        XmlSchemaLengthFacet xsef = (XmlSchemaLengthFacet) facet;
                         if (facets.getLength() == -1) {
-                            facets.setLength(
-                                    new Integer((String) xsef.getValue()));
+                            facets.setLength(new Integer((String) xsef
+                                    .getValue()));
                         }
                     }
                     if (facet instanceof XmlSchemaPatternFacet) {
-                        XmlSchemaPatternFacet xsef =
-                                (XmlSchemaPatternFacet) facet;
+                        XmlSchemaPatternFacet xsef = (XmlSchemaPatternFacet) facet;
                         if (facets.getPattern() == null) {
                             facets.setPattern((String) xsef.getValue());
                         }
                     }
                     if (facet instanceof XmlSchemaTotalDigitsFacet) {
-                        XmlSchemaTotalDigitsFacet xsef =
-                                (XmlSchemaTotalDigitsFacet) facet;
+                        XmlSchemaTotalDigitsFacet xsef = (XmlSchemaTotalDigitsFacet) facet;
                         if (facets.getTotalDigits() == -1) {
-                            facets.setTotalDigits(
-                                    new Integer((String) xsef.getValue()));
+                            facets.setTotalDigits(new Integer((String) xsef
+                                    .getValue()));
                         }
                     }
                     if (facet instanceof XmlSchemaFractionDigitsFacet) {
-                        XmlSchemaFractionDigitsFacet xsef =
-                                (XmlSchemaFractionDigitsFacet) facet;
+                        XmlSchemaFractionDigitsFacet xsef = (XmlSchemaFractionDigitsFacet) facet;
                         if (facets.getFractionDigits() == -1) {
-                            facets.setFractionDigits(
-                                    new Integer((String) xsef.getValue()));
+                            facets.setFractionDigits(new Integer((String) xsef
+                                    .getValue()));
                         }
                     }
                 }
@@ -740,8 +727,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
                         return;
                     }
                     getFacets(schema,
-                            (XmlSchemaSimpleType) schema.getTypeByName(
-                                    typeName), facets);
+                            (XmlSchemaSimpleType) schema
+                                    .getTypeByName(typeName), facets);
                 }
             } else {
                 getFacets(schema, restriction.getBaseType(), facets);
@@ -759,37 +746,36 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
     }
 
     /**
-	 * Create a set of Cobol annotation mapping the corresponding XML schema
-	 * complex type attributes.
-	 * 
-	 * @param schema  the XML Schema being annotated
-	 * @param xsdComplexType the XML Schema complex type to annotate
-	 * @param level
-	 *            the current level in the elements hierarchy. This is used to
-	 *            create Cobol levels with the same depth as the input XML
-	 *            schema.
-	 * @throws XsdMappingException if annotation fails
-	 */
-    public void processComplexType(
-            final XmlSchema schema,
-            final XmlSchemaComplexType xsdComplexType,
-            final int level) throws XsdMappingException {
-    	
+     * Create a set of Cobol annotation mapping the corresponding XML schema
+     * complex type attributes.
+     * 
+     * @param schema the XML Schema being annotated
+     * @param xsdComplexType the XML Schema complex type to annotate
+     * @param level the current level in the elements hierarchy. This is used to
+     *            create Cobol levels with the same depth as the input XML
+     *            schema.
+     * @throws XsdMappingException if annotation fails
+     */
+    public void processComplexType(final XmlSchema schema,
+            final XmlSchemaComplexType xsdComplexType, final int level)
+            throws XsdMappingException {
+
         /*
-         * If this complex type maps to a java class name, add this
-         * attribute to the annotation
+         * If this complex type maps to a java class name, add this attribute to
+         * the annotation
          */
         if (getComplexTypeToJavaClassMap() != null) {
-            String javaClassName =
-            	getComplexTypeToJavaClassMap().get(xsdComplexType.getName());
+            String javaClassName = getComplexTypeToJavaClassMap().get(
+                    xsdComplexType.getName());
             if (javaClassName != null) {
                 if (_log.isDebugEnabled()) {
                     _log.debug("   java class name = " + javaClassName);
                 }
                 /* Create a DOM document to hold annotation notes */
-                String coxbPrefix = schema.getNamespaceContext().getPrefix(CobolMarkup.NS);
-                Element elc = ElementFactory.createElement(
-                		CobolMarkup.NS, coxbPrefix + ":" + CobolMarkup.COMPLEX_TYPE);
+                String coxbPrefix = schema.getNamespaceContext().getPrefix(
+                        CobolMarkup.NS);
+                Element elc = ElementFactory.createElement(CobolMarkup.NS,
+                        coxbPrefix + ":" + CobolMarkup.COMPLEX_TYPE);
                 elc.setAttribute(CobolMarkup.JAVA_CLASS_NAME, javaClassName);
                 annotate(schema, xsdComplexType, elc);
             }
@@ -798,11 +784,12 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
     /**
      * Shortcut for integer to string.
+     * 
      * @param i an integer
      * @return its string representation
      */
     protected String toString(final int i) {
-    	return Integer.toString(i);
+        return Integer.toString(i);
     }
 
 }

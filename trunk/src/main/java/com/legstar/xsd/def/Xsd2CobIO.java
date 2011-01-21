@@ -22,6 +22,12 @@ import com.legstar.xsd.XsdToCobolStringResult;
  */
 public class Xsd2CobIO extends Xsd2Cob {
 
+    /** Extension to add on generated XML schema file names. */
+    public static final String XSD_FILE_EXTENSION = "xsd";
+
+    /** Extension to add on generated COBOL copybooks. */
+    public static final String COBOL_FILE_EXTENSION = "cpy";
+
     /** Holds all options. */
     private Xsd2CobModel _model;
 
@@ -29,7 +35,7 @@ public class Xsd2CobIO extends Xsd2Cob {
     private final Log _log = LogFactory.getLog(getClass());
 
     public Xsd2CobIO(final Xsd2CobModel model) {
-        super(model.getXsdConfig());
+        super(model.getXsdConfig(), model.getNewRootElements());
         _model = model;
     }
 
@@ -86,10 +92,10 @@ public class Xsd2CobIO extends Xsd2Cob {
         /* Use the last segment of the URI as a default output name. */
         String defaultName = getLastSegment(getModel().getInputXsdUri());
 
-        File xsdFile = getFile(getModel().getTargetXsdFile(), defaultName
-                + ".xsd");
+        File xsdFile = getFile(getModel().getTargetXsdFile(), defaultName + "."
+                + XSD_FILE_EXTENSION);
         File cobolFile = getFile(getModel().getTargetCobolFile(), defaultName
-                + ".cpy");
+                + "." + COBOL_FILE_EXTENSION);
         results.toFileSystem(xsdFile, cobolFile, getModel()
                 .getTargetCobolEncoding());
     }
@@ -112,7 +118,10 @@ public class Xsd2CobIO extends Xsd2Cob {
             throws IOException {
         String filePath = file.getAbsolutePath();
         String ext = FilenameUtils.getExtension(filePath);
-        if (ext == null) {
+        if (ext == null || ext.length() == 0) {
+            if (fileName == null || fileName.length() == 0) {
+                throw new IOException("No default file name was provided");
+            }
             FileUtils.forceMkdir(file);
             return new File(file, fileName);
         } else {
@@ -124,7 +133,7 @@ public class Xsd2CobIO extends Xsd2Cob {
     }
 
     /**
-     * Retrieves the last segment from a URI.
+     * Retrieves the last segment from a URI (without suffixes).
      * 
      * @param uri the uri to process
      * @return the last segment of the path
@@ -141,7 +150,13 @@ public class Xsd2CobIO extends Xsd2Cob {
         if (pos < 0) {
             return null;
         }
-        return path.substring(++pos, path.length());
+        path = path.substring(++pos, path.length());
+        pos = path.lastIndexOf('.');
+        if (pos > 0) {
+            return path.substring(0, pos);
+        } else {
+            return path;
+        }
     }
 
     /**

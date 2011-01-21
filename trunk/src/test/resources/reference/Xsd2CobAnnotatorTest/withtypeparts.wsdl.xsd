@@ -21,17 +21,17 @@
             </element>
         </all>
     </complexType>
-    <element name="body" type="xsd1:TradePrice">
+    <element name="body" type="xsd1:TradePriceRequest">
         <annotation>
             <appinfo>
                 <cb:cobolElement cobolName="body" levelNumber="1" type="GROUP_ITEM"/>
             </appinfo>
         </annotation>
     </element>
-    <element name="bodyTradePriceRequest" type="xsd1:TradePriceRequest">
+    <element name="bodyTradePrice" type="xsd1:TradePrice">
         <annotation>
             <appinfo>
-                <cb:cobolElement cobolName="bodyTradePriceRequest" levelNumber="1" type="GROUP_ITEM"/>
+                <cb:cobolElement cobolName="bodyTradePrice" levelNumber="1" type="GROUP_ITEM"/>
             </appinfo>
         </annotation>
     </element>

@@ -26,6 +26,12 @@ public abstract class AbstractTest extends TestCase {
     public static final File XSD_REF_FOLDER = new File(
             "src/test/resources/reference");
 
+    /** Generated annotated classes folder. */
+    public static final File GEN_XSD_FOLDER = new File("target/gen/schema");
+
+    /** Generated COBOL copybook folder. */
+    public static final File GEN_COBOL_FOLDER = new File("target/gen/cobol");
+
     /** This means references should be created instead of compared to results. */
     private boolean _createReferences = false;
 
@@ -60,8 +66,8 @@ public abstract class AbstractTest extends TestCase {
     }
 
     /**
-     * Parse a file and generate an XML Schema then check that schema
-     * against a reference.
+     * Parse a file and generate an XML Schema then check that schema against a
+     * reference.
      * 
      * @param fileName the input file (an XSD or WSDL)
      * @throws Exception if something fails
@@ -97,14 +103,13 @@ public abstract class AbstractTest extends TestCase {
      * @param extension the reference file name extension to use
      * @throws Exception if something fails
      */
-    protected void check(
-            final String fileName,
-            final String extension,
+    protected void check(final String fileName, final String extension,
             final String result) throws Exception {
-        File referenceFile = new File(XSD_REF_FOLDER,
-                getUnqualName(getClass()) + "/" + fileName
-                        + ((extension == null || extension.length() == 0) ? ""
-                                : "." + extension));
+        File referenceFile = new File(XSD_REF_FOLDER, getUnqualName(getClass())
+                + "/"
+                + fileName
+                + ((extension == null || extension.length() == 0) ? "" : "."
+                        + extension));
 
         if (isCreateReferences()) {
             FileUtils.writeStringToFile(referenceFile, result, "UTF-8");
@@ -138,7 +143,7 @@ public abstract class AbstractTest extends TestCase {
      * @param clazz the class
      * @return the unqualified name
      */
-    public static String getUnqualName(final Class < ? > clazz) {
+    public static String getUnqualName(final Class<?> clazz) {
         String unqname = clazz.getName();
         if (unqname.lastIndexOf('.') > 0) {
             unqname = unqname.substring(unqname.lastIndexOf('.') + 1);

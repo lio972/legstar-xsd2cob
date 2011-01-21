@@ -3,6 +3,7 @@ package com.legstar.xsd.def;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +16,7 @@ import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdMappingException;
 import com.legstar.xsd.XsdNavigator;
 import com.legstar.xsd.XsdReader;
+import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 import com.legstar.xsd.cob.Xsd2CobGenerator;
 
@@ -34,6 +36,9 @@ public class Xsd2Cob {
     /** Configuration data. */
     private Xsd2CobConfig _xsdConfig;
 
+    /** New root elements to add to the generated XML schema. */
+    private List < XsdRootElement > _newRootElements;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
@@ -41,7 +46,7 @@ public class Xsd2Cob {
      * Construct the translator.
      */
     public Xsd2Cob() {
-        this(new Xsd2CobConfig());
+        this(null, null);
     }
 
     /**
@@ -50,7 +55,22 @@ public class Xsd2Cob {
      * @param xsdConfig the configuration data
      */
     public Xsd2Cob(final Xsd2CobConfig xsdConfig) {
+        this(xsdConfig, null);
+    }
+
+    /**
+     * Construct the translator.
+     * 
+     * @param xsdConfig the configuration data
+     * @param newRootElements additional XML schema root elements
+     */
+    public Xsd2Cob(final Xsd2CobConfig xsdConfig,
+            final List < XsdRootElement > newRootElements) {
+        if (xsdConfig == null) {
+            _xsdConfig = new Xsd2CobConfig();
+        }
         _xsdConfig = xsdConfig;
+        _newRootElements = newRootElements;
     }
 
     /**
@@ -91,6 +111,9 @@ public class Xsd2Cob {
             _log.debug("Translating with options:" + getConfig().toString());
         }
         try {
+            if (getNewRootElements() != null) {
+                XsdReader.addRootElements(getNewRootElements(), schema);
+            }
 
             Xsd2CobAnnotator annotator = new Xsd2CobAnnotator(getConfig());
             annotator.setUp();
@@ -165,6 +188,13 @@ public class Xsd2Cob {
      */
     public Xsd2CobConfig getConfig() {
         return _xsdConfig;
+    }
+
+    /**
+     * @return the new root elements to add to the generated XML schema
+     */
+    public List < XsdRootElement > getNewRootElements() {
+        return _newRootElements;
     }
 
 }

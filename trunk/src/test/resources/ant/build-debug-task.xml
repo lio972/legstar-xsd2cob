@@ -15,14 +15,12 @@
   	</path>
   	<pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
   	<property name="uri" value="file:///${basedir.unix}/src/test/resources/cases/customertype.xsd"/> 
-    <property name="targetXsdDir" value="${basedir}/target/gen/schema"/>
-    <property name="targetXsdFileName" value="customertype.xsd"/>
-    <property name="targetCobolDir" value="${basedir}/target/gen/cobol"/>
-    <property name="targetCobolFileName" value="customertype.cpy"/>
+    <property name="targetXsdFile" value="${basedir}/target/gen/schema/customertype.xsd"/>
+    <property name="targetCobolFile" value="${basedir}/target/gen/cobol/customertype.cpy"/>
   	
   	<!--  XML Schema to COBOL translator ant task -->
     <taskdef name="xsd2cob"
-        classname="com.legstar.xsd.def.XsdToCobolStructureTask">
+        classname="com.legstar.xsd.def.Xsd2CobTask">
         <classpath>
             <fileset dir="${basedir}/target/dependency" includes="*.jar"/>
             <pathelement location="${basedir}/target/classes"/>
@@ -39,15 +37,15 @@
   	<xsd2cob>
   	    <options 
   	      inputXsdUri="${uri}"
-  	      targetXsdDir="${targetXsdDir}"
-          targetXsdFileName="${targetXsdFileName}"
-          targetCobolDir="${targetCobolDir}"
-          targetCobolFileName="${targetCobolFileName}"
-  	    />
+  	      targetXsdFile="${targetXsdFile}"
+          targetCobolFile="${targetCobolFile}"
+  	    >
+    	    <newRootElement elementName="customer" typeName="CustomerType"/>
+  		</options>
   	</xsd2cob>
     <echo message="XML Schema successfully translated" />
-    <echo message="COBOL copybook generated in ${targetCobolDir}/${targetCobolFileName}" />
-    <echo message="COBOL-annotated XML schema generated in ${targetXsdDir}/${targetXsdFileName}" />
+    <echo message="COBOL copybook generated in ${targetCobolFile}" />
+    <echo message="COBOL-annotated XML schema generated in ${targetXsdFile}" />
   </target>
 
 </project>

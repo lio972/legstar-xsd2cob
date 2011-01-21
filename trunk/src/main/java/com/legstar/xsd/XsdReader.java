@@ -1,10 +1,8 @@
 package com.legstar.xsd;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -92,17 +90,17 @@ public class XsdReader {
      */
     public static void pullIncludes(final XmlSchema xmlSchema) {
 
-        List<XmlSchemaInclude> includes = new ArrayList<XmlSchemaInclude>();
+        List < XmlSchemaInclude > includes = new ArrayList < XmlSchemaInclude >();
 
-        for (Iterator<?> includedItems = xmlSchema.getIncludes().getIterator(); includedItems
-                .hasNext();) {
+        for (Iterator < ? > includedItems = xmlSchema.getIncludes()
+                .getIterator(); includedItems.hasNext();) {
             Object includeOrImport = includedItems.next();
             if (includeOrImport instanceof XmlSchemaInclude) {
                 includes.add((XmlSchemaInclude) includeOrImport);
                 XmlSchema incSchema = ((XmlSchemaInclude) includeOrImport)
                         .getSchema();
                 XmlSchemaObjectCollection incItems = incSchema.getItems();
-                for (Iterator<?> incIt = incItems.getIterator(); incIt
+                for (Iterator < ? > incIt = incItems.getIterator(); incIt
                         .hasNext();) {
                     XmlSchemaObject incXsdObject = (XmlSchemaObject) incIt
                             .next();
@@ -135,7 +133,7 @@ public class XsdReader {
      */
     protected static QName getName(final XmlSchemaObjectTable table,
             final XmlSchemaObject xsdObject) {
-        for (Iterator<?> it = table.getNames(); it.hasNext();) {
+        for (Iterator < ? > it = table.getNames(); it.hasNext();) {
             QName name = (QName) it.next();
             if (xsdObject == table.getItem(name)) {
                 return name;
@@ -158,7 +156,7 @@ public class XsdReader {
     public static void addWsdlPartsAsRootElements(final Document doc,
             final XmlSchema schema) throws InvalidXsdException {
 
-        Map<QName, QName> rootElements = new HashMap<QName, QName>();
+        List < XsdRootElement > rootElements = new ArrayList < XsdRootElement >();
 
         NodeList nodes = doc.getElementsByTagNameNS(XsdConstants.WSDL_NS,
                 "part");
@@ -172,8 +170,7 @@ public class XsdReader {
                 if (type.indexOf(':') > 0) {
                     type = type.substring(type.indexOf(':') + 1);
                 }
-                rootElements.put(new QName(schema.getTargetNamespace(), type),
-                        new QName(schema.getTargetNamespace(), name));
+                rootElements.add(new XsdRootElement(name, type));
             }
         }
         addRootElements(rootElements, schema);
@@ -191,15 +188,22 @@ public class XsdReader {
      * @param schema the schema to be annotated
      * @throws InvalidXsdException if root elements cannot be added
      */
-    public static void addRootElements(final Map<QName, QName> rootElements,
-            final XmlSchema schema) throws InvalidXsdException {
+    public static void addRootElements(
+            final List < XsdRootElement > rootElements, final XmlSchema schema)
+            throws InvalidXsdException {
         if (rootElements == null) {
             return;
         }
-        for (QName typeQName : rootElements.keySet()) {
-            QName elementQName = rootElements.get(typeQName);
+        for (XsdRootElement xsdRootElement : rootElements) {
+
+            QName typeQName = new QName(schema.getTargetNamespace(),
+                    xsdRootElement.getTypeName());
+            QName elementQName = new QName(schema.getTargetNamespace(),
+                    xsdRootElement.getElementName());
+
             if (schema.getTypeByName(typeQName) == null) {
-                throw (new InvalidXsdException("Root element " + elementQName
+                throw (new InvalidXsdException("Root element "
+                        + xsdRootElement.getElementName()
                         + " has unknown type " + typeQName));
             }
 
