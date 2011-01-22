@@ -173,10 +173,21 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /**
      * Translator configuration parameters.
      * 
-     * @param _xsdConfig the translator configuration parameters to set
+     * @param xsdConfig the translator configuration parameters to set
      */
     public void setXsdConfig(final Xsd2CobConfig xsdConfig) {
         _xsdConfig = xsdConfig;
+    }
+
+    /**
+     * Used by ANT to create a new instance of the embedded xsdConfig element to
+     * receive parameters set from the ant script.
+     * 
+     * @return a new instance of the translator configuration parameters to set
+     */
+    public Xsd2CobConfig createXsdConfig() {
+        _xsdConfig = new Xsd2CobConfig();
+        return _xsdConfig;
     }
 
     /**

@@ -24,6 +24,7 @@
         <classpath>
             <fileset dir="${basedir}/target/dependency" includes="*.jar"/>
             <pathelement location="${basedir}/target/classes"/>
+            <pathelement location="${basedir}/target/test-classes"/>
         </classpath>
     </taskdef>
 
@@ -40,6 +41,7 @@
   	      targetXsdFile="${targetXsdFile}"
           targetCobolFile="${targetCobolFile}"
   	    >
+  	    	<xsdConfig alphanumericLen="40"/>
     	    <newRootElement elementName="customer" typeName="CustomerType"/>
   		</options>
   	</xsd2cob>
