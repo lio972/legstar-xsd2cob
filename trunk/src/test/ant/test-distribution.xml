@@ -1,0 +1,53 @@
+<!-- =================================================================================
+     This script tests the distribution file. It unzips the distro to a temporary
+     location and runs the samples.
+ -->
+<project basedir="../../.." default="testDistro" name="build-sample">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+        
+        <property environment="env"/>
+        <!-- Temporary location  -->
+        <property name="test.dir" value="${basedir}/target/test-distro" />
+        <!-- Distribution name  -->
+        <property name="dist.name" value="${project.artifactId}-${project.version}" />
+        <!-- Distribution zip file  -->
+        <property name="dist.zip" value="${dist.name}.zip" />
+        <!-- Distribution file location   -->
+        <property name="dist.dir" value="${basedir}/target" />
+        <!-- Distribution zip file   -->
+        <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+        <!-- Sample generated jar archive full path -->
+        <property name="jarSampleFilePath" value="${test.dir}/${dist.name}/target/lsfileaq/dist/lsfileaq.jar"/>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Unzip distro to temporary location
+    -->
+    <target name="installDistro" depends="init">
+        <unzip src="${zip.file}" dest="${test.dir}"/>
+    </target>
+    
+    <!-- ===========================================================  -->
+    <!-- Run the sample executable jar
+    -->
+    <target name="testExecutable" depends="installDistro">
+        <delete file="${jarSampleFilePath}"/>
+        <exec dir="${test.dir}/${dist.name}" executable="cmd" failonerror="true">
+            <arg value="/c"/>
+            <arg value="run"/>
+        </exec>
+        <available file="${jarSampleFilePath}" property="isFileAvail1"/>
+        <fail unless="isFileAvail1" message="Run.bat failed!"/>
+    </target>
+
+  <!-- ===========================================================  -->
+    <!-- Run the samples
+    -->
+    <target name="testDistro" depends="testExecutable"/>
+</project>
