@@ -15,7 +15,7 @@ public class Xsd2CobConfig extends AbstractXsdConfig {
     private static final long serialVersionUID = 1L;
 
     /** Properties file name. */
-    public static final String OPTIONS_FILE_NAME = "options.properties";
+    public static final String OPTIONS_FILE_NAME = "xsd2cob.properties";
 
     /* ====================================================================== */
     /* Following are default field values. = */
@@ -92,16 +92,17 @@ public class Xsd2CobConfig extends AbstractXsdConfig {
     public static final int DEFAULT_MAX_OCCURS = 10;
 
     /**
-     * At construction time, we attempt to load from file system but
-     * just ignore any failures (User did not provide a
-     * configuration on file and wants to use defaults).
+     * At construction time, we attempt to load from file system but just ignore
+     * any failures (User did not provide a configuration on file and wants to
+     * use defaults).
      */
     public Xsd2CobConfig() {
         super();
     }
-    
+
     /**
      * Create a configuration from a previous set of properties.
+     * 
      * @param props the previous property set
      */
     public Xsd2CobConfig(final Properties props) {
@@ -309,7 +310,7 @@ public class Xsd2CobConfig extends AbstractXsdConfig {
      * Default maximum number of items for arrays that mapped to unbounded.
      * 
      * @param value default maximum number of items for arrays that mapped to
-     *         unbounded
+     *            unbounded
      */
     public void setMaxOccurs(final int value) {
         setIntProperty(MAX_OCCURS, value);
