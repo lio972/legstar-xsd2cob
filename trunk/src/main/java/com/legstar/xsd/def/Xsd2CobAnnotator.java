@@ -145,10 +145,10 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         if (xsdElement.getMaxOccurs() > 1) {
             if (xsdElement.getMaxOccurs() > Short.MAX_VALUE) {
                 elc.setAttribute(CobolMarkup.MAX_OCCURS,
-                        toString(_xsdConfig.getDefaultMaxOccurs()));
+                        toString(_xsdConfig.getMaxOccurs()));
                 _log.warn("Max occurs for element " + xsdElement.getName()
                         + " has been set to default value "
-                        + _xsdConfig.getDefaultMaxOccurs());
+                        + _xsdConfig.getMaxOccurs());
             } else {
                 elc.setAttribute(CobolMarkup.MAX_OCCURS,
                         Long.toString(xsdElement.getMaxOccurs()));
@@ -242,7 +242,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
         if (xsdSimpleType.getContent() instanceof XmlSchemaSimpleTypeList) {
             elc.setAttribute(CobolMarkup.MIN_OCCURS, "1");
             elc.setAttribute(CobolMarkup.MAX_OCCURS,
-                    toString(_xsdConfig.getDefaultMaxOccurs()));
+                    toString(_xsdConfig.getMaxOccurs()));
             if (_log.isDebugEnabled()) {
                 _log.debug("   Cobol minOccurs      = "
                         + elc.getAttribute(CobolMarkup.MIN_OCCURS));

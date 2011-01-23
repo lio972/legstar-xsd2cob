@@ -211,7 +211,7 @@ public class Xsd2CobConfig extends AbstractXsdConfig {
      * @return default maximum number of items for arrays that mapped to
      *         unbounded
      */
-    public int getDefaultMaxOccurs() {
+    public int getMaxOccurs() {
         return getIntProperty(MAX_OCCURS, DEFAULT_MAX_OCCURS);
     }
 
@@ -311,7 +311,7 @@ public class Xsd2CobConfig extends AbstractXsdConfig {
      * @param value default maximum number of items for arrays that mapped to
      *         unbounded
      */
-    public void setDefaultMaxOccurs(final int value) {
+    public void setMaxOccurs(final int value) {
         setIntProperty(MAX_OCCURS, value);
     }
 }

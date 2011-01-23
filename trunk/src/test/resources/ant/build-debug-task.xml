@@ -8,17 +8,17 @@
   <!-- Setup environment
     -->
   <target name="init">
-  	
+    
     <!--  Create a valid file URI -->
-  	<path id="basedir.path">
-  	    <pathelement path="${basedir}" />
-  	</path>
-  	<pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
-  	<property name="uri" value="file:///${basedir.unix}/src/test/resources/cases/customertype.xsd"/> 
+    <path id="basedir.path">
+        <pathelement path="${basedir}" />
+    </path>
+    <pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
+    <property name="uri" value="file:///${basedir.unix}/src/test/resources/cases/customertype.xsd"/> 
     <property name="targetXsdFile" value="${basedir}/target/gen/schema/customertype.xsd"/>
     <property name="targetCobolFile" value="${basedir}/target/gen/cobol/customertype.cpy"/>
-  	
-  	<!--  XML Schema to COBOL translator ant task -->
+    
+    <!--  XML Schema to COBOL translator ant task -->
     <taskdef name="xsd2cob"
         classname="com.legstar.xsd.def.Xsd2CobTask">
         <classpath>
@@ -35,16 +35,16 @@
     -->
   <target name="xsdToCobol" depends="init">
     <echo message="Translating ${uri}" />
-  	<xsd2cob>
-  	    <options 
-  	      inputXsdUri="${uri}"
-  	      targetXsdFile="${targetXsdFile}"
+    <xsd2cob>
+        <options 
+          inputXsdUri="${uri}"
+          targetXsdFile="${targetXsdFile}"
           targetCobolFile="${targetCobolFile}"
-  	    >
-  	    	<xsdConfig alphanumericLen="40"/>
-    	    <newRootElement elementName="customer" typeName="CustomerType"/>
-  		</options>
-  	</xsd2cob>
+        >
+          <xsdConfig alphanumericLen="40"/>
+          <newRootElement elementName="customer" typeName="CustomerType"/>
+      </options>
+    </xsd2cob>
     <echo message="XML Schema successfully translated" />
     <echo message="COBOL copybook generated in ${targetCobolFile}" />
     <echo message="COBOL-annotated XML schema generated in ${targetXsdFile}" />

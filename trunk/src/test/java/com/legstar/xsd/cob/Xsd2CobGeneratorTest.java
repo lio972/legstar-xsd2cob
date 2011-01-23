@@ -32,7 +32,7 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
      */
     public void testGen() throws Exception {
         Xsd2CobGenerator gen = new Xsd2CobGenerator();
-        Document doc = DocumentFactory.parse(new File(XSD_REF_FOLDER,
+        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
                 "Xsd2CobAnnotatorTest/MSNSearch.wsdl.xsd"));
         XmlSchema schema = XsdReader.read(doc);
         gen.setUp();

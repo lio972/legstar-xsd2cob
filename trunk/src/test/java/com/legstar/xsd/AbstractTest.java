@@ -20,22 +20,39 @@ import com.legstar.dom.DocumentFactory;
 public abstract class AbstractTest extends TestCase {
 
     /** Test cases folder. */
-    public static final File XSD_FOLDER = new File("src/test/resources/cases");
+    public static final File XSD_DIR = new File("src/test/resources/cases");
 
     /** Reference folder. */
-    public static final File XSD_REF_FOLDER = new File(
+    public static final File XSD_REF_DIR = new File(
             "src/test/resources/reference");
 
     /** Generated annotated classes folder. */
-    public static final File GEN_XSD_FOLDER = new File("target/gen/schema");
+    public static final File GEN_XSD_DIR = new File("target/gen/schema");
 
     /** Generated COBOL copybook folder. */
-    public static final File GEN_COBOL_FOLDER = new File("target/gen/cobol");
+    public static final File GEN_COBOL_DIR = new File("target/gen/cobol");
+
+    /** Generated ANT script folder. */
+    public static final File GEN_ANT_DIR = new File("target/gen/ant");
 
     /** This means references should be created instead of compared to results. */
     private boolean _createReferences = false;
 
     private Log _log = LogFactory.getLog(getClass());
+
+    /** @{inheritDoc */
+    public void setUp() throws Exception {
+        super.setUp();
+        if (GEN_XSD_DIR.exists()) {
+            FileUtils.forceDelete(GEN_XSD_DIR);
+        }
+        if (GEN_COBOL_DIR.exists()) {
+            FileUtils.forceDelete(GEN_COBOL_DIR);
+        }
+        if (GEN_ANT_DIR.exists()) {
+            FileUtils.forceDelete(GEN_ANT_DIR);
+        }
+    }
 
     /**
      * Parse a file and generate an XML Schema.
@@ -45,7 +62,7 @@ public abstract class AbstractTest extends TestCase {
      * @throws Exception if something fails
      */
     public XmlSchema parse(final String fileName) throws Exception {
-        Document doc = DocumentFactory.parse(new File(XSD_FOLDER, fileName));
+        Document doc = DocumentFactory.parse(new File(XSD_DIR, fileName));
         return XsdReader.read(doc);
     }
 
@@ -105,7 +122,7 @@ public abstract class AbstractTest extends TestCase {
      */
     protected void check(final String fileName, final String extension,
             final String result) throws Exception {
-        File referenceFile = new File(XSD_REF_FOLDER, getUnqualName(getClass())
+        File referenceFile = new File(XSD_REF_DIR, getUnqualName(getClass())
                 + "/"
                 + fileName
                 + ((extension == null || extension.length() == 0) ? "" : "."
@@ -143,7 +160,7 @@ public abstract class AbstractTest extends TestCase {
      * @param clazz the class
      * @return the unqualified name
      */
-    public static String getUnqualName(final Class<?> clazz) {
+    public static String getUnqualName(final Class < ? > clazz) {
         String unqname = clazz.getName();
         if (unqname.lastIndexOf('.') > 0) {
             unqname = unqname.substring(unqname.lastIndexOf('.') + 1);

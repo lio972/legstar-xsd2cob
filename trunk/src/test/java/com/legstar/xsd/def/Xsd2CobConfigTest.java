@@ -17,7 +17,7 @@ public class Xsd2CobConfigTest extends TestCase {
 		assertEquals(2, xsdConfig.getDecFracDigits());
 		assertEquals(4, xsdConfig.getSingleFloatByteLen());
 		assertEquals(8, xsdConfig.getDoubleFloatByteLen());
-		assertEquals(10, xsdConfig.getDefaultMaxOccurs());
+		assertEquals(10, xsdConfig.getMaxOccurs());
 	}
 
 }

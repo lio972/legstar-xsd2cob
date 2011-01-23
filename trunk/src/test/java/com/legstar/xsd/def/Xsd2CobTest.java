@@ -31,7 +31,7 @@ public class Xsd2CobTest extends AbstractTest {
         Xsd2Cob api = new Xsd2Cob(config);
 
         XsdToCobolStringResult results = api.translate(FileUtils
-                .readFileToString(new File(XSD_FOLDER, "MSNSearch.wsdl"),
+                .readFileToString(new File(XSD_DIR, "MSNSearch.wsdl"),
                         "UTF-8"));
         check("MSNSearch.wsdl", "xsd", results.getCobolXsd());
         check("MSNSearch.wsdl", "cpy", results.getCobolStructure());

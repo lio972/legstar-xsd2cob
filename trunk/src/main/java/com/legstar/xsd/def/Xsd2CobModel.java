@@ -1,12 +1,20 @@
 package com.legstar.xsd.def;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+
 import com.legstar.codegen.CodeGenMakeException;
+import com.legstar.codegen.CodeGenUtil;
 import com.legstar.codegen.models.AbstractAntBuildModel;
 import com.legstar.xsd.XsdRootElement;
 
@@ -72,6 +80,13 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
      */
     private List < XsdRootElement > _newRootElements;
 
+    /* ====================================================================== */
+    /* Following are other class fields and methods. = */
+    /* ====================================================================== */
+
+    /** Whether velocity is already initialized. */
+    private boolean _velocityInitialized;
+
     /**
      * A no-Arg constructor.
      */
@@ -91,14 +106,43 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         setTargetXsdFile(getFile(props, TARGET_XSD_FILE, null));
         setTargetCobolFile(getFile(props, TARGET_COBOL_FILE, null));
         setTargetCobolEncoding(getString(props, TARGET_COBOL_ENCODING, null));
+        _xsdConfig = new Xsd2CobConfig(props);
         setNewRootElements(toRootElements(getStringList(props,
                 NEW_ROOT_ELEMENTS, null)));
-        _xsdConfig = new Xsd2CobConfig(props);
     }
 
+    /**
+     * Creates an ant build script file ready for COBOL generation.
+     * 
+     * @param scriptFile the script file that must be created
+     * @throws CodeGenMakeException if generation fails
+     */
     public void generateBuild(File scriptFile) throws CodeGenMakeException {
-        // TODO Auto-generated method stub
-
+        Writer w = null;
+        try {
+            if (!_velocityInitialized) {
+                CodeGenUtil.initVelocity();
+                _velocityInitialized = true;
+            }
+            VelocityContext context = CodeGenUtil
+                    .getContext(S2C_GENERATOR_NAME);
+            context.put("antModel", this);
+            w = new OutputStreamWriter(new FileOutputStream(scriptFile),
+                    "UTF-8");
+            Velocity.mergeTemplate(S2C_VELOCITY_MACRO_NAME, "UTF-8", context, w);
+        } catch (IOException e) {
+            throw new CodeGenMakeException(e);
+        } catch (Exception e) {
+            throw new CodeGenMakeException(e);
+        } finally {
+            if (w != null) {
+                try {
+                    w.close();
+                } catch (IOException e) {
+                    throw new CodeGenMakeException(e);
+                }
+            }
+        }
     }
 
     /**
@@ -223,9 +267,9 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         putFile(props, TARGET_XSD_FILE, getTargetXsdFile());
         putFile(props, TARGET_COBOL_FILE, getTargetCobolFile());
         putString(props, TARGET_COBOL_ENCODING, getTargetCobolEncoding());
+        _xsdConfig.toProperties(props);
         putStringList(props, NEW_ROOT_ELEMENTS,
                 toStringList(getNewRootElements()));
-        _xsdConfig.toProperties(props);
         return props;
     }
 
