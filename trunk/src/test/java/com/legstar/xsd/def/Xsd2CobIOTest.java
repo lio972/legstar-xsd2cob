@@ -109,14 +109,14 @@ public class Xsd2CobIOTest extends AbstractTest {
      * @throws IOException if test fails
      */
     public void testWriteResults() throws IOException {
-        _xsd2cob.getModel().setInputXsdUri(
-                (new File(XSD_DIR, "customertype.xsd")).toURI());
+        URI uri = (new File(XSD_DIR, "customertype.xsd")).toURI();
+        _xsd2cob.getModel().setInputXsdUri(uri);
         _xsd2cob.getModel().setTargetXsdFile(GEN_XSD_DIR);
         _xsd2cob.getModel().setTargetCobolFile(GEN_COBOL_DIR);
 
         XsdToCobolStringResult results = new XsdToCobolStringResult("<a></a>",
                 "     01 A PIC X.");
-        _xsd2cob.writeResults(results);
+        _xsd2cob.writeResults(uri, results);
 
         String xsdContent = FileUtils.readFileToString(new File(GEN_XSD_DIR,
                 "customertype.xsd"));

@@ -3,6 +3,7 @@ package com.legstar.xsd.def;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -46,6 +47,7 @@ public class Xsd2CobIO extends Xsd2Cob {
      * @throws InvalidXsdException if XML schema read is invalid
      * @throws InvalidParameterException if one of the parameters is invalid
      */
+    @SuppressWarnings("unchecked")
     public void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
         if (_log.isDebugEnabled()) {
@@ -53,10 +55,43 @@ public class Xsd2CobIO extends Xsd2Cob {
         }
         checkParameters();
 
-        XsdToCobolStringResult results = translate(getModel().getInputXsdUri());
+        URI inputXsdUri = getModel().getInputXsdUri();
+        /*
+         * If URI is a folder on local file system, process all XML schema and
+         * WSDL files in there.
+         */
+        if (inputXsdUri.getScheme().equals("file")) {
+            File inputFile = new File(inputXsdUri);
+            if (inputFile.isDirectory()) {
+                Collection < File > xsdFiles = FileUtils.listFiles(inputFile,
+                        new String[] { "xsd", "wsdl" }, true);
+                for (File file : xsdFiles) {
+                    execute(file.toURI());
+                }
+            } else {
+                execute(getModel().getInputXsdUri());
+            }
+        } else {
+            execute(getModel().getInputXsdUri());
+        }
 
-        writeResults(results);
+    }
 
+    /**
+     * Generates a new annotated schema.
+     * 
+     * @param uri the input URI
+     * 
+     * @throws IOException if basic read/write operation fails
+     * @throws InvalidXsdException if XML schema read is invalid
+     */
+    protected void execute(final URI uri) throws InvalidXsdException,
+            IOException {
+        if (_log.isDebugEnabled()) {
+            _log.debug("Processing URI " + uri.toString());
+        }
+        XsdToCobolStringResult results = translate(uri);
+        writeResults(uri, results);
     }
 
     /**
@@ -87,13 +122,15 @@ public class Xsd2CobIO extends Xsd2Cob {
     /**
      * Write the results to file system.
      * 
+     * @param uri the input URI
      * @param results the translation results
      * @throws IOException if writing fails
      */
-    protected void writeResults(XsdToCobolStringResult results)
-            throws IOException {
+    protected void writeResults(final URI uri,
+            final XsdToCobolStringResult results) throws IOException {
+
         /* Use the last segment of the URI as a default output name. */
-        String defaultName = getLastSegment(getModel().getInputXsdUri());
+        String defaultName = getLastSegment(uri);
 
         File xsdFile = getFile(getModel().getTargetXsdFile(), defaultName + "."
                 + XSD_FILE_EXTENSION);

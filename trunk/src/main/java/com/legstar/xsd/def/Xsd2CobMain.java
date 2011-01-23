@@ -38,8 +38,11 @@ public class Xsd2CobMain {
     /** The version properties file name. */
     private static final String VERSION_FILE_NAME = "/com/legstar/xsd/def/version.properties";
 
+    /** The default XML schema input folder. */
+    private static final File DEFAULT_XSD_INPUT_FOLDER = new File("schema");
+
     /** The default COBOL-annotated XML schema output folder. */
-    private static final File DEFAULT_XSD_OUTPUT_FILE = new File("schema");
+    private static final File DEFAULT_XSD_OUTPUT_FILE = new File("cobol");
 
     /** The default COBOL copybook output folder. */
     private static final File DEFAULT_COBOL_OUTPUT_FILE = new File("cobol");
@@ -194,6 +197,9 @@ public class Xsd2CobMain {
      * Make sure mandatory parameters have default values.
      */
     protected void setDefaults() {
+        if (getModel().getInputXsdUri() == null) {
+            getModel().setInputXsdUri(DEFAULT_XSD_INPUT_FOLDER.toURI());
+        }
         if (getModel().getTargetXsdFile() == null) {
             getModel().setTargetXsdFile(DEFAULT_XSD_OUTPUT_FILE);
         }

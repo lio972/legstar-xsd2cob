@@ -21,8 +21,10 @@
         <property name="dist.dir" value="${basedir}/target" />
         <!-- Distribution zip file   -->
         <property name="zip.file" value="${dist.dir}/${dist.zip}" />
-        <!-- Sample generated jar archive full path -->
-        <property name="jarSampleFilePath" value="${test.dir}/${dist.name}/target/lsfileaq/dist/lsfileaq.jar"/>
+        <!-- Sample generated COBOL-annotated XML schema -->
+        <property name="xsdSampleFilePath" value="${test.dir}/${dist.name}/cobol/customertype.xsd"/>
+        <!-- Sample generated COBOL copybook -->
+        <property name="cobolSampleFilePath" value="${test.dir}/${dist.name}/cobol/customertype.cpy"/>
     
     </target>
 
@@ -42,8 +44,10 @@
             <arg value="/c"/>
             <arg value="run"/>
         </exec>
-        <available file="${jarSampleFilePath}" property="isFileAvail1"/>
-        <fail unless="isFileAvail1" message="Run.bat failed!"/>
+        <available file="${xsdSampleFilePath}" property="isXsdSampleFilePath"/>
+        <fail unless="isXsdSampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolSampleFilePath}" property="isCobolSampleFilePath"/>
+        <fail unless="isCobolSampleFilePath" message="Run.bat failed!"/>
     </target>
 
   <!-- ===========================================================  -->

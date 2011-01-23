@@ -97,7 +97,8 @@ public class Xsd2CobMainTest extends AbstractTest {
             _main.execute(new String[] { "" });
             fail();
         } catch (Exception e) {
-            assertEquals("No input URI specified", e.getCause().getMessage());
+            assertTrue(e.getCause().getMessage()
+                    .contains("java.io.FileNotFoundException"));
         }
         try {
             _main.execute(new String[] { "-i", "c:\\noaURI" });
