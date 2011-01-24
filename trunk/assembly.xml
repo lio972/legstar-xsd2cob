@@ -9,12 +9,13 @@ Assembly descriptor for the full distribution.
     <includeBaseDirectory>true</includeBaseDirectory>
 
     <fileSets>
-        <!-- Copy the sample XML schema -->
+        <!-- Copy the sample XML schema and WSDL -->
         <fileSet>
             <directory>src/test/resources/cases</directory>
             <outputDirectory>schema</outputDirectory>
             <includes>
-                <include>customertype.xsd</include>
+                <include>customer.xsd</include>
+                <include>stockquote.wsdl</include>
             </includes>
         </fileSet>
 

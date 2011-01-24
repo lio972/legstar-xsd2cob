@@ -43,7 +43,7 @@ public class XsdReaderTest extends AbstractTest {
     }
 
     public void testWsdlWithTypeParts() throws Exception {
-        parseAndCheck("withtypeparts.wsdl");
+        parseAndCheck("stockquote.wsdl");
     }
 
     public void testXsdIncludes() throws Exception {

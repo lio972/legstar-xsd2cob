@@ -1,7 +1,6 @@
 Overview:
 =========
-  The cob2xsd utility translates a set of COBOL structure definitions to
-  XML schema.
+  The xsd2cob utility translates XML schema to COBOL structure definitions.
   
   The utility is available as an executable jar or as an ANT task.
 
@@ -17,10 +16,14 @@ Running the sample using the executable jar:
 
   1. Go to the folder where you unzipped the distribution file. It should
      contain run.sh (Linux) and run.bat (Windows) command files.
-     The cobol sub folder is used as input. It contains a single COBOL file.
+     The schema sub folder is used as input. It contains an XML schema and
+     a WSDL samples.
   2. On Linux you pobably need to type chmod +x run.sh to make it executable
   3. Type ./run.sh (Linux) or run (Windows).
-  4. Check the schema sub folder, an XML Schema file should have been created.
+  4. Check the cobol sub folder, an set of COBOL copybooks should have been
+     created.
+  5. Check the cobolschema sub folder, a set of COBOL-annotated XML Schema
+     files should have been created.
 
 Troubleshooting the executable jar:
 ===================================
@@ -32,7 +35,7 @@ Troubleshooting the executable jar:
    http://groups.google.com/group/legstar-user.
    
    If you can't find a solution, please file a bug report at:
-   http://code.google.com/p/legstar-cob2xsd/issues/list
+   http://code.google.com/p/legstar-xsd2cob/issues/list
    
 Running the sample using ANT:
 =============================
@@ -54,13 +57,13 @@ Troubleshooting ANT:
    http://groups.google.com/group/legstar-user.
    
    If you can't find a solution, please file a report at:
-   http://code.google.com/p/legstar-cob2xsd/issues/list
+   http://code.google.com/p/legstar-xsd2cob/issues/list
    
 Additional information:
 =======================
   
-  Check the wiki pages: http://code.google.com/p/legstar-cob2xsd/w/list.
+  Check the wiki pages: http://code.google.com/p/legstar-xsd2cob/w/list.
   
-  Javadoc: http://www.legsem.com/legstar/cob2xsd/apidocs/index.html 
+  Javadoc: http://www.legsem.com/legstar/xsd2cob/apidocs/index.html 
   
   Join the discussion group: http://groups.google.com/group/legstar-user.

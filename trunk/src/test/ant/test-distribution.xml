@@ -21,10 +21,12 @@
         <property name="dist.dir" value="${basedir}/target" />
         <!-- Distribution zip file   -->
         <property name="zip.file" value="${dist.dir}/${dist.zip}" />
-        <!-- Sample generated COBOL-annotated XML schema -->
-        <property name="xsdSampleFilePath" value="${test.dir}/${dist.name}/cobol/customertype.xsd"/>
+        <!-- Sample generated COBOL-annotated XML schemas -->
+        <property name="xsdCustomerSampleFilePath" value="${test.dir}/${dist.name}/cobolschema/customer.xsd"/>
+        <property name="xsdStockquoteSampleFilePath" value="${test.dir}/${dist.name}/cobolschema/stockquote.xsd"/>
         <!-- Sample generated COBOL copybook -->
-        <property name="cobolSampleFilePath" value="${test.dir}/${dist.name}/cobol/customertype.cpy"/>
+        <property name="cobolCustomerSampleFilePath" value="${test.dir}/${dist.name}/cobol/customer.cpy"/>
+        <property name="cobolStockquoteSampleFilePath" value="${test.dir}/${dist.name}/cobol//stockquote.cpy"/>
     
     </target>
 
@@ -39,15 +41,19 @@
     <!-- Run the sample executable jar
     -->
     <target name="testExecutable" depends="installDistro">
-        <delete file="${jarSampleFilePath}"/>
+        <delete file="${jarCustomerSampleFilePath}"/>
         <exec dir="${test.dir}/${dist.name}" executable="cmd" failonerror="true">
             <arg value="/c"/>
             <arg value="run"/>
         </exec>
-        <available file="${xsdSampleFilePath}" property="isXsdSampleFilePath"/>
-        <fail unless="isXsdSampleFilePath" message="Run.bat failed!"/>
-        <available file="${cobolSampleFilePath}" property="isCobolSampleFilePath"/>
-        <fail unless="isCobolSampleFilePath" message="Run.bat failed!"/>
+        <available file="${xsdCustomerSampleFilePath}" property="isXsdCustomerSampleFilePath"/>
+        <fail unless="isXsdCustomerSampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolCustomerSampleFilePath}" property="isCobolCustomerSampleFilePath"/>
+        <fail unless="isCobolCustomerSampleFilePath" message="Run.bat failed!"/>
+        <available file="${xsdStockquoteSampleFilePath}" property="isXsdStockquoteSampleFilePath"/>
+        <fail unless="isXsdStockquoteSampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolStockquoteSampleFilePath}" property="isCobolStockquoteSampleFilePath"/>
+        <fail unless="isCobolStockquoteSampleFilePath" message="Run.bat failed!"/>
     </target>
 
   <!-- ===========================================================  -->

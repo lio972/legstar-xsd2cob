@@ -42,7 +42,7 @@ public class Xsd2CobMain {
     private static final File DEFAULT_XSD_INPUT_FOLDER = new File("schema");
 
     /** The default COBOL-annotated XML schema output folder. */
-    private static final File DEFAULT_XSD_OUTPUT_FILE = new File("cobol");
+    private static final File DEFAULT_XSD_OUTPUT_FILE = new File("cobolschema");
 
     /** The default COBOL copybook output folder. */
     private static final File DEFAULT_COBOL_OUTPUT_FILE = new File("cobol");

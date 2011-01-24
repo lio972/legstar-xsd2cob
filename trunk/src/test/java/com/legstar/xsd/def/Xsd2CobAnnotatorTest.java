@@ -22,7 +22,7 @@ public class Xsd2CobAnnotatorTest extends AbstractTest {
     }
 
     public void testWsdlWithTypeParts() throws Exception {
-        visitAndCheck("withtypeparts.wsdl", new Xsd2CobAnnotator());
+        visitAndCheck("stockquote.wsdl", new Xsd2CobAnnotator());
     }
 
     public void testXsdIncludes() throws Exception {
