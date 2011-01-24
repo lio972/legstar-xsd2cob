@@ -28,13 +28,14 @@ public class Xsd2CobTest extends AbstractTest {
     public void testMSNSearch() throws Exception {
         Xsd2CobConfig config = new Xsd2CobConfig();
 
-        Xsd2Cob api = new Xsd2Cob(config);
+        Xsd2Cob api = new Xsd2Cob(config, null,
+                "src/test/resources/xslt/MSNSearch.xsl");
 
-        XsdToCobolStringResult results = api.translate(FileUtils
-                .readFileToString(new File(XSD_DIR, "MSNSearch.wsdl"),
-                        "UTF-8"));
-        check("MSNSearch.wsdl", "xsd", results.getCobolXsd());
-        check("MSNSearch.wsdl", "cpy", results.getCobolStructure());
+        XsdToCobolStringResult results = api
+                .translate(FileUtils.readFileToString(new File(XSD_DIR,
+                        "MSNSearch.wsdl"), "UTF-8"));
+        check("MSNSearch", "xsd", results.getCobolXsd());
+        check("MSNSearch", "cpy", results.getCobolStructure());
     }
 
 }

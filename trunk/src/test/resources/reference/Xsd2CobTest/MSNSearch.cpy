@@ -1,7 +1,7 @@
        01  R-Search.
          03  Request.
-           05  AppID PIC X(32).
-           05  Query PIC X(32).
+           05  AppID PIC X(40).
+           05  Query PIC X(128).
            05  CultureInfo PIC X(32).
            05  SafeSearch PIC X(32).
            05  Flags PIC X(32) OCCURS 1 TO 10.
@@ -29,7 +29,7 @@
                09  Results.
                  11  Result OCCURS 0 TO 10.
                    13  R-Title PIC X(32).
-                   13  Description PIC X(32).
+                   13  Description PIC X(256).
                    13  Url PIC X(32).
                    13  DisplayUrl PIC X(32).
                    13  CacheUrl PIC X(32).

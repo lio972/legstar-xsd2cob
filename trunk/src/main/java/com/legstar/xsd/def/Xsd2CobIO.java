@@ -127,6 +127,9 @@ public class Xsd2CobIO extends Xsd2Cob {
 
         /* Make sure the API knows about additional root elements */
         setNewRootElements(getModel().getNewRootElements());
+
+        /* Make sure the API knows about the XSLT transform */
+        setCustomXsltFileName(getModel().getCustomXsltFileName());
     }
 
     /**

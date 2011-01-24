@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://schemas.microsoft.com/MSNSearch/2005/09/fex" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/MSNSearch/2005/09/fex">
     <xsd:simpleType name="SourceType">
         <xsd:restriction base="xsd:string">
@@ -351,7 +352,7 @@
             <xsd:element minOccurs="0" name="Description" type="xsd:string">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Description" levelNumber="13" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="Description" levelNumber="13" picture="X(256)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -507,14 +508,14 @@
             <xsd:element name="AppID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="AppID" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="AppID" levelNumber="5" picture="X(40)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Query" type="xsd:string">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Query" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="Query" levelNumber="5" picture="X(128)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>

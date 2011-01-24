@@ -36,6 +36,9 @@
 #if(${antModel.targetCobolEncoding})
                 targetCobolEncoding="${antModel.targetCobolEncoding}"
 #end
+#if(${antModel.customXsltFileName})
+                customXsltFileName="${antModel.customXsltFileName}"
+#end
             >
                 <xsdConfig
                     alphanumericLen="${antModel.xsdConfig.alphanumericLen}"

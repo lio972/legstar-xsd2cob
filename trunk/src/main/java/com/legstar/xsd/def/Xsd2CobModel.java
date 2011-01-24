@@ -52,6 +52,9 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /** New root elements to add. */
     public static final String NEW_ROOT_ELEMENTS = "newRootElements";
 
+    /** An optional XSLT transform for XML schema customization. */
+    public static final String CUSTOM_XSLT_FILENAME = "customXsltFileName";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -70,6 +73,9 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
 
     /** Translator configuration parameters. */
     private Xsd2CobConfig _xsdConfig;
+
+    /** An optional XSLT transform for XML schema customization. */
+    private String _customXsltFileName;
 
     /**
      * New root elements to add to XML schema.
@@ -109,6 +115,7 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         _xsdConfig = new Xsd2CobConfig(props);
         setNewRootElements(toRootElements(getStringList(props,
                 NEW_ROOT_ELEMENTS, null)));
+        setCustomXsltFileName(getString(props, CUSTOM_XSLT_FILENAME, null));
     }
 
     /**
@@ -259,6 +266,23 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     }
 
     /**
+     * An optional XSLT transform for XML schema customization.
+     * 
+     * @return an optional XSLT transform for XML schema customization
+     */
+    public String getCustomXsltFileName() {
+        return _customXsltFileName;
+    }
+
+    /**
+     * @param customXsltFileName an optional XSLT transform for XML schema
+     *            customization
+     */
+    public void setCustomXsltFileName(final String customXsltFileName) {
+        _customXsltFileName = customXsltFileName;
+    }
+
+    /**
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
@@ -270,6 +294,7 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         _xsdConfig.toProperties(props);
         putStringList(props, NEW_ROOT_ELEMENTS,
                 toStringList(getNewRootElements()));
+        putString(props, CUSTOM_XSLT_FILENAME, getCustomXsltFileName());
         return props;
     }
 

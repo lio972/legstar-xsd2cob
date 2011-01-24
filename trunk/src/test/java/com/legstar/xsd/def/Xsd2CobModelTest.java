@@ -86,6 +86,7 @@ public class Xsd2CobModelTest extends AbstractTest {
         model.setTargetCobolFile(GEN_COBOL_DIR);
         model.setTargetCobolEncoding("ISO-8859-1");
         model.addNewRootElement(new XsdRootElement("customer", "CustomerType"));
+        model.setCustomXsltFileName("src/test/resources/xslt/customertype.xsl");
 
         File resultFile = genAntScriptAsFile(model);
         check("build", "xml", FileUtils.readFileToString(resultFile, "UTF-8"));

@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified">
     <xs:complexType name="CustomerType">
         <xs:sequence>
             <xs:element name="name" type="CustNameType">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement cobolName="name" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                        <cb:cobolElement cobolName="name" levelNumber="3" picture="X(40)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>

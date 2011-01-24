@@ -1,14 +1,27 @@
 package com.legstar.xsd.def;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.ws.commons.schema.XmlSchema;
+import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.w3c.dom.Document;
 
 import com.legstar.dom.DocumentFactory;
@@ -40,6 +53,9 @@ public class Xsd2Cob {
     /** New root elements to add to the generated XML schema. */
     private List < XsdRootElement > _newRootElements;
 
+    /** An optional XSLT transform for XML schema customization. */
+    private String _customXsltFileName;
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
@@ -47,7 +63,7 @@ public class Xsd2Cob {
      * Construct the translator.
      */
     public Xsd2Cob() {
-        this(null, null);
+        this(null, null, null);
     }
 
     /**
@@ -56,7 +72,7 @@ public class Xsd2Cob {
      * @param xsdConfig the configuration data
      */
     public Xsd2Cob(final Xsd2CobConfig xsdConfig) {
-        this(xsdConfig, null);
+        this(xsdConfig, null, null);
     }
 
     /**
@@ -67,11 +83,25 @@ public class Xsd2Cob {
      */
     public Xsd2Cob(final Xsd2CobConfig xsdConfig,
             final List < XsdRootElement > newRootElements) {
+        this(xsdConfig, newRootElements, null);
+    }
+
+    /**
+     * Construct the translator.
+     * 
+     * @param xsdConfig the configuration data
+     * @param newRootElements additional XML schema root elements
+     * @param customXsltFileName XSLT transform for XML schema customization
+     */
+    public Xsd2Cob(final Xsd2CobConfig xsdConfig,
+            final List < XsdRootElement > newRootElements,
+            final String customXsltFileName) {
         if (xsdConfig == null) {
             _xsdConfig = new Xsd2CobConfig();
         }
         _xsdConfig = xsdConfig;
         _newRootElements = newRootElements;
+        _customXsltFileName = customXsltFileName;
     }
 
     /**
@@ -122,16 +152,23 @@ public class Xsd2Cob {
             XsdNavigator visitor = new XsdNavigator(schema, annotator);
             visitor.visit();
 
+            XmlSchema resultSchema = schema;
+            if (getCustomXsltFileName() != null) {
+                resultSchema = customize(schema, getCustomXsltFileName());
+            }
+
             Xsd2CobGenerator generator = new Xsd2CobGenerator();
-            visitor = new XsdNavigator(schema, generator);
+            visitor = new XsdNavigator(resultSchema, generator);
             visitor.visit();
 
-            return new XsdToCobolStringResult(toString(schema),
+            return new XsdToCobolStringResult(toString(resultSchema),
                     generator.toString());
 
         } catch (IOException e) {
             throw new InvalidXsdException(e);
         } catch (XsdMappingException e) {
+            throw new InvalidXsdException(e);
+        } catch (TransformerException e) {
             throw new InvalidXsdException(e);
         }
     }
@@ -173,12 +210,50 @@ public class Xsd2Cob {
      * 
      * @param schema the XML schema
      * @return the content as a string
+     * @throws TransformerException if formatting of output fails
      */
-    protected String toString(final XmlSchema schema) {
+    protected String toString(final XmlSchema schema)
+            throws TransformerException {
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        try {
+            tFactory.setAttribute("indent-number", "4");
+        } catch (IllegalArgumentException e) {
+            _log.warn("Unable to set indent-number on transfomer factory", e);
+        }
         StringWriter writer = new StringWriter();
-        schema.write(writer);
-        String result = writer.toString();
-        return result;
+        Source source = new DOMSource(schema.getAllSchemas()[0]);
+        Result result = new StreamResult(writer);
+        Transformer transformer = tFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+        transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+        transformer.transform(source, result);
+        writer.flush();
+        return writer.toString();
+    }
+
+    /**
+     * Customize the XML schema by applying an XSLT stylesheet.
+     * 
+     * @param schema the XML schema
+     * @param xsltFileName the XSLT stylesheet
+     * @return the transformed XML schema as a string
+     * @throws TransformerException if XSLT transform fails
+     */
+    protected XmlSchema customize(final XmlSchema schema,
+            final String xsltFileName) throws TransformerException {
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        StringWriter writer = new StringWriter();
+        Source source = new DOMSource(schema.getAllSchemas()[0]);
+        Result result = new StreamResult(writer);
+        Source xsltSource = new StreamSource(new File(xsltFileName));
+        Transformer transformer = tFactory.newTransformer(xsltSource);
+        transformer.transform(source, result);
+        writer.flush();
+        StringReader reader = new StringReader(writer.toString());
+        XmlSchemaCollection schemaCol = new XmlSchemaCollection();
+        return schemaCol.read(reader, null);
     }
 
     /**
@@ -210,6 +285,23 @@ public class Xsd2Cob {
      */
     public List < XsdRootElement > getNewRootElements() {
         return _newRootElements;
+    }
+
+    /**
+     * An optional XSLT transform for XML schema customization.
+     * 
+     * @return an optional XSLT transform for XML schema customization
+     */
+    public String getCustomXsltFileName() {
+        return _customXsltFileName;
+    }
+
+    /**
+     * @param customXsltFileName an optional XSLT transform for XML schema
+     *            customization
+     */
+    public void setCustomXsltFileName(final String customXsltFileName) {
+        _customXsltFileName = customXsltFileName;
     }
 
 }
