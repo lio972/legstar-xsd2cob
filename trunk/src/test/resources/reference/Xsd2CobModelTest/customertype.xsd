@@ -1,0 +1,30 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+    <xs:complexType name="CustomerType">
+        <xs:sequence>
+            <xs:element name="name" type="CustNameType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="name" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="number" type="xs:integer">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="R-number" levelNumber="3" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="CustNameType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:element name="customer" type="CustomerType">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="customer" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+</xs:schema>

@@ -28,6 +28,15 @@ Assembly descriptor for the full distribution.
             </includes>
         </fileSet>
 
+        <!-- Copy the sample ANT script -->
+        <fileSet>
+            <directory>target/gen-distro</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>build.xml</include>
+            </includes>
+        </fileSet>
+
         <!-- Copy the documentation -->
         <fileSet>
             <directory>.</directory>

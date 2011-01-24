@@ -32,8 +32,8 @@ public class DocumentFactoryTest extends TestCase {
                 "MSNSearch.wsdl"));
         assertNotNull(doc);
 
-        NodeList nodes = doc.getElementsByTagNameNS(
-                XsdConstants.WSDL_NS, "definitions");
+        NodeList nodes = doc.getElementsByTagNameNS(XsdConstants.WSDL_NS,
+                "definitions");
         assertNotNull(nodes);
         assertEquals(1, nodes.getLength());
 

@@ -56,6 +56,16 @@ public class Xsd2CobIO extends Xsd2Cob {
         checkParameters();
 
         URI inputXsdUri = getModel().getInputXsdUri();
+
+        /*
+         * If the URI is relative, assume it is a file URI relative to the
+         * current directory.
+         */
+        if (!inputXsdUri.isAbsolute()) {
+            String userDir = System.getProperty("user.dir");
+            URI userDirURI = (new File(userDir)).toURI();
+            inputXsdUri = userDirURI.resolve(inputXsdUri);
+        }
         /*
          * If URI is a folder on local file system, process all XML schema and
          * WSDL files in there.

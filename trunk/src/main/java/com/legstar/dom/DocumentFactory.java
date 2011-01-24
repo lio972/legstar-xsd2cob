@@ -1,16 +1,5 @@
 package com.legstar.dom;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.*;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +7,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Builds a DOM document from an input stream.
@@ -72,11 +72,11 @@ public final class DocumentFactory {
             throw new InvalidDocumentException(e);
         }
     }
-    
+
     /**
-     * Parse an input stream and return a new DOM document.
+     * Parse an input URI and return a new DOM document.
      * 
-     * @param uri the input URI
+     * @param uri the input URI (relative or absolute)
      * @return the DOM document
      * @throws InvalidDocumentException if parsing failed
      */
@@ -95,6 +95,7 @@ public final class DocumentFactory {
             throw new InvalidDocumentException(e);
         }
     }
+
     /**
      * Creates a builder if it is not there and associate an error handler.
      * <p/>
@@ -115,7 +116,7 @@ public final class DocumentFactory {
         } catch (ParserConfigurationException e) {
             throw new InvalidDocumentException(e);
         }
-    }    
+    }
 
     /**
      * Setup a new document builder.

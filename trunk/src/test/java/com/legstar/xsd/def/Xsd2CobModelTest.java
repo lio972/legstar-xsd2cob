@@ -1,6 +1,7 @@
 package com.legstar.xsd.def;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -88,15 +89,30 @@ public class Xsd2CobModelTest extends AbstractTest {
 
         File resultFile = genAntScriptAsFile(model);
         check("build", "xml", FileUtils.readFileToString(resultFile, "UTF-8"));
-        runAnt(resultFile);
 
-        String xsdContent = FileUtils.readFileToString(new File(GEN_XSD_DIR,
-                "customertype.xsd"));
-        assertTrue(xsdContent
-                .contains("<cb:cobolElement cobolName=\"customer\" levelNumber=\"1\" type=\"GROUP_ITEM\"/>"));
-        String cobolContent = FileUtils.readFileToString(new File(
-                GEN_COBOL_DIR, "customertype.cpy"));
-        assertTrue(cobolContent.contains("         03  name PIC X(32)."));
+        runAnt(resultFile);
+        check("customertype", "xsd", FileUtils.readFileToString(new File(
+                GEN_XSD_DIR, "customertype.xsd"), "UTF-8"));
+        check("customertype", "cpy", FileUtils.readFileToString(new File(
+                GEN_COBOL_DIR, "customertype.cpy"), "UTF-8"));
+    }
+
+    /**
+     * Generates the build.xml that will be part of the distribution.
+     * 
+     * @throws Exception if something goes wrong
+     */
+    public void testDistributionAntScriptGeneration() throws Exception {
+        Xsd2CobModel model = new Xsd2CobModel();
+        model.setProductLocation(".");
+        model.setProbeFile(new File("probe.file.tmp"));
+        model.setInputXsdUri(new URI("schema"));
+        model.setTargetXsdFile(new File("cobolschema"));
+        model.setTargetCobolFile(new File("cobol"));
+
+        File resultFile = genAntScriptAsFile(model);
+        FileUtils
+                .copyFileToDirectory(resultFile, new File("target/gen-distro"));
     }
 
     /**

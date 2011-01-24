@@ -43,7 +43,10 @@ Running the sample using ANT:
   1. Go to the folder where you unzipped the distribution file. It should
      contain a build.xml ANT script.
   2. Type ant.
-  3. Check the cobol sub folder, a cobol source file should have been created.
+  3. Check the cobol sub folder, an set of COBOL copybooks should have been
+     created.
+  4. Check the cobolschema sub folder, a set of COBOL-annotated XML Schema
+     files should have been created.
 
 Troubleshooting ANT:
 ===================
