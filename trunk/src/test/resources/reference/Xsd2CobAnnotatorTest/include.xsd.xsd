@@ -32,6 +32,9 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:simpleType name="OrderNumType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
     <xs:complexType name="CustomerType">
         <xs:sequence>
             <xs:element name="name" type="CustNameType">
@@ -51,9 +54,6 @@
         </xs:sequence>
     </xs:complexType>
     <xs:simpleType name="CustNameType">
-        <xs:restriction base="xs:string"/>
-    </xs:simpleType>
-    <xs:simpleType name="OrderNumType">
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
 </xs:schema>

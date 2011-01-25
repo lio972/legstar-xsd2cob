@@ -9,15 +9,13 @@ import javax.xml.namespace.QName;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.apache.ws.commons.schema.XmlSchemaElement;
-import org.apache.ws.commons.schema.XmlSchemaInclude;
 import org.apache.ws.commons.schema.XmlSchemaObject;
-import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.apache.ws.commons.schema.XmlSchemaObjectTable;
-import org.apache.ws.commons.schema.XmlSchemaType;
 import org.apache.ws.commons.schema.utils.NamespaceMap;
 import org.apache.ws.commons.schema.utils.NamespacePrefixList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.legstar.coxb.CobolMarkup;
@@ -62,19 +60,23 @@ public class XsdReader {
         XmlSchemaCollection schemaCol = new XmlSchemaCollection();
         XmlSchema schema = schemaCol.read(schemaElement);
 
-        /* Includes need to be annotated so we pull them inside the main XSD */
-        pullIncludes(schema);
-
-        /* Add the COXB namespace */
-        addNamespace(XsdConstants.DEFAULT_COXB_NS_PFX, CobolMarkup.NS, schema);
-
-        /* Add WSDL elements when needed */
+        /* Add WSDL targetnamespace when needed */
         if (definitionsElement != null) {
             String targetNamespace = definitionsElement
                     .getAttribute("targetNamespace");
             if (schema.getTargetNamespace() == null) {
                 schema.setTargetNamespace(targetNamespace);
             }
+        }
+
+        /* Includes need to be annotated so we pull them inside the main XSD */
+        schema = pullIncludes(schema);
+
+        /* Add the COXB namespace */
+        addNamespace(XsdConstants.DEFAULT_COXB_NS_PFX, CobolMarkup.NS, schema);
+
+        /* Add WSDL parts as elements when needed */
+        if (definitionsElement != null) {
             addWsdlPartsAsRootElements(doc, schema);
         }
 
@@ -85,43 +87,119 @@ public class XsdReader {
     }
 
     /**
-     * Merge includes into the XML Schema and then remove the include items.
-     * TODO should be recursive
+     * Merge includes and imports (with identical target namespace) into the XML
+     * Schema and then remove the included/imported items.
+     * <p/>
+     * 
+     * @return a new XmlSchema where all includes and imports are expanded
      */
-    public static void pullIncludes(final XmlSchema xmlSchema) {
+    public static XmlSchema pullIncludes(final XmlSchema xmlSchema) {
+        Document[] docs = xmlSchema.getAllSchemas();
+        if (docs.length < 2) {
+            return xmlSchema;
+        }
 
-        List < XmlSchemaInclude > includes = new ArrayList < XmlSchemaInclude >();
+        XmlSchemaCollection schemaCol = new XmlSchemaCollection();
+        Document merged = mergeIncludes(docs, xmlSchema.getTargetNamespace());
+        XmlSchema mergedSchema = schemaCol.read(merged, null);
 
-        for (Iterator < ? > includedItems = xmlSchema.getIncludes()
-                .getIterator(); includedItems.hasNext();) {
-            Object includeOrImport = includedItems.next();
-            if (includeOrImport instanceof XmlSchemaInclude) {
-                includes.add((XmlSchemaInclude) includeOrImport);
-                XmlSchema incSchema = ((XmlSchemaInclude) includeOrImport)
-                        .getSchema();
-                XmlSchemaObjectCollection incItems = incSchema.getItems();
-                for (Iterator < ? > incIt = incItems.getIterator(); incIt
-                        .hasNext();) {
-                    XmlSchemaObject incXsdObject = (XmlSchemaObject) incIt
-                            .next();
-                    if (incXsdObject instanceof XmlSchemaType) {
-                        QName name = getName(incSchema.getSchemaTypes(),
-                                incXsdObject);
-                        xmlSchema.getSchemaTypes().add(name, incXsdObject);
-                    } else if (incXsdObject instanceof XmlSchemaElement) {
-                        QName name = getName(incSchema.getElements(),
-                                incXsdObject);
-                        xmlSchema.getElements().add(name, incXsdObject);
+        return mergedSchema;
+    }
+
+    /**
+     * Imports and includes are in separate DOM Documents that we merge here.
+     * <p/>
+     * Merging is done only for schema elements which targetNamespace
+     * corresponds to the container schema. This means that most of the time,
+     * imports will not actually be merged.
+     * <p/>
+     * The XmlSchema getAllSchemas returns the main schema as the last document
+     * but we want to process it first hence the reverse order processing.
+     * 
+     * @param docs a set of more than one schema documents
+     * @param targetNamespace the main schema target namespace
+     * @return a merge schema document
+     */
+    protected static Document mergeIncludes(final Document[] docs,
+            final String targetNamespace) {
+
+        Document merged = null;
+        Element mergedSchemaElement = null;
+
+        for (int i = docs.length - 1; i > -1; i--) {
+            NodeList nodes = docs[i].getElementsByTagNameNS(
+                    XsdConstants.XSD_NS, "schema");
+            if (nodes.getLength() == 0) {
+                continue;
+            }
+            Element schemaElement = (Element) nodes.item(0);
+            if (hasCompatibleAttr(schemaElement, "targetNamespace",
+                    targetNamespace)) {
+                if (merged == null) {
+                    merged = docs[i];
+                    mergedSchemaElement = schemaElement;
+                } else {
+                    while (schemaElement.hasChildNodes()) {
+                        Node kid = schemaElement.getFirstChild();
+                        schemaElement.removeChild(kid);
+                        kid = merged.importNode(kid, true);
+                        mergedSchemaElement.appendChild(kid);
                     }
-                    xmlSchema.getItems().add(incXsdObject);
                 }
             }
-        }
-        for (XmlSchemaInclude include : includes) {
-            xmlSchema.getItems().remove(include);
-            xmlSchema.getIncludes().remove(include);
-        }
 
+        }
+        cleanIncludes(merged, targetNamespace);
+        return merged;
+    }
+
+    /**
+     * Removes includes and imports which have been merged into the main schema.
+     * <p/>
+     * Note that includes have the same target namespace as the main schema
+     * while imports generally have a different one (in which case they were not
+     * merged and should not be removed).
+     * 
+     * @param merged the main schema after a merge
+     * @param targetNamespace the main schema target namespace
+     */
+    protected static void cleanIncludes(Document merged,
+            final String targetNamespace) {
+        NodeList nodes = merged.getElementsByTagNameNS(XsdConstants.XSD_NS,
+                "include");
+        while (nodes.getLength() > 0) {
+            Element incElement = (Element) nodes.item(0);
+            ((Element) incElement.getParentNode()).removeChild(incElement);
+        }
+        nodes = merged.getElementsByTagNameNS(XsdConstants.XSD_NS, "import");
+        List < Element > impElements = new ArrayList < Element >();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element impElement = (Element) nodes.item(i);
+            if (hasCompatibleAttr(impElement, "namespace", targetNamespace)) {
+                impElements.add(impElement);
+            }
+        }
+        for (Element impElement : impElements) {
+            ((Element) impElement.getParentNode()).removeChild(impElement);
+        }
+    }
+
+    /**
+     * Check if an element has a compatible attribute.
+     * 
+     * @param element the element to check
+     * @param attribute the attribute to check
+     * @param value the attribute value to check
+     * @return true if element does not have the attribute or have it with an
+     *         identical value
+     */
+    protected static boolean hasCompatibleAttr(final Element element,
+            final String attribute, final String value) {
+        String incNs = element.getAttribute(attribute);
+        if (incNs == null || incNs.length() == 0 || incNs.equals(value)) {
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -290,10 +290,45 @@
                        Dependencies are useful for ANT scripts classpath.
                       -->
                     <execution>
+                        <id>copy-dependencies</id>
                         <phase>generate-test-resources</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
+                    </execution>
+
+                    <!-- 
+                       Samples needed for testing.
+                      -->
+                    <execution>
+                        <id>copy-samples</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-cultureinfo</artifactId>
+                                    <version>1.0-SNAPSHOT</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>legstar-test-cultureinfo.war</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-jvmquery</artifactId>
+                                    <version>1.0-SNAPSHOT</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <destFileName>legstar-test-jvmquery.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/wars</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -424,6 +459,20 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cargo -->    
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+            <version>1.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
+            <version>1.0.5</version>
             <scope>test</scope>
         </dependency>
 
