@@ -33,10 +33,13 @@ public class Xsd2CobTest extends AbstractTest {
      * Test MSNSearch generation.
      */
     public void testMSNSearch() throws Exception {
-        Xsd2CobConfig config = new Xsd2CobConfig();
 
-        Xsd2Cob api = new Xsd2Cob(config, null,
-                "src/test/resources/xslt/MSNSearch.xsl");
+        Xsd2CobModel model = new Xsd2CobModel();
+
+        /* Use custom XSLT to change some element sizes from defualts. */
+        model.setCustomXsltFileName("src/test/resources/xslt/MSNSearch.xsl");
+
+        Xsd2Cob api = new Xsd2Cob(model);
 
         XsdToCobolStringResult results = api
                 .translate(FileUtils.readFileToString(new File(XSD_DIR,
@@ -53,9 +56,8 @@ public class Xsd2CobTest extends AbstractTest {
         InstalledLocalContainer webapp = getContainer("target/wars/legstar-test-cultureinfo.war");
         webapp.start();
         try {
-            Xsd2CobConfig config = new Xsd2CobConfig();
 
-            Xsd2Cob api = new Xsd2Cob(config);
+            Xsd2Cob api = new Xsd2Cob();
 
             XsdToCobolStringResult results = api
                     .translate(new URI(
@@ -76,9 +78,11 @@ public class Xsd2CobTest extends AbstractTest {
         InstalledLocalContainer webapp = getContainer("target/wars/legstar-test-jvmquery.war");
         webapp.start();
         try {
-            Xsd2CobConfig config = new Xsd2CobConfig();
+            Xsd2CobModel model = new Xsd2CobModel();
+            /* We switch namespace to avoid conflict with jvmquery pojo. */
+            model.setNewTargetNamespace("http://jvmquery.ws.cases.test.xsdc.legstar.com/");
 
-            Xsd2Cob api = new Xsd2Cob(config);
+            Xsd2Cob api = new Xsd2Cob(model);
 
             XsdToCobolStringResult results = api
                     .translate(new URI(

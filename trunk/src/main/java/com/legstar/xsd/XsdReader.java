@@ -1,5 +1,7 @@
 package com.legstar.xsd;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -351,6 +353,32 @@ public class XsdReader {
         prefixmap.add(coxbPrefix, namespaceUri);
         schema.setNamespaceContext(prefixmap);
         return coxbPrefix;
+
+    }
+
+    /**
+     * Changes the target namespace of an XML schema.
+     * <p/>
+     * When the target schema needs to be changed it is much easier to work on
+     * the serialized schema that switching all elements one by one.
+     * 
+     * @param schema the XML schema
+     * @param newTargetNamespace the new target namespace
+     * @return a new XML schema with new target namespace
+     */
+    public static XmlSchema switchTargetNamespace(final XmlSchema schema,
+            final String newTargetNamespace) {
+        String oldTargetNamespace = schema.getTargetNamespace();
+        StringWriter writer = new StringWriter();
+        schema.write(writer);
+        writer.flush();
+
+        String newXsdContent = writer.toString().replace(oldTargetNamespace,
+                newTargetNamespace);
+        StringReader reader = new StringReader(newXsdContent);
+
+        XmlSchemaCollection schemaCol = new XmlSchemaCollection();
+        return schemaCol.read(reader, null);
 
     }
 

@@ -67,4 +67,12 @@ public class XsdReaderTest extends AbstractTest {
         assertEquals("cb0", prefix);
     }
 
+    public void testSwitchTargetNamespace() throws Exception {
+        XmlSchema schema = parse("simple.xsd");
+        assertEquals("http://soapinterop.org/types",
+                schema.getTargetNamespace());
+        schema = XsdReader.switchTargetNamespace(schema,
+                "uri:newTargetNamespace");
+        assertEquals("uri:newTargetNamespace", schema.getTargetNamespace());
+    }
 }

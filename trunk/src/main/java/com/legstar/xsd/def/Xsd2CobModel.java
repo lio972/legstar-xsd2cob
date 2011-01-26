@@ -55,6 +55,9 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /** An optional XSLT transform for XML schema customization. */
     public static final String CUSTOM_XSLT_FILENAME = "customXsltFileName";
 
+    /** A new target namespace to replace the original one. */
+    public static final String NEW_TARGET_NAMESPACE = "newTargetNamespace";
+
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
@@ -74,9 +77,6 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /** Translator configuration parameters. */
     private Xsd2CobConfig _xsdConfig;
 
-    /** An optional XSLT transform for XML schema customization. */
-    private String _customXsltFileName;
-
     /**
      * New root elements to add to XML schema.
      * <p/>
@@ -85,6 +85,12 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
      * Each element must map to an existing XML schema complex type.
      */
     private List < XsdRootElement > _newRootElements;
+
+    /** An optional XSLT transform for XML schema customization. */
+    private String _customXsltFileName;
+
+    /** A new target namespace to replace the original one. */
+    private String _newTargetNamespace;
 
     /* ====================================================================== */
     /* Following are other class fields and methods. = */
@@ -116,6 +122,7 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         setNewRootElements(toRootElements(getStringList(props,
                 NEW_ROOT_ELEMENTS, null)));
         setCustomXsltFileName(getString(props, CUSTOM_XSLT_FILENAME, null));
+        setNewTargetNamespace(getString(props, NEW_TARGET_NAMESPACE, null));
     }
 
     /**
@@ -283,6 +290,23 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     }
 
     /**
+     * A new target namespace to replace the original one.
+     * 
+     * @return a new target namespace to replace the original one
+     */
+    public String getNewTargetNamespace() {
+        return _newTargetNamespace;
+    }
+
+    /**
+     * @param newTargetNamespace a new target namespace to replace the original
+     *            one
+     */
+    public void setNewTargetNamespace(final String newTargetNamespace) {
+        _newTargetNamespace = newTargetNamespace;
+    }
+
+    /**
      * @return a properties file holding the values of this object fields
      */
     public Properties toProperties() {
@@ -295,6 +319,7 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
         putStringList(props, NEW_ROOT_ELEMENTS,
                 toStringList(getNewRootElements()));
         putString(props, CUSTOM_XSLT_FILENAME, getCustomXsltFileName());
+        putString(props, NEW_TARGET_NAMESPACE, getNewTargetNamespace());
         return props;
     }
 

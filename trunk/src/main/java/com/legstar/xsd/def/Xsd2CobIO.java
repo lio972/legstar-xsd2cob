@@ -29,15 +29,11 @@ public class Xsd2CobIO extends Xsd2Cob {
     /** Extension to add on generated COBOL copybooks. */
     public static final String COBOL_FILE_EXTENSION = "cpy";
 
-    /** Holds all options. */
-    private Xsd2CobModel _model;
-
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
     public Xsd2CobIO(final Xsd2CobModel model) {
-        super(model.getXsdConfig());
-        _model = model;
+        super(model);
     }
 
     /**
@@ -125,11 +121,6 @@ public class Xsd2CobIO extends Xsd2Cob {
                     "No target folder or file was specified for COBOL copybook");
         }
 
-        /* Make sure the API knows about additional root elements */
-        setNewRootElements(getModel().getNewRootElements());
-
-        /* Make sure the API knows about the XSLT transform */
-        setCustomXsltFileName(getModel().getCustomXsltFileName());
     }
 
     /**
@@ -218,13 +209,6 @@ public class Xsd2CobIO extends Xsd2Cob {
         } else {
             return path;
         }
-    }
-
-    /**
-     * @return the options model
-     */
-    public Xsd2CobModel getModel() {
-        return _model;
     }
 
 }

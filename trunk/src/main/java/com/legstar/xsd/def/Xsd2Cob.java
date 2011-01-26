@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -30,7 +28,6 @@ import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdMappingException;
 import com.legstar.xsd.XsdNavigator;
 import com.legstar.xsd.XsdReader;
-import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 import com.legstar.xsd.cob.Xsd2CobGenerator;
 
@@ -48,13 +45,7 @@ import com.legstar.xsd.cob.Xsd2CobGenerator;
 public class Xsd2Cob {
 
     /** Configuration data. */
-    private Xsd2CobConfig _xsdConfig;
-
-    /** New root elements to add to the generated XML schema. */
-    private List < XsdRootElement > _newRootElements;
-
-    /** An optional XSLT transform for XML schema customization. */
-    private String _customXsltFileName;
+    private Xsd2CobModel _model;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -63,45 +54,20 @@ public class Xsd2Cob {
      * Construct the translator.
      */
     public Xsd2Cob() {
-        this(null, null, null);
+        this(null);
     }
 
     /**
      * Construct the translator.
      * 
-     * @param xsdConfig the configuration data
+     * @param model the configuration data
      */
-    public Xsd2Cob(final Xsd2CobConfig xsdConfig) {
-        this(xsdConfig, null, null);
-    }
-
-    /**
-     * Construct the translator.
-     * 
-     * @param xsdConfig the configuration data
-     * @param newRootElements additional XML schema root elements
-     */
-    public Xsd2Cob(final Xsd2CobConfig xsdConfig,
-            final List < XsdRootElement > newRootElements) {
-        this(xsdConfig, newRootElements, null);
-    }
-
-    /**
-     * Construct the translator.
-     * 
-     * @param xsdConfig the configuration data
-     * @param newRootElements additional XML schema root elements
-     * @param customXsltFileName XSLT transform for XML schema customization
-     */
-    public Xsd2Cob(final Xsd2CobConfig xsdConfig,
-            final List < XsdRootElement > newRootElements,
-            final String customXsltFileName) {
-        if (xsdConfig == null) {
-            _xsdConfig = new Xsd2CobConfig();
+    public Xsd2Cob(final Xsd2CobModel model) {
+        if (model == null) {
+            _model = new Xsd2CobModel();
+        } else {
+            _model = model;
         }
-        _xsdConfig = xsdConfig;
-        _newRootElements = newRootElements;
-        _customXsltFileName = customXsltFileName;
     }
 
     /**
@@ -139,30 +105,46 @@ public class Xsd2Cob {
             throws InvalidXsdException {
 
         if (_log.isDebugEnabled()) {
-            _log.debug("Translating with options:" + getConfig().toString());
+            _log.debug("Translating with options:" + getModel().toString());
         }
         try {
-            if (getNewRootElements() != null) {
-                XsdReader.addRootElements(getNewRootElements(), schema);
-            }
-
-            Xsd2CobAnnotator annotator = new Xsd2CobAnnotator(getConfig());
-            annotator.setUp();
-
-            XsdNavigator visitor = new XsdNavigator(schema, annotator);
-            visitor.visit();
 
             XmlSchema resultSchema = schema;
-            if (getCustomXsltFileName() != null) {
-                resultSchema = customize(schema, getCustomXsltFileName());
+
+            /* Switch target namespace if requested */
+            if (getModel().getNewTargetNamespace() != null
+                    && !getModel().getNewTargetNamespace().equals(
+                            resultSchema.getTargetNamespace())) {
+                resultSchema = XsdReader.switchTargetNamespace(resultSchema,
+                        getModel().getNewTargetNamespace());
             }
 
-            Xsd2CobGenerator generator = new Xsd2CobGenerator();
-            visitor = new XsdNavigator(resultSchema, generator);
+            /* Add new root elements if needed. */
+            if (getModel().getNewRootElements() != null) {
+                XsdReader.addRootElements(getModel().getNewRootElements(),
+                        resultSchema);
+            }
+
+            /* Generate COBOL annotations. */
+            Xsd2CobAnnotator annotator = new Xsd2CobAnnotator(getModel()
+                    .getXsdConfig());
+            annotator.setUp();
+            XsdNavigator visitor = new XsdNavigator(resultSchema, annotator);
+            visitor.visit();
+
+            /* Apply user requested customizations. */
+            if (getModel().getCustomXsltFileName() != null) {
+                resultSchema = customize(resultSchema, getModel()
+                        .getCustomXsltFileName());
+            }
+
+            /* Produce the COBOL copybook. */
+            Xsd2CobGenerator cobgen = new Xsd2CobGenerator();
+            visitor = new XsdNavigator(resultSchema, cobgen);
             visitor.visit();
 
             return new XsdToCobolStringResult(toString(resultSchema),
-                    generator.toString());
+                    cobgen.toString());
 
         } catch (IOException e) {
             throw new InvalidXsdException(e);
@@ -259,49 +241,8 @@ public class Xsd2Cob {
     /**
      * @return the configuration data
      */
-    public Xsd2CobConfig getConfig() {
-        return _xsdConfig;
-    }
-
-    /**
-     * @param newRootElements a list of root elements to add
-     */
-    public void setNewRootElements(final List < XsdRootElement > newRootElements) {
-        _newRootElements = newRootElements;
-    }
-
-    /**
-     * @param xsdRootElement a root element to add to the XML Schema
-     */
-    public void addNewRootElement(final XsdRootElement xsdRootElement) {
-        if (_newRootElements == null) {
-            _newRootElements = new ArrayList < XsdRootElement >();
-        }
-        _newRootElements.add(xsdRootElement);
-    }
-
-    /**
-     * @return the new root elements to add to the generated XML schema
-     */
-    public List < XsdRootElement > getNewRootElements() {
-        return _newRootElements;
-    }
-
-    /**
-     * An optional XSLT transform for XML schema customization.
-     * 
-     * @return an optional XSLT transform for XML schema customization
-     */
-    public String getCustomXsltFileName() {
-        return _customXsltFileName;
-    }
-
-    /**
-     * @param customXsltFileName an optional XSLT transform for XML schema
-     *            customization
-     */
-    public void setCustomXsltFileName(final String customXsltFileName) {
-        _customXsltFileName = customXsltFileName;
+    public Xsd2CobModel getModel() {
+        return _model;
     }
 
 }
