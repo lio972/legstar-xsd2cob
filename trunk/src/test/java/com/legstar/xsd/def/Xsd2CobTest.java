@@ -12,6 +12,7 @@ import org.codehaus.cargo.container.tomcat.Tomcat6xInstalledLocalContainer;
 import org.codehaus.cargo.container.tomcat.Tomcat6xStandaloneLocalConfiguration;
 
 import com.legstar.xsd.AbstractTest;
+import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 
 /**
@@ -36,7 +37,7 @@ public class Xsd2CobTest extends AbstractTest {
 
         Xsd2CobModel model = new Xsd2CobModel();
 
-        /* Use custom XSLT to change some element sizes from defualts. */
+        /* Use custom XSLT to change some element sizes from defaults. */
         model.setCustomXsltFileName("src/test/resources/xslt/MSNSearch.xsl");
 
         Xsd2Cob api = new Xsd2Cob(model);
@@ -46,6 +47,21 @@ public class Xsd2CobTest extends AbstractTest {
                         "MSNSearch.wsdl"), "UTF-8"));
         check("MSNSearch", "xsd", results.getCobolXsd());
         check("MSNSearch", "cpy", results.getCobolStructure());
+    }
+
+    /**
+     * Test listssdo generation.
+     */
+    public void testListssdo() throws Exception {
+
+        Xsd2Cob api = new Xsd2Cob();
+        api.getModel().addNewRootElement(
+                new XsdRootElement("dfhcommarea", "Dfhcommarea"));
+
+        XsdToCobolStringResult results = api.translate(FileUtils
+                .readFileToString(new File(XSD_DIR, "listssdo.xsd"), "UTF-8"));
+        check("listssdo", "xsd", results.getCobolXsd());
+        check("listssdo", "cpy", results.getCobolStructure());
     }
 
     /**

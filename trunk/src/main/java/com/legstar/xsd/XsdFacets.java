@@ -18,6 +18,9 @@ public class XsdFacets {
     /** Size of string elements. */
     private int _length = -1;
 
+    /** Maximum size of string elements. */
+    private int _maxLength = -1;
+
     /** Regular expression pattern for elements values. */
     private String _pattern = null;
 
@@ -37,8 +40,7 @@ public class XsdFacets {
     /**
      * @param fractionalDigits the fractional digits to set
      */
-    public void setFractionDigits(
-            final int fractionalDigits) {
+    public void setFractionDigits(final int fractionalDigits) {
         _fractionDigits = fractionalDigits;
     }
 
@@ -54,6 +56,20 @@ public class XsdFacets {
      */
     public void setLength(final int length) {
         _length = length;
+    }
+
+    /**
+     * @return the length
+     */
+    public int getMaxLength() {
+        return _maxLength;
+    }
+
+    /**
+     * @param maxLength the maximum length to set
+     */
+    public void setMaxLength(final int maxLength) {
+        _maxLength = maxLength;
     }
 
     /**

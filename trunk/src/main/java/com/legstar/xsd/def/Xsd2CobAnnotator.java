@@ -13,6 +13,7 @@ import org.apache.ws.commons.schema.XmlSchemaComplexType;
 import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaFractionDigitsFacet;
 import org.apache.ws.commons.schema.XmlSchemaLengthFacet;
+import org.apache.ws.commons.schema.XmlSchemaMaxLengthFacet;
 import org.apache.ws.commons.schema.XmlSchemaObject;
 import org.apache.ws.commons.schema.XmlSchemaObjectCollection;
 import org.apache.ws.commons.schema.XmlSchemaPatternFacet;
@@ -306,7 +307,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
          * If a byte length cannot be inferred from a facet in the XML schema*
          * type hierarchy, use the default.
          */
-        int byteLength = facets.getLength();
+        int byteLength = (facets.getLength() > 0) ? facets.getLength() : facets
+                .getMaxLength();
         if (byteLength < 0) {
             byteLength = _xsdConfig.getAlphanumericLen();
             _log.warn("Byte length for element "
@@ -692,21 +694,24 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
                             facets.setLength(new Integer((String) xsef
                                     .getValue()));
                         }
-                    }
-                    if (facet instanceof XmlSchemaPatternFacet) {
+                    } else if (facet instanceof XmlSchemaMaxLengthFacet) {
+                        XmlSchemaMaxLengthFacet xsef = (XmlSchemaMaxLengthFacet) facet;
+                        if (facets.getMaxLength() == -1) {
+                            facets.setMaxLength(new Integer((String) xsef
+                                    .getValue()));
+                        }
+                    } else if (facet instanceof XmlSchemaPatternFacet) {
                         XmlSchemaPatternFacet xsef = (XmlSchemaPatternFacet) facet;
                         if (facets.getPattern() == null) {
                             facets.setPattern((String) xsef.getValue());
                         }
-                    }
-                    if (facet instanceof XmlSchemaTotalDigitsFacet) {
+                    } else if (facet instanceof XmlSchemaTotalDigitsFacet) {
                         XmlSchemaTotalDigitsFacet xsef = (XmlSchemaTotalDigitsFacet) facet;
                         if (facets.getTotalDigits() == -1) {
                             facets.setTotalDigits(new Integer((String) xsef
                                     .getValue()));
                         }
-                    }
-                    if (facet instanceof XmlSchemaFractionDigitsFacet) {
+                    } else if (facet instanceof XmlSchemaFractionDigitsFacet) {
                         XmlSchemaFractionDigitsFacet xsef = (XmlSchemaFractionDigitsFacet) facet;
                         if (facets.getFractionDigits() == -1) {
                             facets.setFractionDigits(new Integer((String) xsef
@@ -722,10 +727,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
              */
             if (restriction.getBaseType() == null) {
                 QName typeName = restriction.getBaseTypeName();
-                if (typeName != null) {
-                    if (XsdConstants.XSD_NS.equals(typeName.getNamespaceURI())) {
-                        return;
-                    }
+                if (typeName != null
+                        && !XsdConstants.XSD_NS.equals(typeName
+                                .getNamespaceURI())) {
                     getFacets(schema,
                             (XmlSchemaSimpleType) schema
                                     .getTypeByName(typeName), facets);
