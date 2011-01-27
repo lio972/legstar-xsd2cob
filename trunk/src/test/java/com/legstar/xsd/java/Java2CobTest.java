@@ -21,6 +21,11 @@ public class Java2CobTest extends AbstractTest {
         setCreateReferences(CREATE_REFERENCES);
     }
 
+    /**
+     * Test the Cultureinfo POJO.
+     * 
+     * @throws Exception if test fails
+     */
     public void testCultureinfo() throws Exception {
 
         Java2Cob java2cob = new Java2Cob();
@@ -32,6 +37,27 @@ public class Java2CobTest extends AbstractTest {
 
         check("cultureinfo", "xsd", results.getCobolXsd());
         check("cultureinfo", "cpy", results.getCobolStructure());
+
+    }
+
+    /**
+     * Test the JVMQuery POJO.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testJVMQuery() throws Exception {
+
+        Java2Cob java2cob = new Java2Cob();
+        java2cob.getModel().setNewTargetNamespace(
+                "http://jvmquery.cases.test.xsdc.legstar.com/");
+
+        List < String > classNames = Arrays.asList(new String[] {
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest",
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply" });
+        XsdToCobolStringResult results = java2cob.translate(classNames);
+
+        check("jvmquery", "xsd", results.getCobolXsd());
+        check("jvmquery", "cpy", results.getCobolStructure());
 
     }
 
