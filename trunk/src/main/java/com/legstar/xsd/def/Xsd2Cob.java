@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -28,6 +30,7 @@ import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdMappingException;
 import com.legstar.xsd.XsdNavigator;
 import com.legstar.xsd.XsdReader;
+import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 import com.legstar.xsd.cob.Xsd2CobGenerator;
 
@@ -74,12 +77,10 @@ public class Xsd2Cob {
      * Execute the translation from XML schema to COBOL-annotated XML Schema and
      * COBOL structure.
      * 
-     * @param xml the XML schema source
      * @return the XML Schema and the COBOL structure as strings
      */
-    public XsdToCobolStringResult translate(final String xml)
-            throws InvalidXsdException {
-        return translate(parse(xml));
+    public XsdToCobolStringResult translate() throws InvalidXsdException {
+        return translate(parse(getModel().getInputXsdUri()));
     }
 
     /**
@@ -97,11 +98,42 @@ public class Xsd2Cob {
     /**
      * Execute the translation from XML schema to COBOL-annotated XML Schema and
      * COBOL structure.
+     * <p/>
+     * Convenience methods when input is a string.
+     * 
+     * @param xml the XML schema source
+     * @return the XML Schema and the COBOL structure as strings
+     */
+    public XsdToCobolStringResult translate(final String xml)
+            throws InvalidXsdException {
+        return translate(parse(xml));
+    }
+
+    /**
+     * Execute the translation from XML schema to COBOL-annotated XML Schema and
+     * COBOL structure.
      * 
      * @param schema the XML schema
      * @return the XML Schema and the COBOL structure as strings
      */
     public XsdToCobolStringResult translate(final XmlSchema schema)
+            throws InvalidXsdException {
+        return translate(schema, getModel().getNewRootElements(), null);
+    }
+
+    /**
+     * Execute the translation from XML schema to COBOL-annotated XML Schema and
+     * COBOL structure.
+     * 
+     * @param schema the XML schema
+     * @param newRootElements a set of new elements to add to the XML schema
+     * @param a map of complex types to java classes used to annotate complex
+     *            types when they originate from a java class
+     * @return the XML Schema and the COBOL structure as strings
+     */
+    public XsdToCobolStringResult translate(final XmlSchema schema,
+            List < XsdRootElement > newRootElements,
+            Map < String, String > complexTypeToJavaClassMap)
             throws InvalidXsdException {
 
         if (_log.isDebugEnabled()) {
@@ -120,14 +152,13 @@ public class Xsd2Cob {
             }
 
             /* Add new root elements if needed. */
-            if (getModel().getNewRootElements() != null) {
-                XsdReader.addRootElements(getModel().getNewRootElements(),
-                        resultSchema);
+            if (newRootElements != null) {
+                XsdReader.addRootElements(newRootElements, resultSchema);
             }
 
             /* Generate COBOL annotations. */
             Xsd2CobAnnotator annotator = new Xsd2CobAnnotator(getModel()
-                    .getXsdConfig());
+                    .getXsdConfig(), complexTypeToJavaClassMap);
             annotator.setUp();
             XsdNavigator visitor = new XsdNavigator(resultSchema, annotator);
             visitor.visit();

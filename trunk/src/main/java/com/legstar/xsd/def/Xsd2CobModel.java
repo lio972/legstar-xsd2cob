@@ -1,20 +1,12 @@
 package com.legstar.xsd.def;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-
 import com.legstar.codegen.CodeGenMakeException;
-import com.legstar.codegen.CodeGenUtil;
 import com.legstar.codegen.models.AbstractAntBuildModel;
 import com.legstar.xsd.XsdRootElement;
 
@@ -96,9 +88,6 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
     /* Following are other class fields and methods. = */
     /* ====================================================================== */
 
-    /** Whether velocity is already initialized. */
-    private boolean _velocityInitialized;
-
     /**
      * A no-Arg constructor.
      */
@@ -132,31 +121,7 @@ public class Xsd2CobModel extends AbstractAntBuildModel {
      * @throws CodeGenMakeException if generation fails
      */
     public void generateBuild(File scriptFile) throws CodeGenMakeException {
-        Writer w = null;
-        try {
-            if (!_velocityInitialized) {
-                CodeGenUtil.initVelocity();
-                _velocityInitialized = true;
-            }
-            VelocityContext context = CodeGenUtil
-                    .getContext(S2C_GENERATOR_NAME);
-            context.put("antModel", this);
-            w = new OutputStreamWriter(new FileOutputStream(scriptFile),
-                    "UTF-8");
-            Velocity.mergeTemplate(S2C_VELOCITY_MACRO_NAME, "UTF-8", context, w);
-        } catch (IOException e) {
-            throw new CodeGenMakeException(e);
-        } catch (Exception e) {
-            throw new CodeGenMakeException(e);
-        } finally {
-            if (w != null) {
-                try {
-                    w.close();
-                } catch (IOException e) {
-                    throw new CodeGenMakeException(e);
-                }
-            }
-        }
+        generateBuild(S2C_GENERATOR_NAME, S2C_VELOCITY_MACRO_NAME, scriptFile);
     }
 
     /**

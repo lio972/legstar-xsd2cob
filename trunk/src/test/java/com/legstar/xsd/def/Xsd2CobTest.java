@@ -57,11 +57,13 @@ public class Xsd2CobTest extends AbstractTest {
         webapp.start();
         try {
 
-            Xsd2Cob api = new Xsd2Cob();
+            Xsd2CobModel model = new Xsd2CobModel();
+            model.setInputXsdUri(new URI(
+                    "http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl"));
 
-            XsdToCobolStringResult results = api
-                    .translate(new URI(
-                            "http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl"));
+            Xsd2Cob api = new Xsd2Cob(model);
+            XsdToCobolStringResult results = api.translate();
+
             check("cultureinfo", "xsd", results.getCobolXsd());
             check("cultureinfo", "cpy", results.getCobolStructure());
         } finally {
@@ -79,14 +81,14 @@ public class Xsd2CobTest extends AbstractTest {
         webapp.start();
         try {
             Xsd2CobModel model = new Xsd2CobModel();
+            model.setInputXsdUri(new URI(
+                    "http://localhost:8080/legstar-test-jvmquery/queryJvm?wsdl"));
             /* We switch namespace to avoid conflict with jvmquery pojo. */
             model.setNewTargetNamespace("http://jvmquery.ws.cases.test.xsdc.legstar.com/");
 
             Xsd2Cob api = new Xsd2Cob(model);
+            XsdToCobolStringResult results = api.translate();
 
-            XsdToCobolStringResult results = api
-                    .translate(new URI(
-                            "http://localhost:8080/legstar-test-jvmquery/queryJvm?wsdl"));
             check("jvmquery-ws", "xsd", results.getCobolXsd());
             check("jvmquery-ws", "cpy", results.getCobolStructure());
         } finally {
