@@ -1,8 +1,12 @@
 package com.legstar.xsd.java;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.DataType;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.xsd.def.Xsd2CobModel;
@@ -83,6 +87,21 @@ public class Java2CobModel extends Xsd2CobModel {
     }
 
     /**
+     * Add a fully qualified class name to be translated.
+     * <p/>
+     * This is used by ANT and does not actually add the classname but makes
+     * sure the ant datatype knows about our collection.
+     * 
+     * @param javaClassName a fully qualified java class name
+     */
+    public void addClassName(final ClassName javaClassName) {
+        if (_javaClassNames == null) {
+            _javaClassNames = new ArrayList < String >();
+        }
+        javaClassName.setClassNames(_javaClassNames);
+    }
+
+    /**
      * @return the List of path elements locations
      */
     public List < String > getPathElementLocations() {
@@ -107,4 +126,31 @@ public class Java2CobModel extends Xsd2CobModel {
                 getPathElementLocations());
         return props;
     }
+
+    /**
+     * This is only used by ANT to add nested text className elements.
+     * <p/>
+     * The <code>addText</code> method is invoked by ANT after
+     * <code>addClassName</code>.
+     * 
+     */
+    public static class ClassName extends DataType {
+
+        /** List of fully qualified java class names. */
+        private List < String > _javaClassNames;
+
+        /**
+         * @param classNames the List of fully qualified java class names to set
+         */
+        public void setClassNames(final List < String > classNames) {
+            _javaClassNames = classNames;
+        }
+
+        public void addText(String name) {
+            Project p = getProject();
+            _javaClassNames.add(p.replaceProperties(name));
+        }
+
+    }
+
 }
