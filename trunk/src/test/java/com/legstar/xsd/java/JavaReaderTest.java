@@ -73,13 +73,12 @@ public class JavaReaderTest extends AbstractTest {
         check("simpleRead", "xsd", writer.toString());
     }
 
-    private static class simple {
+    public static class simple {
         private String aField;
 
         /**
          * @return the aField
          */
-        @SuppressWarnings("unused")
         public String getaField() {
             return aField;
         }
@@ -87,7 +86,6 @@ public class JavaReaderTest extends AbstractTest {
         /**
          * @param aField the aField to set
          */
-        @SuppressWarnings("unused")
         public void setaField(String aField) {
             this.aField = aField;
         }

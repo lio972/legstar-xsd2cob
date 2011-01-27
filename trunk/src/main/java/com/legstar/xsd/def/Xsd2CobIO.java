@@ -6,13 +6,13 @@ import java.net.URI;
 import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.xsd.InvalidParameterException;
 import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdToCobolStringResult;
+import com.legstar.xsd.XsdWriter;
 
 /**
  * XML schema to COBOL translation using file system.
@@ -22,12 +22,6 @@ import com.legstar.xsd.XsdToCobolStringResult;
  * 
  */
 public class Xsd2CobIO extends Xsd2Cob {
-
-    /** Extension to add on generated XML schema file names. */
-    public static final String XSD_FILE_EXTENSION = "xsd";
-
-    /** Extension to add on generated COBOL copybooks. */
-    public static final String COBOL_FILE_EXTENSION = "cpy";
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
@@ -97,7 +91,10 @@ public class Xsd2CobIO extends Xsd2Cob {
             _log.debug("Processing URI " + uri.toString());
         }
         XsdToCobolStringResult results = translate(uri);
-        writeResults(uri, results);
+
+        XsdWriter.writeResults(getDefaultName(uri), getModel()
+                .getTargetXsdFile(), getModel().getTargetCobolFile(),
+                getModel().getTargetCobolEncoding(), results, _log);
     }
 
     /**
@@ -111,77 +108,9 @@ public class Xsd2CobIO extends Xsd2Cob {
             throw new InvalidParameterException("No input URI specified");
         }
 
-        if (getModel().getTargetXsdFile() == null) {
-            throw new InvalidParameterException(
-                    "No target folder or file was specified for COBOL-annotated XML schema");
-        }
+        XsdWriter.check(getModel().getTargetXsdFile(), getModel()
+                .getTargetCobolFile());
 
-        if (getModel().getTargetCobolFile() == null) {
-            throw new InvalidParameterException(
-                    "No target folder or file was specified for COBOL copybook");
-        }
-
-    }
-
-    /**
-     * Write the results to file system.
-     * 
-     * @param uri the input URI
-     * @param results the translation results
-     * @throws IOException if writing fails
-     */
-    protected void writeResults(final URI uri,
-            final XsdToCobolStringResult results) throws IOException {
-
-        /* Use the last segment of the URI as a default output name. */
-        String defaultName = getLastSegment(uri);
-
-        File xsdFile = getFile(getModel().getTargetXsdFile(), defaultName + "."
-                + XSD_FILE_EXTENSION);
-        File cobolFile = getFile(getModel().getTargetCobolFile(), defaultName
-                + "." + COBOL_FILE_EXTENSION);
-        results.toFileSystem(xsdFile, cobolFile, getModel()
-                .getTargetCobolEncoding());
-
-        if (_log.isDebugEnabled()) {
-            _log.debug("Result COBOL-annotated XML Schema " + xsdFile);
-            _log.debug(results.getCobolXsd());
-            _log.debug("Result COBOL copybook " + cobolFile);
-            _log.debug(results.getCobolStructure());
-        }
-
-    }
-
-    /**
-     * If the file has no extension, it is considered a folder.
-     * <p/>
-     * The folder is created and new file, using the proposed fineName is
-     * created in there.
-     * <p/>
-     * If the file has an extension, then the containing folder is created and
-     * the fileName is ignored.
-     * 
-     * @param file a folder or file
-     * @param fileName a file name to use if file is a folder
-     * @return a file in an existing folder
-     * @throws IOException if folders cannot be created
-     */
-    protected File getFile(final File file, final String fileName)
-            throws IOException {
-        String filePath = file.getAbsolutePath();
-        String ext = FilenameUtils.getExtension(filePath);
-        if (ext == null || ext.length() == 0) {
-            if (fileName == null || fileName.length() == 0) {
-                throw new IOException("No default file name was provided");
-            }
-            FileUtils.forceMkdir(file);
-            return new File(file, fileName);
-        } else {
-            String folderPath = FilenameUtils
-                    .getFullPathNoEndSeparator(filePath);
-            FileUtils.forceMkdir(new File(folderPath));
-            return file;
-        }
     }
 
     /**
@@ -190,7 +119,7 @@ public class Xsd2CobIO extends Xsd2Cob {
      * @param uri the uri to process
      * @return the last segment of the path
      */
-    protected String getLastSegment(final URI uri) {
+    protected String getDefaultName(final URI uri) {
         String path = uri.getPath();
         if (path == null || path.length() < 2) {
             return null;

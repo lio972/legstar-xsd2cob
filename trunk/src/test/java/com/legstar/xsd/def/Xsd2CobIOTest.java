@@ -1,7 +1,6 @@
 package com.legstar.xsd.def;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -10,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import com.legstar.xsd.AbstractTest;
 import com.legstar.xsd.InvalidParameterException;
 import com.legstar.xsd.XsdRootElement;
-import com.legstar.xsd.XsdToCobolStringResult;
 
 /**
  * Test the Xsd2CobIO classs.
@@ -72,63 +70,21 @@ public class Xsd2CobIOTest extends AbstractTest {
     }
 
     /**
-     * Test the getLastSegment method.
+     * Test the getDefaultName method.
      * 
      * @throws URISyntaxException if URI is invalid
      */
-    public void testgetLastSegment() throws URISyntaxException {
-        assertNull(_xsd2cob.getLastSegment(new URI("http://localhost")));
-        assertNull(_xsd2cob.getLastSegment(new URI("uri:localhost")));
+    public void testgetDefaultName() throws URISyntaxException {
+        assertNull(_xsd2cob.getDefaultName(new URI("http://localhost")));
+        assertNull(_xsd2cob.getDefaultName(new URI("uri:localhost")));
         assertEquals("toto",
-                _xsd2cob.getLastSegment(new URI("http://localhost/toto")));
+                _xsd2cob.getDefaultName(new URI("http://localhost/toto")));
         assertEquals("toto",
-                _xsd2cob.getLastSegment(new URI("http://localhost/toto/")));
+                _xsd2cob.getDefaultName(new URI("http://localhost/toto/")));
         assertEquals("tata",
-                _xsd2cob.getLastSegment(new URI("http://localhost/toto/tata")));
-        assertEquals("tata", _xsd2cob.getLastSegment(new URI(
+                _xsd2cob.getDefaultName(new URI("http://localhost/toto/tata")));
+        assertEquals("tata", _xsd2cob.getDefaultName(new URI(
                 "http://localhost/toto/tata.xsd")));
-    }
-
-    /**
-     * Test the GetFile method.
-     * 
-     * @throws IOException if tests fails
-     */
-    public void testGetFile() throws IOException {
-        try {
-            _xsd2cob.getFile(GEN_XSD_DIR, null);
-        } catch (IOException e) {
-            assertEquals("No default file name was provided", e.getMessage());
-        }
-        _xsd2cob.getFile(GEN_XSD_DIR, "toto");
-        assertTrue(GEN_XSD_DIR.exists());
-
-        _xsd2cob.getFile(new File(GEN_COBOL_DIR, "copyb.cpy"), null);
-        assertTrue(GEN_COBOL_DIR.exists());
-
-    }
-
-    /**
-     * Test the writeResults method.
-     * 
-     * @throws IOException if test fails
-     */
-    public void testWriteResults() throws IOException {
-        URI uri = (new File(XSD_DIR, "customertype.xsd")).toURI();
-        _xsd2cob.getModel().setInputXsdUri(uri);
-        _xsd2cob.getModel().setTargetXsdFile(GEN_XSD_DIR);
-        _xsd2cob.getModel().setTargetCobolFile(GEN_COBOL_DIR);
-
-        XsdToCobolStringResult results = new XsdToCobolStringResult("<a></a>",
-                "     01 A PIC X.");
-        _xsd2cob.writeResults(uri, results);
-
-        String xsdContent = FileUtils.readFileToString(new File(GEN_XSD_DIR,
-                "customertype.xsd"));
-        assertEquals("<a></a>", xsdContent);
-        String cobolContent = FileUtils.readFileToString(new File(
-                GEN_COBOL_DIR, "customertype.cpy"));
-        assertEquals("     01 A PIC X.", cobolContent);
     }
 
     /**

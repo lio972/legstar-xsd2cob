@@ -37,6 +37,16 @@ public class Java2Cob extends Xsd2Cob {
      * Execute the translation from Java classes to COBOL-annotated XML Schema
      * and COBOL structure.
      * 
+     * @return the XML Schema and the COBOL structure as strings
+     */
+    public XsdToCobolStringResult translate() throws InvalidJavaException {
+        return translate(getModel().getClassNames());
+    }
+
+    /**
+     * Execute the translation from Java classes to COBOL-annotated XML Schema
+     * and COBOL structure.
+     * 
      * @param javaClassNames the list of fully qualified java class names
      * @return the XML Schema and the COBOL structure as strings
      */
