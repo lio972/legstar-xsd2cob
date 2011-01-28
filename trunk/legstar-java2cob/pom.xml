@@ -275,7 +275,7 @@
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
-                                    <mainClass>com.legstar.xsd.def.Xsd2CobMain</mainClass>
+                                    <mainClass>com.legstar.xsd.java.Java2CobMain</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

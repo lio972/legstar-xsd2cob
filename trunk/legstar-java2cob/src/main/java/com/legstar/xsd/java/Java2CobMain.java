@@ -1,9 +1,9 @@
-package com.legstar.xsd.def;
+package com.legstar.xsd.java;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.commons.cli.CommandLine;
@@ -20,26 +20,23 @@ import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdRootElement;
 
 /**
- * XML schema to COBOL translation standalone executable.
+ * Java to COBOL translation standalone executable.
  * <p/>
  * This is the main class for the executable jar. It takes options from the
- * command line and calls the {@link Xsd2Cob} API.
+ * command line and calls the {@link Java2Cob} API.
  * <p/>
  * Usage: <code>
- * java -jar legstar-xsd2cob-x.y.z-exe.jar
- *      -i&lt;input XML schema URI&gt;
+ * java -jar legstar-java2cob-x.y.z-exe.jar
+ *      -i&lt;input comma-separated list of fully qualified java class names&gt;
  *      -ox&lt;output COBOL-annotated XML schema folder or file&gt;
  *      -oc&lt;output COBOL copybook folder or file&gt;
  * </code>
  * 
  */
-public class Xsd2CobMain {
+public class Java2CobMain {
 
     /** The version properties file name. */
     private static final String VERSION_FILE_NAME = "/com/legstar/xsd/def/version.properties";
-
-    /** The default XML schema input folder. */
-    private static final File DEFAULT_XSD_INPUT_FOLDER = new File("schema");
 
     /** The default COBOL-annotated XML schema output folder. */
     private static final File DEFAULT_XSD_OUTPUT_FILE = new File("cobolschema");
@@ -48,12 +45,12 @@ public class Xsd2CobMain {
     private static final File DEFAULT_COBOL_OUTPUT_FILE = new File("cobol");
 
     /** Set of generation options to use. */
-    private Xsd2CobModel _model;
+    private Java2CobModel _model;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(getClass());
 
-    public Xsd2CobMain(final Xsd2CobModel model) {
+    public Java2CobMain(final Java2CobModel model) {
         _model = model;
     }
 
@@ -61,7 +58,7 @@ public class Xsd2CobMain {
      * @param args translator options. Provides help if no arguments passed.
      */
     public static void main(final String[] args) {
-        Xsd2CobMain main = new Xsd2CobMain(new Xsd2CobModel());
+        Java2CobMain main = new Java2CobMain(new Java2CobModel());
         main.execute(args);
     }
 
@@ -81,7 +78,7 @@ public class Xsd2CobMain {
                 execute();
             }
         } catch (Exception e) {
-            _log.error("XML schema to COBOL translation failure", e);
+            _log.error("Java to COBOL translation failure", e);
             throw new RuntimeException(e);
         }
     }
@@ -100,13 +97,19 @@ public class Xsd2CobMain {
                 "print the options available");
         options.addOption(help);
 
-        Option inputXsdUri = new Option("i", "inputUri", true,
-                "Input XML schema URI or WSDL URI");
-        options.addOption(inputXsdUri);
+        Option inputClasses = new Option("i", "inputClasses", true,
+                "Comma-separated list of fully qualified java class names");
+        inputClasses.setRequired(true);
+        options.addOption(inputClasses);
 
         Option targetXsdFile = new Option("ox", "outputXsd", true,
                 "Output COBOL-annotated XML schema folder or file");
         options.addOption(targetXsdFile);
+
+        Option targetTargetNamespace = new Option("ns", "targetNamespace",
+                true,
+                "The target namspace for the output COBOL-annotated XML schema");
+        options.addOption(targetTargetNamespace);
 
         Option targetCobolFile = new Option("oc", "outputCobol", true,
                 "output COBOL copybook folder or file");
@@ -166,13 +169,18 @@ public class Xsd2CobMain {
             produceHelp(options);
             return false;
         }
-        if (line.hasOption("inputUri")) {
-            getModel().setInputXsdUri(
-                    new URI((line.getOptionValue("inputUri").trim())));
+        if (line.hasOption("inputClasses")) {
+            String[] classNames = line.getOptionValue("inputClasses").trim()
+                    .split(",");
+            getModel().setClassNames(Arrays.asList(classNames));
         }
         if (line.hasOption("outputXsd")) {
             getModel().setTargetXsdFile(
                     new File((line.getOptionValue("outputXsd").trim())));
+        }
+        if (line.hasOption("targetNamespace")) {
+            getModel().setNewTargetNamespace(
+                    (line.getOptionValue("targetNamespace").trim()));
         }
         if (line.hasOption("outputCobol")) {
             getModel().setTargetCobolFile(
@@ -197,9 +205,6 @@ public class Xsd2CobMain {
      * Make sure mandatory parameters have default values.
      */
     protected void setDefaults() {
-        if (getModel().getInputXsdUri() == null) {
-            getModel().setInputXsdUri(DEFAULT_XSD_INPUT_FOLDER.toURI());
-        }
         if (getModel().getTargetXsdFile() == null) {
             getModel().setTargetXsdFile(DEFAULT_XSD_OUTPUT_FILE);
         }
@@ -217,7 +222,7 @@ public class Xsd2CobMain {
         HelpFormatter formatter = new HelpFormatter();
         String version = getVersion();
         formatter.printHelp(
-                "java -jar legstar-xsd2cob-"
+                "java -jar legstar-java2cob-"
                         + version.substring(0, version.indexOf(' '))
                         + "-exe.jar followed by:", options);
     }
@@ -234,8 +239,8 @@ public class Xsd2CobMain {
     protected void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
 
-        Xsd2CobIO xsd2cob = new Xsd2CobIO(getModel());
-        xsd2cob.execute();
+        Java2CobIO java2cob = new Java2CobIO(getModel());
+        java2cob.execute();
 
     }
 
@@ -249,7 +254,7 @@ public class Xsd2CobMain {
         InputStream stream = null;
         try {
             Properties version = new Properties();
-            stream = Xsd2CobMain.class.getResourceAsStream(VERSION_FILE_NAME);
+            stream = Java2CobMain.class.getResourceAsStream(VERSION_FILE_NAME);
             version.load(stream);
             return version.getProperty("version");
         } finally {
@@ -264,7 +269,7 @@ public class Xsd2CobMain {
      * 
      * @return a parameter context to be used throughout all code
      */
-    public Xsd2CobModel getModel() {
+    public Java2CobModel getModel() {
         return _model;
     }
 
