@@ -56,6 +56,18 @@
           </plugin>
 
           <plugin>
+              <artifactId>maven-source-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <id>project-sources</id>
+                      <goals>
+                          <goal>jar</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+
+          <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>jaxws-maven-plugin</artifactId>
               <executions>
