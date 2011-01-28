@@ -40,9 +40,8 @@ public class Xsd2CobIO extends Xsd2Cob {
     @SuppressWarnings("unchecked")
     public void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
-        if (_log.isDebugEnabled()) {
-            _log.debug("XML Schema to COBOL translator started");
-        }
+
+        _log.info("XML Schema to COBOL translator started");
         checkParameters();
 
         URI inputXsdUri = getModel().getInputXsdUri();
@@ -75,9 +74,7 @@ public class Xsd2CobIO extends Xsd2Cob {
             execute(getModel().getInputXsdUri());
         }
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("XML Schema to COBOL translator ended");
-        }
+        _log.info("XML Schema to COBOL translator ended");
     }
 
     /**
