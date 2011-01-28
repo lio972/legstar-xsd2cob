@@ -1,0 +1,64 @@
+<!-- =================================================================================
+     This script tests the distribution file. It unzips the distro to a temporary
+     location and runs the samples.
+ -->
+<project basedir="../../.." default="testDistro" name="build-sample">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+        
+        <property environment="env"/>
+        <!-- Temporary location  -->
+        <property name="test.dir" value="${basedir}/target/test-distro" />
+        <!-- Distribution name  -->
+        <property name="dist.name" value="${project.artifactId}-${project.version}" />
+        <!-- Distribution zip file  -->
+        <property name="dist.zip" value="${dist.name}.zip" />
+        <!-- Distribution file location   -->
+        <property name="dist.dir" value="${basedir}/target" />
+        <!-- Distribution zip file   -->
+        <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+
+        <!-- Sample generated COBOL-annotated XML schemas -->
+        <property name="xsdCustomerSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobolschema/customer.xsd"/>
+        <property name="xsdStockquoteSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobolschema/stockquote.xsd"/>
+        <!-- Sample generated COBOL copybook -->
+        <property name="cobolCustomerSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobol/customer.cpy"/>
+        <property name="cobolStockquoteSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobol//stockquote.cpy"/>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Unzip distro to temporary location
+    -->
+    <target name="installDistro" depends="init">
+        <unzip src="${zip.file}" dest="${test.dir}"/>
+    </target>
+    
+    <!-- ===========================================================  -->
+    <!-- Run the xsd2cob sample executable jar
+    -->
+    <target name="testXsd2CobExecutable" depends="installDistro">
+        <delete file="${jarCustomerSampleFilePath}"/>
+        <exec dir="${test.dir}/${dist.name}/xsd2cob" executable="cmd" failonerror="true">
+            <arg value="/c"/>
+            <arg value="run"/>
+        </exec>
+        <available file="${xsdCustomerSampleFilePath}" property="isXsdCustomerSampleFilePath"/>
+        <fail unless="isXsdCustomerSampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolCustomerSampleFilePath}" property="isCobolCustomerSampleFilePath"/>
+        <fail unless="isCobolCustomerSampleFilePath" message="Run.bat failed!"/>
+        <available file="${xsdStockquoteSampleFilePath}" property="isXsdStockquoteSampleFilePath"/>
+        <fail unless="isXsdStockquoteSampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolStockquoteSampleFilePath}" property="isCobolStockquoteSampleFilePath"/>
+        <fail unless="isCobolStockquoteSampleFilePath" message="Run.bat failed!"/>
+    </target>
+
+  <!-- ===========================================================  -->
+    <!-- Run the samples
+    -->
+    <target name="testDistro" depends="testXsd2CobExecutable"/>
+</project>
