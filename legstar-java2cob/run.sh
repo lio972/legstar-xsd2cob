@@ -11,4 +11,4 @@ JVM_ARGS=
 ##   Update the log4j configuration to set debug mode
 JVM_ARGS="$JVM_ARGS -Dlog4j.configuration=file:conf/log4j.properties"
 
-java $JVM_ARGS -jar ${project.artifactId}-${project.version}-exe.jar "$@"
+java $JVM_ARGS -jar legstar-java2cob-${project.version}-exe.jar "$@"
