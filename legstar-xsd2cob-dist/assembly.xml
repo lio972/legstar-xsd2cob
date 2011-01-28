@@ -9,7 +9,7 @@ Assembly descriptor for the full distribution.
     <includeBaseDirectory>true</includeBaseDirectory>
 
     <fileSets>
-        <!-- Copy the sample XML schema and WSDL -->
+        <!-- Copy the xsd2cob sample XML schema and WSDL -->
         <fileSet>
             <directory>../legstar-xsd2cob/src/test/resources/cases</directory>
             <outputDirectory>xsd2cob/schema</outputDirectory>
@@ -19,10 +19,28 @@ Assembly descriptor for the full distribution.
             </includes>
         </fileSet>
 
-        <!-- Copy configuration files (log4j) -->
+        <!-- Copy the java2cob sample POJO -->
+        <fileSet>
+            <directory>../legstar-java2cob/target/gen-distro</directory>
+            <outputDirectory>java2cob/java</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy xsd2cob configuration files (log4j) -->
         <fileSet>
             <directory>../legstar-xsd2cob/src/main/resources/conf</directory>
             <outputDirectory>xsd2cob/conf</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy java2cob configuration files (log4j) -->
+        <fileSet>
+            <directory>../legstar-java2cob/src/main/resources/conf</directory>
+            <outputDirectory>java2cob/conf</outputDirectory>
             <includes>
                 <include>*.properties</include>
             </includes>

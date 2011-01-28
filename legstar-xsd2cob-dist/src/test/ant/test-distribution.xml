@@ -22,12 +22,17 @@
         <!-- Distribution zip file   -->
         <property name="zip.file" value="${dist.dir}/${dist.zip}" />
 
-        <!-- Sample generated COBOL-annotated XML schemas -->
+        <!-- Sample xsd2cob generated COBOL-annotated XML schemas -->
         <property name="xsdCustomerSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobolschema/customer.xsd"/>
         <property name="xsdStockquoteSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobolschema/stockquote.xsd"/>
         <!-- Sample generated COBOL copybook -->
         <property name="cobolCustomerSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobol/customer.cpy"/>
         <property name="cobolStockquoteSampleFilePath" value="${test.dir}/${dist.name}/xsd2cob/cobol//stockquote.cpy"/>
+    
+        <!-- Sample java2cob generated COBOL-annotated XML schemas -->
+        <property name="xsdJVMQuerySampleFilePath" value="${test.dir}/${dist.name}/java2cob/cobolschema/jvmquery.xsd"/>
+        <!-- Sample generated COBOL copybook -->
+        <property name="cobolJVMQuerySampleFilePath" value="${test.dir}/${dist.name}/java2cob/cobol/jvmquery.cpy"/>
     
     </target>
 
@@ -57,8 +62,23 @@
         <fail unless="isCobolStockquoteSampleFilePath" message="Run.bat failed!"/>
     </target>
 
+    <!-- ===========================================================  -->
+    <!-- Run the java2cob sample executable jar
+    -->
+    <target name="testJava2CobExecutable" depends="installDistro">
+        <delete file="${jarJVMQuerySampleFilePath}"/>
+        <exec dir="${test.dir}/${dist.name}/java2cob" executable="cmd" failonerror="true">
+            <arg value="/c"/>
+            <arg value="run"/>
+        </exec>
+        <available file="${xsdJVMQuerySampleFilePath}" property="isXsdJVMQuerySampleFilePath"/>
+        <fail unless="isXsdJVMQuerySampleFilePath" message="Run.bat failed!"/>
+        <available file="${cobolJVMQuerySampleFilePath}" property="isCobolJVMQuerySampleFilePath"/>
+        <fail unless="isCobolJVMQuerySampleFilePath" message="Run.bat failed!"/>
+    </target>
+
   <!-- ===========================================================  -->
     <!-- Run the samples
     -->
-    <target name="testDistro" depends="testXsd2CobExecutable"/>
+    <target name="testDistro" depends="testXsd2CobExecutable,testJava2CobExecutable"/>
 </project>

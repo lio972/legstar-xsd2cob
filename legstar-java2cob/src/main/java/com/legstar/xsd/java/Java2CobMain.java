@@ -119,6 +119,11 @@ public class Java2CobMain {
                 true, "Character set used for COBOL source files encoding");
         options.addOption(targetCobolEncoding);
 
+        Option pathElementLocations = new Option("p", "pathElementLocations",
+                true,
+                "Comma-separated list of path element locations to add to the classpath");
+        options.addOption(pathElementLocations);
+
         Option newRootElements = new Option(
                 "r",
                 "newRootElements",
@@ -190,6 +195,12 @@ public class Java2CobMain {
             getModel().setTargetCobolEncoding(
                     (line.getOptionValue("outputCobolEncoding").trim()));
         }
+        if (line.hasOption("pathElementLocations")) {
+            String[] pathElementLocations = line
+                    .getOptionValue("pathElementLocations").trim().split(",");
+            getModel().setPathElementLocations(
+                    Arrays.asList(pathElementLocations));
+        }
         if (line.hasOption("newRootElements")) {
             String[] elements = line.getOptionValue("newRootElements").trim()
                     .split(",");
@@ -228,8 +239,8 @@ public class Java2CobMain {
     }
 
     /**
-     * Translate the input URI to COBOL. Place results in the output folders or
-     * files.
+     * Translate the input java classes to COBOL. Place results in the output
+     * folders or files.
      * 
      * @throws IOException if basic read/write operation fails
      * @throws InvalidXsdException if XML schema read is invalid

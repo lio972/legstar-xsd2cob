@@ -1,7 +1,6 @@
 package com.legstar.xsd.java;
 
 import java.io.File;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -125,9 +124,16 @@ public class Java2CobModelTest extends AbstractTest {
         Java2CobModel model = new Java2CobModel();
         model.setProductLocation(".");
         model.setProbeFile(new File("probe.file.tmp"));
-        model.setInputXsdUri(new URI("schema"));
+        List < String > classNames = Arrays.asList(new String[] {
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest",
+                "com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply" });
+        model.setClassNames(classNames);
         model.setTargetXsdFile(new File("cobolschema"));
         model.setTargetCobolFile(new File("cobol"));
+
+        List < String > pathElementLocations = Arrays
+                .asList(new String[] { "${basedir}/java/legstar-test-jvmquery-classes.jar" });
+        model.setPathElementLocations(pathElementLocations);
 
         File resultFile = genAntScriptAsFile(model);
         FileUtils
