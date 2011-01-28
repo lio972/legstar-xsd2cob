@@ -1,0 +1,84 @@
+## ==================================================================
+## Generates an ant script for Java to Cobol translation
+##
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script translates an Java to COBOL.
+ -->
+<project basedir="${antModel.productLocation}" default="signalSuccess" name="translate-java-to-cobol-structure">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Java to COBOL Structure translator ant task  -->
+        <taskdef name="java2cob"
+            classname="com.legstar.xsd.java.Java2CobTask">
+            <classpath>
+                <fileset dir="${basedir}" includes="lib/*.jar"/>
+                <pathelement location="${basedir}/conf"/>
+#foreach ($pathElementLocation in $antModel.pathElementLocations)
+                <pathelement location="${pathElementLocation}"/>
+#end
+            </classpath>
+        </taskdef>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Translate Java classes
+    -->
+    <target name="javaToCobol" depends="init">
+        <echo message="Translating classes:" />
+#foreach($className in $antModel.classNames)
+        <echo message="- $className"/>
+#end
+        <java2cob>
+            <options 
+#if(${antModel.newTargetNamespace})
+                newTargetNamespace="${antModel.newTargetNamespace}"
+#end
+                targetXsdFile="${antModel.targetXsdFile}"
+                targetCobolFile="${antModel.targetCobolFile}"
+#if(${antModel.targetCobolEncoding})
+                targetCobolEncoding="${antModel.targetCobolEncoding}"
+#end
+#if(${antModel.customXsltFileName})
+                customXsltFileName="${antModel.customXsltFileName}"
+#end
+            >
+#foreach($className in $antModel.classNames)
+                <className>${className}</className>
+#end
+                <xsdConfig
+                    alphanumericLen="${antModel.xsdConfig.alphanumericLen}"
+                    octetStreamLen="${antModel.xsdConfig.octetStreamLen}"
+                    intTotalDigits="${antModel.xsdConfig.intTotalDigits}"
+                    shortTotalDigits="${antModel.xsdConfig.shortTotalDigits}"
+                    boolTotalDigits="${antModel.xsdConfig.boolTotalDigits}"
+                    longTotalDigits="${antModel.xsdConfig.longTotalDigits}"
+                    decTotalDigits="${antModel.xsdConfig.decTotalDigits}"
+                    decFracDigits="${antModel.xsdConfig.decFracDigits}"
+                    singleFloatByteLen="${antModel.xsdConfig.singleFloatByteLen}"
+                    doubleFloatByteLen="${antModel.xsdConfig.doubleFloatByteLen}"
+                    maxOccurs="${antModel.xsdConfig.maxOccurs}"
+                />
+#foreach($newRootElement in $antModel.newRootElements)
+                <newRootElement elementName="${newRootElement.elementName}" typeName="${newRootElement.typeName}"/>
+#end
+            </options>
+        </java2cob>
+        <echo message="Java classes successfully translated" />
+        <echo message="COBOL copybook generated in ${antModel.targetCobolFile}" />
+        <echo message="COBOL-annotated XML schema generated in ${antModel.targetXsdFile}" />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="javaToCobol">
+        <delete file="${antModel.probeFile}" quiet="true"/>
+    </target>
+    
+</project>

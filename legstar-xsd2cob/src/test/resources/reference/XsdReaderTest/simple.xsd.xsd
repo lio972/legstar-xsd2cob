@@ -1,0 +1,11 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://soapinterop.org/types" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://soapinterop.org/types">
+    <element name="CreditCardType">
+        <simpleType>
+            <restriction base="string">
+                <enumeration value="AMEX"/>
+                <enumeration value="MASTERCARD"/>
+                <enumeration value="VISA"/>
+            </restriction>
+        </simpleType>
+    </element>
+</schema>
