@@ -36,9 +36,7 @@ public class Java2CobIO extends Java2Cob {
     public void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Java to COBOL translator started");
-        }
+        _log.info("Java to COBOL translator started");
 
         checkParameters();
 
@@ -48,9 +46,7 @@ public class Java2CobIO extends Java2Cob {
                 getModel().getTargetCobolFile(), getModel()
                         .getTargetCobolEncoding(), results, _log);
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Java to COBOL translator ended");
-        }
+        _log.info("Java to COBOL translator ended");
     }
 
     /**

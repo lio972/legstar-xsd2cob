@@ -300,50 +300,7 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <!-- 
-                    Create zip distribution.
-                  -->
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <!-- 
-                    This will check that the distribution file is valid.
-                    -->
-                    <execution>
-                        <id>test-distribution</id>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/src/test/ant/test-distribution.xml" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
-
 
     </build>
 
