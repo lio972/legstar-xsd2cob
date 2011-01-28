@@ -24,10 +24,10 @@
     <!-- Translate XML Schema
     -->
     <target name="xsdToCobol" depends="init">
-        <echo message="Translating file:/C:/Users/Fady/Workspace/legstar-xsd2cob-pom/legstar-xsd2cob/src/test/resources/cases/customertype.xsd" />
+        <echo message="Translating src/test/resources/cases/customertype.xsd" />
         <xsd2cob>
             <options 
-                inputXsdUri="file:/C:/Users/Fady/Workspace/legstar-xsd2cob-pom/legstar-xsd2cob/src/test/resources/cases/customertype.xsd"
+                inputXsdUri="src/test/resources/cases/customertype.xsd"
                 targetXsdFile="target\gen\schema"
                 targetCobolFile="target\gen\cobol"
                 targetCobolEncoding="ISO-8859-1"

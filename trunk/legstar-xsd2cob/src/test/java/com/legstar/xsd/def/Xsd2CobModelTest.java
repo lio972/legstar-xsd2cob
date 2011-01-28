@@ -78,7 +78,8 @@ public class Xsd2CobModelTest extends AbstractTest {
         Xsd2CobModel model = new Xsd2CobModel();
         model.setProductLocation("../../../..");
         model.setProbeFile(new File("probe.file.tmp"));
-        model.setInputXsdUri((new File(XSD_DIR, "customertype.xsd")).toURI());
+        model.setInputXsdUri(new URI(
+                "src/test/resources/cases/customertype.xsd"));
         model.setTargetXsdFile(GEN_XSD_DIR);
         model.setTargetCobolFile(GEN_COBOL_DIR);
         model.setTargetCobolEncoding("ISO-8859-1");
