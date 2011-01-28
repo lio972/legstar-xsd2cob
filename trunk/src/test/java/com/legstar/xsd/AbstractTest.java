@@ -2,12 +2,15 @@ package com.legstar.xsd;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.Vector;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
 import org.apache.ws.commons.schema.XmlSchema;
 import org.w3c.dom.Document;
 
@@ -166,6 +169,25 @@ public abstract class AbstractTest extends TestCase {
             unqname = unqname.substring(unqname.lastIndexOf('.') + 1);
         }
         return unqname;
+    }
+
+    /**
+     * Execute an ant script.
+     * 
+     * @param buildFile the ant script
+     * @throws Exception if ant script execution fails
+     */
+    public void runAnt(final File buildFile) throws Exception {
+        final Project project = new Project();
+        project.setCoreLoader(this.getClass().getClassLoader());
+        project.init();
+        ProjectHelper helper = ProjectHelper.getProjectHelper();
+        project.addReference("ant.projectHelper", helper);
+        helper.parse(project, buildFile);
+        Vector < String > targets = new Vector < String >();
+        targets.addElement(project.getDefaultTarget());
+        project.setBaseDir(new File("."));
+        project.executeTargets(targets);
     }
 
 }

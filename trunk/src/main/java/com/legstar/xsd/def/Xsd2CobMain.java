@@ -234,13 +234,8 @@ public class Xsd2CobMain {
     protected void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
 
-        _log.info("Started XML schema translation to COBOL");
-        _log.info("Options in effect      : " + getModel().toString());
-
         Xsd2CobIO xsd2cob = new Xsd2CobIO(getModel());
         xsd2cob.execute();
-
-        _log.info("Finished translation");
 
     }
 

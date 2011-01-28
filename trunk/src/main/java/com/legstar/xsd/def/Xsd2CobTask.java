@@ -2,8 +2,6 @@ package com.legstar.xsd.def;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
@@ -19,16 +17,10 @@ public class Xsd2CobTask extends Task {
     /** Holds all options. */
     private Xsd2CobModel _model;
 
-    /** Logger. */
-    private final Log _log = LogFactory.getLog(getClass());
-
     /**
      * The ant execute method. Generates a new annotated schema.
      */
     public void execute() {
-        if (_log.isDebugEnabled()) {
-            _log.debug("XML Schema to COBOL translator started");
-        }
         try {
             Xsd2CobIO xsd2cob = new Xsd2CobIO(getModel());
             xsd2cob.execute();

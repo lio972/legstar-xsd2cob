@@ -1,11 +1,14 @@
 package com.legstar.xsd.java;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ws.commons.schema.XmlSchema;
 
 import com.legstar.coxb.util.ClassUtil;
@@ -16,6 +19,9 @@ import com.legstar.xsd.XsdToCobolStringResult;
 import com.legstar.xsd.def.Xsd2Cob;
 
 public class Java2Cob extends Xsd2Cob {
+
+    /** Logger. */
+    private final Log _log = LogFactory.getLog(getClass());
 
     /**
      * Construct the translator.
@@ -120,13 +126,30 @@ public class Java2Cob extends Xsd2Cob {
             throws InvalidJavaException {
         try {
 
+            if (_log.isDebugEnabled()) {
+                _log.debug("about to execute schemagen on " + javaClassNames);
+            }
+
             List < Class < ? > > classTypes = new ArrayList < Class < ? > >();
             for (String className : javaClassNames) {
                 classTypes.add(ClassUtil.loadClass(className));
             }
 
-            return JavaReader.read(classTypes, complexTypeToJavaClassMap,
-                    getModel().getNewTargetNamespace());
+            XmlSchema schema = JavaReader.read(classTypes,
+                    complexTypeToJavaClassMap, getModel()
+                            .getNewTargetNamespace());
+
+            if (_log.isDebugEnabled()) {
+                _log.debug("returned from schemagen");
+                _log.debug("complex types to java class map is "
+                        + complexTypeToJavaClassMap);
+                _log.debug("xml schema is ");
+                StringWriter writer = new StringWriter();
+                schema.write(writer);
+                _log.debug(writer.toString());
+            }
+
+            return schema;
 
         } catch (ClassNotFoundException e) {
             throw new InvalidJavaException(e);

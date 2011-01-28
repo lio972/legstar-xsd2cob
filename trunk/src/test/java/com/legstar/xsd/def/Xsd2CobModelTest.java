@@ -5,11 +5,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
 
 import com.legstar.codegen.CodeGenUtil;
 import com.legstar.xsd.AbstractTest;
@@ -128,25 +125,6 @@ public class Xsd2CobModelTest extends AbstractTest {
         File resultFile = CodeGenUtil.getFile(GEN_ANT_DIR, "build.xml");
         model.generateBuild(resultFile);
         return resultFile;
-    }
-
-    /**
-     * Execute an ant script.
-     * 
-     * @param buildFile the ant script
-     * @throws Exception if ant script execution fails
-     */
-    protected void runAnt(final File buildFile) throws Exception {
-        final Project project = new Project();
-        project.setCoreLoader(this.getClass().getClassLoader());
-        project.init();
-        ProjectHelper helper = ProjectHelper.getProjectHelper();
-        project.addReference("ant.projectHelper", helper);
-        helper.parse(project, buildFile);
-        Vector < String > targets = new Vector < String >();
-        targets.addElement(project.getDefaultTarget());
-        project.setBaseDir(new File("."));
-        project.executeTargets(targets);
     }
 
 }

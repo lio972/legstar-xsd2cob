@@ -1,12 +1,10 @@
 package com.legstar.xsd.java;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.legstar.coxb.util.NameUtil;
 import com.legstar.xsd.InvalidParameterException;
 import com.legstar.xsd.InvalidXsdException;
 import com.legstar.xsd.XsdToCobolStringResult;
@@ -49,6 +47,10 @@ public class Java2CobIO extends Java2Cob {
         XsdWriter.writeResults(getDefaultName(), getModel().getTargetXsdFile(),
                 getModel().getTargetCobolFile(), getModel()
                         .getTargetCobolEncoding(), results, _log);
+
+        if (_log.isDebugEnabled()) {
+            _log.debug("Java to COBOL translator ended");
+        }
     }
 
     /**
@@ -88,18 +90,14 @@ public class Java2CobIO extends Java2Cob {
         }
 
         String hint = getModel().getClassNames().get(0);
-        List < String > words = NameUtil.toWordList(hint);
+        String[] words = hint.split("\\.");
         if (getModel().getClassNames().size() == 1) {
-            hint = words.get((words.size() - 1));
+            hint = words[words.length - 1];
         } else {
-            if (words.size() > 1) {
-                hint = words.get((words.size() - 2));
-                /* We might have an embedded class */
-                if (hint.equals("$")) {
-                    hint = words.get((words.size() - 3));
-                }
+            if (words.length > 1) {
+                hint = words[words.length - 2];
             } else {
-                hint = words.get((words.size() - 1));
+                hint = words[words.length - 1];
             }
         }
         return hint.toLowerCase();

@@ -17,24 +17,24 @@ public class Java2CobModel extends Xsd2CobModel {
     public static final String J2C_VELOCITY_MACRO_NAME = "vlc/build-java2cob-xml.vm";
 
     /** This generator name. */
-    public static final String J2C_GENERATOR_NAME = "LegStar Java to Xsd generator";
+    public static final String J2C_GENERATOR_NAME = "LegStar Java to Cobol generator";
 
     /* ====================================================================== */
     /* Following are key identifiers for this model persistence. = */
     /* ====================================================================== */
 
     /** List of fully qualified java class names. */
-    public static final String JAVA_CLASS_NAMES = "javaClassNames";
+    public static final String CLASS_NAMES = "classNames";
 
     /** List of classpath elements locations. */
-    public static final String JAVA_PATH_ELEMENT_LOCATIONS = "javaPathElementLocations";
+    public static final String PATH_ELEMENT_LOCATIONS = "pathElementLocations";
 
     /* ====================================================================== */
     /* Following are this class fields that are persistent. = */
     /* ====================================================================== */
 
     /** List of fully qualified java class names. */
-    private List < String > _javaClassNames;
+    private List < String > _classNames;
 
     /**
      * List of path elements locations to be used as the classpath in order to
@@ -56,9 +56,9 @@ public class Java2CobModel extends Xsd2CobModel {
      */
     public Java2CobModel(final Properties props) {
         super(props);
-        setClassNames(getStringList(props, JAVA_CLASS_NAMES, null));
-        setPathElementLocations(getStringList(props,
-                JAVA_PATH_ELEMENT_LOCATIONS, null));
+        setClassNames(getStringList(props, CLASS_NAMES, null));
+        setPathElementLocations(getStringList(props, PATH_ELEMENT_LOCATIONS,
+                null));
     }
 
     /**
@@ -76,14 +76,14 @@ public class Java2CobModel extends Xsd2CobModel {
      * @return the List of fully qualified java class names
      */
     public List < String > getClassNames() {
-        return _javaClassNames;
+        return _classNames;
     }
 
     /**
      * @param classNames the List of fully qualified java class names to set
      */
     public void setClassNames(final List < String > classNames) {
-        _javaClassNames = classNames;
+        _classNames = classNames;
     }
 
     /**
@@ -95,10 +95,10 @@ public class Java2CobModel extends Xsd2CobModel {
      * @param javaClassName a fully qualified java class name
      */
     public void addClassName(final ClassName javaClassName) {
-        if (_javaClassNames == null) {
-            _javaClassNames = new ArrayList < String >();
+        if (_classNames == null) {
+            _classNames = new ArrayList < String >();
         }
-        javaClassName.setClassNames(_javaClassNames);
+        javaClassName.setClassNames(_classNames);
     }
 
     /**
@@ -121,9 +121,8 @@ public class Java2CobModel extends Xsd2CobModel {
      */
     public Properties toProperties() {
         Properties props = super.toProperties();
-        putStringList(props, JAVA_CLASS_NAMES, getClassNames());
-        putStringList(props, JAVA_PATH_ELEMENT_LOCATIONS,
-                getPathElementLocations());
+        putStringList(props, CLASS_NAMES, getClassNames());
+        putStringList(props, PATH_ELEMENT_LOCATIONS, getPathElementLocations());
         return props;
     }
 

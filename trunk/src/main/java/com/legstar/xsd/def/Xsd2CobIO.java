@@ -75,6 +75,9 @@ public class Xsd2CobIO extends Xsd2Cob {
             execute(getModel().getInputXsdUri());
         }
 
+        if (_log.isDebugEnabled()) {
+            _log.debug("XML Schema to COBOL translator ended");
+        }
     }
 
     /**
