@@ -1,36 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-xsd2cob-pom</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-test-cultureinfo</artifactId>
-    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>LegStar sample JAXWS Web Service Cultureinfo</name>
-    <url>http://www.legsem.com/legstar</url>
+    <packaging>war</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>LegStar sample JAXWS Web Service Cultureinfo</name>
+    <description>A sample JAX-WS Web Service</description>
+    <url>http://www.legsem.com/legstar/legstar-xsd2cob</url>
 
     <dependencies>
 
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
-            <version>2.1.3</version>
         </dependency>
 
         <dependency>
             <groupId>javax.jws</groupId>
             <artifactId>jsr181-api</artifactId>
-            <version>1.0-MR1</version>
         </dependency>
 
         <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
-          <version>3.8.1</version>
-          <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -40,31 +41,12 @@
       <finalName>legstar-test-cultureinfo</finalName>
 
       <plugins>
-          <plugin>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                  <source>1.5</source>
-                  <target>1.5</target>
-              </configuration>
-          </plugin>
 
           <plugin>
               <artifactId>maven-war-plugin</artifactId>
               <configuration>
                   <attachClasses>true</attachClasses>
               </configuration>
-          </plugin>
-
-          <plugin>
-              <artifactId>maven-source-plugin</artifactId>
-              <executions>
-                  <execution>
-                      <id>project-sources</id>
-                      <goals>
-                          <goal>jar</goal>
-                      </goals>
-                  </execution>
-              </executions>
           </plugin>
 
           <plugin>
@@ -84,7 +66,7 @@
                   <dependency>
                       <groupId>com.sun.xml.ws</groupId>
                       <artifactId>jaxws-tools</artifactId>
-                      <version>2.1.3</version>
+                      <version>${jaxwsVersion}</version>
                   </dependency>
               </dependencies>
           </plugin>

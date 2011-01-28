@@ -48,7 +48,7 @@ Assembly descriptor for the full distribution.
 
         <!-- Copy over the xsd2cob executable jar -->
         <fileSet>
-            <directory>../legstar-xsd2cob/${project.build.directory}</directory>
+            <directory>../legstar-xsd2cob/target</directory>
             <outputDirectory>xsd2cob</outputDirectory>
             <includes>
                 <include>*-exe.jar</include>
@@ -57,7 +57,7 @@ Assembly descriptor for the full distribution.
 
         <!-- Copy over the java2cob executable jar -->
         <fileSet>
-            <directory>../legstar-java2cob/${project.build.directory}</directory>
+            <directory>../legstar-java2cob/target</directory>
             <outputDirectory>java2cob</outputDirectory>
             <includes>
                 <include>*-exe.jar</include>
