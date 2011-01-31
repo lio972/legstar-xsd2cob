@@ -27,6 +27,15 @@
             <url>ftp://ftp.legsem.com/public_html/legstar/maven/repo</url>
         </repository>
     </distributionManagement>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+    </build>
 
   <dependencies>
     <dependency>
