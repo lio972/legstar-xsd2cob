@@ -3,7 +3,7 @@
 
   <groupId>legstar.p1</groupId>
   <artifactId>legstar.p1</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>legstar.p1</name>
@@ -14,9 +14,9 @@
   </properties>
 
     <scm>
-        <connection>scm:svn:http://legstar-xsd2cob.googlecode.com/svn/tags/legstar.p1-1.0</connection>
-        <developerConnection>scm:svn:https://legstar-xsd2cob.googlecode.com/svn/tags/legstar.p1-1.0</developerConnection>
-        <url>http://legstar-xsd2cob.googlecode.com/svn/tags/legstar.p1-1.0</url>
+        <connection>scm:svn:http://legstar-xsd2cob.googlecode.com/svn/trunk/legstar.p1/</connection>
+        <developerConnection>scm:svn:https://legstar-xsd2cob.googlecode.com/svn/trunk/legstar.p1/</developerConnection>
+        <url>http://legstar-xsd2cob.googlecode.com/svn/trunk/legstar.p1/</url>
     </scm>
 
   <dependencies>
