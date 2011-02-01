@@ -15,7 +15,6 @@
     
     <name>LegStar XML schema to COBOL translator distribution</name>
     <description>Translates XML schema to COBOL structures</description>
-    <url>http://www.legsem.com/legstar/legstar-xsd2cob</url>
 
     <build>
 
@@ -62,6 +61,13 @@
                     </execution>
                 </executions>
             </plugin>
+
+          <plugin>
+              <artifactId>maven-site-plugin</artifactId> 
+              <configuration>
+                  <generateReports>false</generateReports>
+              </configuration>
+          </plugin>
 
         </plugins>
 
