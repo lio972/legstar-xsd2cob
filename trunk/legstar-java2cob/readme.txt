@@ -1,6 +1,6 @@
 Overview:
 =========
-  The xsd2cob utility translates XML schema to COBOL structure definitions.
+  The java2cob utility translates Java classes to COBOL structure definitions.
   
   The utility is available as an executable jar or as an ANT task.
 
@@ -20,10 +20,9 @@ Running the sample using the executable jar:
      a WSDL samples.
   2. On Linux you pobably need to type chmod +x run.sh to make it executable
   3. Type ./run.sh (Linux) or run (Windows).
-  4. Check the cobol sub folder, an set of COBOL copybooks should have been
-     created.
-  5. Check the cobolschema sub folder, a set of COBOL-annotated XML Schema
-     files should have been created.
+  4. Check the cobol sub folder, a COBOL copybook should have been created.
+  5. Check the cobolschema sub folder, a COBOL-annotated XML Schema
+     file should have been created.
 
 Troubleshooting the executable jar:
 ===================================
@@ -35,7 +34,7 @@ Troubleshooting the executable jar:
    http://groups.google.com/group/legstar-user.
    
    If you can't find a solution, please file a bug report at:
-   http://code.google.com/p/legstar-xsd2cob/issues/list
+   http://code.google.com/p/legstar-java2cob/issues/list
    
 Running the sample using ANT:
 =============================
@@ -60,13 +59,13 @@ Troubleshooting ANT:
    http://groups.google.com/group/legstar-user.
    
    If you can't find a solution, please file a report at:
-   http://code.google.com/p/legstar-xsd2cob/issues/list
+   http://code.google.com/p/legstar-java2cob/issues/list
    
 Additional information:
 =======================
   
   Check the wiki pages: http://code.google.com/p/legstar-xsd2cob/w/list.
   
-  Javadoc: http://www.legsem.com/legstar/xsd2cob/apidocs/index.html 
+  Javadoc: http://www.legsem.com/legstar/legstar-java2cob/legstar-java2cob/apidocs/index.html 
   
   Join the discussion group: http://groups.google.com/group/legstar-user.
