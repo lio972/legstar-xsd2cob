@@ -73,11 +73,11 @@ public class Xsd2CobTest extends AbstractTest {
         webapp.start();
         try {
 
-            Xsd2CobModel model = new Xsd2CobModel();
-            model.setInputXsdUri(new URI(
-                    "http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl"));
-
-            Xsd2Cob api = new Xsd2Cob(model);
+            Xsd2Cob api = new Xsd2Cob();
+            api.getModel()
+                    .setInputXsdUri(
+                            new URI(
+                                    "http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl"));
             XsdToCobolStringResult results = api.translate();
 
             check("cultureinfo", "xsd", results.getCobolXsd());
