@@ -67,6 +67,6 @@ Additional information:
   
   Check the wiki pages: http://code.google.com/p/legstar-xsd2cob/w/list.
   
-  Javadoc: http://www.legsem.com/legstar/xsd2cob/apidocs/index.html 
+  Javadoc: http://www.legsem.com/legstar/legstar-xsd2cob/legstar-xsd2cob/apidocs/index.html 
   
   Join the discussion group: http://groups.google.com/group/legstar-user.
