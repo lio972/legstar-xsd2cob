@@ -14,7 +14,7 @@
         <!-- Temporary location  -->
         <property name="test.dir" value="${basedir}/target/test-distro" />
         <!-- Distribution name  -->
-        <property name="dist.name" value="${project.artifactId}-${project.version}" />
+        <property name="dist.name" value="${project.artifactId}-${project.parent.version}" />
         <!-- Distribution zip file  -->
         <property name="dist.zip" value="${dist.name}.zip" />
         <!-- Distribution file location   -->
