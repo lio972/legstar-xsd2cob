@@ -11,6 +11,13 @@ import org.apache.tools.ant.types.DataType;
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.xsd.def.Xsd2CobModel;
 
+/**
+ * This class gathers execution parameters for the Java to COBOL utility.
+ * <p/>
+ * The class is also capable of generating a fully configured ANT script to run
+ * the ant version of the utility with the current parameter set.
+ * 
+ */
 public class Java2CobModel extends Xsd2CobModel {
 
     /** This velocity template. */

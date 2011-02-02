@@ -1,5 +1,9 @@
 package com.legstar.xsd;
 
+/**
+ * A set of constant values.
+ * 
+ */
 public final class XsdConstants {
 
     /** XML Schema namespace. */

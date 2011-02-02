@@ -7,6 +7,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 
+/**
+ * Writes results to the file system.
+ * 
+ */
 public final class XsdWriter {
 
     /** Extension to add on generated XML schema file names. */
