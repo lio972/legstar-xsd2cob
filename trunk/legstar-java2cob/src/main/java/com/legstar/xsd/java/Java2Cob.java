@@ -24,6 +24,16 @@ import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
 import com.legstar.xsd.def.Xsd2Cob;
 
+/**
+ * Java to COBOL Translator API.
+ * <p/>
+ * Takes a set java classes and turns the content into 2 outputs:
+ * <ul>
+ * <li>An XML Schema with COBOL annotations</li>
+ * <li>COBOL structures descriptions mapping the XML schema elements</li>
+ * </ul>
+ * 
+ */
 public class Java2Cob extends Xsd2Cob {
 
     /** Logger. */

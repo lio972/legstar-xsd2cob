@@ -15,7 +15,7 @@
     
     <name>LegStar XML schema to COBOL translator parent</name>
     <description>Translates XML schema to COBOL structures</description>
-    <url>http://www.legsem.com/legstar/legstar-xsd2cob</url>
+    <url>http://www.legsem.com/legstar/legstar-xsd2cob-pom</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +43,7 @@
         <site>
             <id>local.website</id>
             <name>Local Website</name>
-            <url>file:///${legstar-dev-website-local-dir}/${project.artifactId}</url>
+            <url>file:///${legstar-dev-website-local-dir}/legstar-xsd2cob-pom</url>
         </site>
 
     </distributionManagement>

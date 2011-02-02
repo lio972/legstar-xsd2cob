@@ -8,8 +8,8 @@
   <body>
     <menu ref="parent"  inherit="top"/>
     <menu name="Modules">
-        <item name="XML schema to COBOL" href="../legstar-xsd2cob/legstar-xsd2cob/index.html" />
-        <item name="Java to COBOL" href="../legstar-java2cob/legstar-java2cob/index.html" />
+        <item name="XML schema to COBOL" href="legstar-xsd2cob/index.html" />
+        <item name="Java to COBOL" href="legstar-java2cob/index.html" />
     </menu>
     <menu ref="reports" inherit="bottom" />
   </body>
