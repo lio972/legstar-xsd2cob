@@ -43,7 +43,7 @@
         <site>
             <id>local.website</id>
             <name>Local Website</name>
-            <url>file:///${legstar-dev-website-local-dir}/${pom.artifactId}</url>
+            <url>file:///${legstar-dev-website-local-dir}/${project.artifactId}</url>
         </site>
 
     </distributionManagement>
@@ -182,19 +182,58 @@
                     <version>2.7</version> 
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId> 
+                    <artifactId>maven-assembly-plugin</artifactId> 
+                    <version>2.2-beta-5</version> 
+                </plugin>
+
             </plugins>
 
         </pluginManagement>
 
         <plugins>
 
+            <!-- Produce source jar for each module -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>project-sources</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Produce javadoc jar for each module -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <links>
+                        <link>http://download.oracle.com/javaee/1.5/api/</link>
+                        <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+
+            <!-- Sign all artifacts -->
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>

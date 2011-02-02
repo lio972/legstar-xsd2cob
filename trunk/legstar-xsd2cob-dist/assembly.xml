@@ -74,6 +74,22 @@ Assembly descriptor for the full distribution.
             </includes>
         </fileSet>
         
+        <!-- Copy the dependencies from sub modules -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/target/dependency</directory>
+            <outputDirectory>xsd2cob/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../legstar-java2cob/target/dependency</directory>
+            <outputDirectory>java2cob/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        
     </fileSets>
     
     <files>
@@ -130,20 +146,4 @@ Assembly descriptor for the full distribution.
         </file>
     </files>
 
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>xsd2cob/lib</outputDirectory>
-            <scope>runtime</scope>
-            <excludes>
-                <exclude>org.codehaus.jackson:*</exclude>
-            </excludes>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>java2cob/lib</outputDirectory>
-            <scope>runtime</scope>
-            <excludes>
-                <exclude>org.codehaus.jackson:*</exclude>
-            </excludes>
-        </dependencySet>
-     </dependencySets>
 </assembly>
