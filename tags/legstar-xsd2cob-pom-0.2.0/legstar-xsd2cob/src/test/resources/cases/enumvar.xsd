@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://legstar.com/test/coxb/enumvar" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/enumvar">
+    <xsd:complexType name="SearchRequest">
+        <xsd:sequence>
+            <xsd:element name="AppID" type="xsd:string"/>
+            <xsd:element default="Moderate" name="SafeSearch" type="tns:SafeSearchOptions"/>
+            <xsd:element default="2" name="SearchWeight" type="tns:SearchWeightOptions"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="SafeSearchOptions">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Moderate"/>
+            <xsd:enumeration value="Strict"/>
+            <xsd:enumeration value="Off"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="SearchWeightOptions">
+        <xsd:restriction base="xsd:integer">
+            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="4"/>
+            <xsd:enumeration value="6"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

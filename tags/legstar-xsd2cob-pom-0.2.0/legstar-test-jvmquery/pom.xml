@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-xsd2cob-pom</artifactId>
+        <version>0.2.0</version>
+    </parent>
+
+    <artifactId>legstar-test-jvmquery</artifactId>
+    <packaging>war</packaging>
+
+    <name>LegStar sample JAXWS Web Service JVMQuery</name>
+    <description>A sample JAX-WS Web Service</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
+
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+      <finalName>legstar-test-jvmquery</finalName>
+
+      <plugins>
+
+          <plugin>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                  <attachClasses>true</attachClasses>
+              </configuration>
+          </plugin>
+
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>jaxws-maven-plugin</artifactId>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>wsgen</goal>
+                      </goals>
+                      <configuration>
+                          <sei>com.legstar.xsdc.test.cases.jvmquery.JVMQuery</sei>
+                      </configuration>
+                  </execution>
+              </executions>
+              <dependencies>
+
+                  <dependency>
+                      <groupId>com.sun.xml.ws</groupId>
+                      <artifactId>jaxws-tools</artifactId>
+                      <version>${jaxwsVersion}</version>
+                  </dependency>
+                  <!-- WSGEN invokes a compiler and won't respect compiler plugin configuration.-->
+                  <dependency> 
+                      <groupId>com.sun</groupId> 
+                      <artifactId>tools</artifactId> 
+                      <version>1.5.0</version> 
+                      <scope>system</scope> 
+                      <systemPath>${legstar-dev-jdk15}/lib/tools.jar</systemPath> 
+                  </dependency> 
+
+              </dependencies>
+          </plugin>
+
+          <plugin>
+              <artifactId>maven-site-plugin</artifactId> 
+              <configuration>
+                  <generateReports>false</generateReports>
+              </configuration>
+          </plugin>
+
+      </plugins>
+
+    </build>
+</project>

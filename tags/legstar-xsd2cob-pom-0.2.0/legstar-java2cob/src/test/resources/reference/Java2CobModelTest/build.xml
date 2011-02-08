@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     This script translates an Java to COBOL.
+ -->
+<project basedir="../../.." default="signalSuccess" name="translate-java-to-cobol-structure">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+    
+        <!-- Java to COBOL Structure translator ant task  -->
+        <taskdef name="java2cob"
+            classname="com.legstar.xsd.java.Java2CobTask">
+            <classpath>
+                <fileset dir="${basedir}" includes="lib/*.jar"/>
+                <pathelement location="${basedir}/conf"/>
+                <pathelement location="target/classes"/>
+                <pathelement location="target/test-classes"/>
+            </classpath>
+        </taskdef>
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Translate Java classes
+    -->
+    <target name="javaToCobol" depends="init">
+        <echo message="Translating classes:" />
+        <echo message="- com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest"/>
+        <echo message="- com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply"/>
+        <java2cob>
+            <options 
+                newTargetNamespace="http://jvmquery.cases.test.xsdc.legstar.com/"
+                targetXsdFile="target\gen\schema"
+                targetCobolFile="target\gen\cobol"
+                targetCobolEncoding="ISO-8859-1"
+            >
+                <className>com.legstar.xsdc.test.cases.jvmquery.JVMQueryRequest</className>
+                <className>com.legstar.xsdc.test.cases.jvmquery.JVMQueryReply</className>
+                <xsdConfig
+                    alphanumericLen="32"
+                    octetStreamLen="32"
+                    intTotalDigits="9"
+                    shortTotalDigits="4"
+                    boolTotalDigits="1"
+                    longTotalDigits="18"
+                    decTotalDigits="9"
+                    decFracDigits="2"
+                    singleFloatByteLen="4"
+                    doubleFloatByteLen="8"
+                    maxOccurs="10"
+                />
+            </options>
+        </java2cob>
+        <echo message="Java classes successfully translated" />
+        <echo message="COBOL copybook generated in target\gen\cobol" />
+        <echo message="COBOL-annotated XML schema generated in target\gen\schema" />
+    </target>
+  
+    <!-- ===========================================================  -->
+    <!-- Delete the probe file to signal success
+    -->
+    <target name="signalSuccess" depends="javaToCobol">
+        <delete file="probe.file.tmp" quiet="true"/>
+    </target>
+    
+</project>
