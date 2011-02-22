@@ -90,6 +90,22 @@ Assembly descriptor for the full distribution.
             </includes>
         </fileSet>
         
+        <!-- Copy the sub modules -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/target</directory>
+            <outputDirectory>xsd2cob/lib</outputDirectory>
+            <includes>
+                <include>*${version}.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../legstar-java2cob/target</directory>
+            <outputDirectory>java2cob/lib</outputDirectory>
+            <includes>
+                <include>*${version}.jar</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
     
     <files>
