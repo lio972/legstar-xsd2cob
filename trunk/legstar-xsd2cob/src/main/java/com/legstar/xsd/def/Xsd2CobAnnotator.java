@@ -432,8 +432,8 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
          * TODO add analysis of pattern facet to refine type and picture
          * inference
          */
-        elc.setAttribute(CobolMarkup.PICTURE,
-                "9(" + Integer.toString(totalDigits) + ")");
+        elc.setAttribute(CobolMarkup.PICTURE, ((signed) ? "S" : "") + "9("
+                + Integer.toString(totalDigits) + ")");
         elc.setAttribute(CobolMarkup.TOTAL_DIGITS,
                 Integer.toString(totalDigits));
         elc.setAttribute(CobolMarkup.IS_SIGNED, Boolean.toString(signed));
@@ -453,9 +453,9 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
     }
 
     /**
-     * COBOL Decimal numerics are signed or unsigned and have a fixed number of
-     * total digits and fraction digits. This method infers numbers of digits
-     * and sign.
+     * COBOL Decimal numerics are always signed and have a fixed number of total
+     * digits and fraction digits. This method infers numbers of digits and
+     * sign.
      * 
      * @param primitiveType the XML Schema primitive type
      * @param facets the set of XML schema facets
@@ -489,7 +489,7 @@ public class Xsd2CobAnnotator extends AbstractXsdAnnotator {
 
         elc.setAttribute(
                 CobolMarkup.PICTURE,
-                "9("
+                "S9("
                         + Integer.toString(totalDigits - fractionDigits)
                         + ((fractionDigits > 0) ? ")V9("
                                 + Integer.toString(fractionDigits) : "") + ")");
