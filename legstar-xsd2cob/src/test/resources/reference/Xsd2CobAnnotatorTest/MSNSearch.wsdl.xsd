@@ -156,42 +156,42 @@
             <xsd:element name="Year" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Year" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Year" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Month" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Month" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Month" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Day" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="R-Day" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="R-Day" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Hour" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Hour" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Hour" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Minute" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Minute" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Minute" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Second" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Second" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Second" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -227,21 +227,21 @@
             <xsd:element minOccurs="0" name="ImageWidth" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ImageWidth" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ImageWidth" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element minOccurs="0" name="ImageHeight" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ImageHeight" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ImageHeight" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element minOccurs="0" name="ImageFileSize" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ImageFileSize" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ImageFileSize" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -255,21 +255,21 @@
             <xsd:element minOccurs="0" name="ThumbnailWidth" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ThumbnailWidth" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ThumbnailWidth" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element minOccurs="0" name="ThumbnailHeight" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ThumbnailHeight" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ThumbnailHeight" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element minOccurs="0" name="ThumbnailFileSize" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="ThumbnailFileSize" levelNumber="15" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="ThumbnailFileSize" levelNumber="15" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -287,14 +287,14 @@
             <xsd:element default="0" name="Offset" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Offset" levelNumber="9" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Offset" levelNumber="9" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element default="10" name="Count" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="R-Count" levelNumber="9" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="R-Count" levelNumber="9" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
@@ -471,14 +471,14 @@
             <xsd:element name="Offset" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Offset" levelNumber="9" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Offset" levelNumber="9" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="Total" type="xsd:int">
                 <xsd:annotation>
                     <xsd:appinfo>
-                        <cb:cobolElement cobolName="Total" levelNumber="9" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="Total" levelNumber="9" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>

@@ -47,7 +47,7 @@
             <xs:element name="number" type="xs:integer">
                 <xs:annotation>
                     <xs:appinfo>
-                        <cb:cobolElement cobolName="R-number" levelNumber="5" picture="9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
+                        <cb:cobolElement cobolName="R-number" levelNumber="5" picture="S9(9)" signed="true" totalDigits="9" type="BINARY_ITEM" usage="COMP-5"/>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>

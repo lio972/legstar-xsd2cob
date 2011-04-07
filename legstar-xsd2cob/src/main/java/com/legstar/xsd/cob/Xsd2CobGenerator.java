@@ -30,10 +30,9 @@ public class Xsd2CobGenerator implements XsdObjectProcessor {
     StringWriter _writer = new StringWriter();
 
     /** {@inheritDoc} */
-    public void processElement(
-            final XmlSchema schema,
-            final XmlSchemaElement xsdElement,
-            final int level) throws XsdMappingException {
+    public void processElement(final XmlSchema schema,
+            final XmlSchemaElement xsdElement, final int level)
+            throws XsdMappingException {
 
         XmlSchemaAnnotation annotation = xsdElement.getAnnotation();
         if (annotation != null && annotation.getItems().getCount() > 0) {
@@ -75,8 +74,8 @@ public class Xsd2CobGenerator implements XsdObjectProcessor {
     }
 
     /**
-     * Writes a statement, splitting it if it goes beyond column 72.
-     * FIXME will incorrectly split VALUES
+     * Writes a statement, splitting it if it goes beyond column 72. FIXME will
+     * incorrectly split VALUES
      * 
      * @param sb the current statement
      */
@@ -85,8 +84,8 @@ public class Xsd2CobGenerator implements XsdObjectProcessor {
             for (int i = 71; i > -1; i--) {
                 if (sb.charAt(i) == ' ') {
                     _writer.write(sb.substring(0, i) + "\n");
-                    StringBuilder rest = new StringBuilder(
-                            "            " + sb.substring(i));
+                    StringBuilder rest = new StringBuilder("            "
+                            + sb.substring(i));
                     writeIn72cols(rest);
                 }
             }
@@ -137,12 +136,11 @@ public class Xsd2CobGenerator implements XsdObjectProcessor {
      */
     protected String picture(final Element elc) {
         String picture = elc.getAttribute(CobolMarkup.PICTURE);
-        String isSigned = elc.getAttribute(CobolMarkup.IS_SIGNED);
 
         if (picture.length() == 0) {
             return picture;
         }
-        return " PIC " + ((isSigned.equals("true") ? "S" : "")) + picture;
+        return " PIC " + picture;
     }
 
     /**
@@ -176,10 +174,8 @@ public class Xsd2CobGenerator implements XsdObjectProcessor {
     }
 
     /** {@inheritDoc} */
-    public void processComplexType(
-            XmlSchema schema,
-            XmlSchemaComplexType xsdComplexType,
-            int level)
+    public void processComplexType(XmlSchema schema,
+            XmlSchemaComplexType xsdComplexType, int level)
             throws XsdMappingException {
 
     }
