@@ -32,4 +32,12 @@ public class Xsd2CobAnnotatorTest extends AbstractTest {
     public void testWsdlMSNSearch() throws Exception {
         visitAndCheck("MSNSearch.wsdl", new Xsd2CobAnnotator());
     }
+
+    public void testListssdo() throws Exception {
+        visitAndCheck("listssdo.xsd", new Xsd2CobAnnotator());
+    }
+
+    public void testListssdofixed() throws Exception {
+        visitAndCheck("listssdofixed.xsd", new Xsd2CobAnnotator());
+    }
 }
