@@ -33,6 +33,42 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
     public void testGen() throws Exception {
         Xsd2CobGenerator gen = new Xsd2CobGenerator();
         Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+                "Xsd2CobAnnotatorTest/stockquote.wsdl.xsd"));
+        XmlSchema schema = XsdReader.read(doc);
+        gen.setUp();
+
+        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        navigator.visit();
+
+        check("stockquote.wsdl.xsd", "cpy", gen.toString());
+    }
+
+    /**
+     * Showcase Issue 2.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testGenWithSingleDependingOn() throws Exception {
+        Xsd2CobGenerator gen = new Xsd2CobGenerator();
+        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+                "Xsd2CobAnnotatorTest/listssdo.xsd.xsd"));
+        XmlSchema schema = XsdReader.read(doc);
+        gen.setUp();
+
+        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        navigator.visit();
+
+        check("listssdo.xsd.xsd", "cpy", gen.toString());
+    }
+
+    /**
+     * Showcase Issue 2.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testGenWithMultipleDependingOn() throws Exception {
+        Xsd2CobGenerator gen = new Xsd2CobGenerator();
+        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
                 "Xsd2CobAnnotatorTest/MSNSearch.wsdl.xsd"));
         XmlSchema schema = XsdReader.read(doc);
         gen.setUp();
@@ -43,4 +79,21 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
         check("MSNSearch.wsdl.xsd", "cpy", gen.toString());
     }
 
+    /**
+     * Should not generate dynamic counters.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testGenWithFixedSizeArray() throws Exception {
+        Xsd2CobGenerator gen = new Xsd2CobGenerator();
+        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+                "Xsd2CobAnnotatorTest/listssdofixed.xsd.xsd"));
+        XmlSchema schema = XsdReader.read(doc);
+        gen.setUp();
+
+        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        navigator.visit();
+
+        check("listssdofixed.xsd.xsd", "cpy", gen.toString());
+    }
 }
