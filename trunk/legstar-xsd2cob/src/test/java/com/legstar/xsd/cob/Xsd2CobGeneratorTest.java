@@ -48,24 +48,6 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
      * 
      * @throws Exception if generation fails
      */
-    public void testGenWithSingleDependingOn() throws Exception {
-        Xsd2CobGenerator gen = new Xsd2CobGenerator();
-        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
-                "Xsd2CobAnnotatorTest/listssdo.xsd.xsd"));
-        XmlSchema schema = XsdReader.read(doc);
-        gen.setUp();
-
-        XsdNavigator navigator = new XsdNavigator(schema, gen);
-        navigator.visit();
-
-        check("listssdo.xsd.xsd", "cpy", gen.toString());
-    }
-
-    /**
-     * Showcase Issue 2.
-     * 
-     * @throws Exception if generation fails
-     */
     public void testGenWithMultipleDependingOn() throws Exception {
         Xsd2CobGenerator gen = new Xsd2CobGenerator();
         Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
