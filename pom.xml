@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-xsd2cob-pom</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.2.1</version>
     <packaging>pom</packaging>
     
     <name>LegStar XML schema to COBOL translator parent</name>
@@ -34,9 +34,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar-xsd2cob.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://legstar-xsd2cob.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://legstar-xsd2cob.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:http://legstar-xsd2cob.googlecode.com/svn/tags/legstar-xsd2cob-pom-0.2.1</connection>
+        <developerConnection>scm:svn:https://legstar-xsd2cob.googlecode.com/svn/tags/legstar-xsd2cob-pom-0.2.1</developerConnection>
+        <url>http://legstar-xsd2cob.googlecode.com/svn/tags/legstar-xsd2cob-pom-0.2.1</url>
     </scm>
 
     <distributionManagement>
