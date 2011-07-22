@@ -19,10 +19,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <legstarVersion>1.5.0</legstarVersion>
+        <legstarVersion>1.5.4</legstarVersion>
+        <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
-        <jaxwsVersion>2.1.3</jaxwsVersion>
+        <jaxbVersion>2.1.7</jaxbVersion>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <buildDate>${maven.build.timestamp}</buildDate>
     </properties>
@@ -93,8 +94,6 @@
     </organization>
 
     <modules>
-        <module>legstar-test-cultureinfo</module>
-        <module>legstar-test-jvmquery</module>
         <module>legstar-xsd2cob</module>
         <module>legstar-java2cob</module>
         <module>legstar-xsd2cob-dist</module>
@@ -320,23 +319,9 @@
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-xjc</artifactId>
-                <version>2.1.6</version>
+                <version>${jaxbVersion}</version>
             </dependency>
     
-            <!-- Sun JAXB JAX-WS runtime -->    
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-rt</artifactId>
-                <version>${jaxwsVersion}</version>
-            </dependency>
-    
-            <!-- Sun JAXB JAX-WS annotations -->    
-            <dependency>
-                <groupId>javax.jws</groupId>
-                <artifactId>jsr181-api</artifactId>
-                <version>1.0-MR1</version>
-            </dependency>
-
             <!-- LegStar COBOL binding API -->    
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
@@ -355,14 +340,14 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-xsd2cob</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar Java to COBOL translator -->    
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-java2cob</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- JUnit -->    

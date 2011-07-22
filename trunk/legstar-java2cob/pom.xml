@@ -282,14 +282,14 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-test-cultureinfo</artifactId>
-            <version>${version}</version>
+            <version>${legstarSamplesVersion}</version>
             <classifier>classes</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-test-jvmquery</artifactId>
-            <version>${version}</version>
+            <version>${legstarSamplesVersion}</version>
             <classifier>classes</classifier>
             <scope>test</scope>
         </dependency>
