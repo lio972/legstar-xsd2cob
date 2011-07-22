@@ -6,7 +6,7 @@
      -->
     <complexType name="Dfhcommarea">
         <sequence>
-            <element minOccurs="0" maxOccurs="100" name="ListOdo">
+            <element maxOccurs="100" name="ListOdo">
                 <simpleType>
                     <restriction base="string">
                         <maxLength value="5"/>
@@ -15,5 +15,4 @@
             </element>
         </sequence>
     </complexType>
-    <element name="dfhcommarea" type="tns:Dfhcommarea"/>
 </schema>
