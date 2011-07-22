@@ -1,0 +1,15 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://soapinterop.org/types"
+        targetNamespace="http://soapinterop.org/types">
+
+  <element name="CreditCardType">
+    <simpleType>
+      <restriction base="string">
+        <enumeration value="AMEX" />
+        <enumeration value="MASTERCARD" />
+        <enumeration value="VISA" />
+      </restriction>
+    </simpleType>
+  </element>
+
+</schema>

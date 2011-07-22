@@ -1,0 +1,165 @@
+<!--
+Assembly descriptor for the full distribution.
+-->
+<assembly>
+    <id></id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <fileSets>
+        <!-- Copy the xsd2cob sample XML schema and WSDL -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/src/test/resources/cases</directory>
+            <outputDirectory>xsd2cob/schema</outputDirectory>
+            <includes>
+                <include>customer.xsd</include>
+                <include>stockquote.wsdl</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy the java2cob sample POJO -->
+        <fileSet>
+            <directory>../legstar-java2cob/target/gen-distro</directory>
+            <outputDirectory>java2cob/java</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy xsd2cob configuration files (log4j) -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/src/main/resources/conf</directory>
+            <outputDirectory>xsd2cob/conf</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy java2cob configuration files (log4j) -->
+        <fileSet>
+            <directory>../legstar-java2cob/src/main/resources/conf</directory>
+            <outputDirectory>java2cob/conf</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy over the xsd2cob executable jar -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/target</directory>
+            <outputDirectory>xsd2cob</outputDirectory>
+            <includes>
+                <include>*-exe.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy over the java2cob executable jar -->
+        <fileSet>
+            <directory>../legstar-java2cob/target</directory>
+            <outputDirectory>java2cob</outputDirectory>
+            <includes>
+                <include>*-exe.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy the licence and readme -->
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>license.txt</include>
+                <include>readme.txt</include>
+            </includes>
+        </fileSet>
+        
+        <!-- Copy the dependencies from sub modules -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/target/dependency</directory>
+            <outputDirectory>xsd2cob/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../legstar-java2cob/target/dependency</directory>
+            <outputDirectory>java2cob/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+        
+        <!-- Copy the sub modules -->
+        <fileSet>
+            <directory>../legstar-xsd2cob/target</directory>
+            <outputDirectory>xsd2cob/lib</outputDirectory>
+            <includes>
+                <include>*${version}.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../legstar-java2cob/target</directory>
+            <outputDirectory>java2cob/lib</outputDirectory>
+            <includes>
+                <include>*${version}.jar</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+    
+    <files>
+        <!-- Copy the xsd2cob sample ANT script -->
+        <file>
+            <source>../legstar-xsd2cob/target/gen-distro/build.xml</source>
+            <outputDirectory>xsd2cob</outputDirectory>
+            <destName>build.xml</destName>
+        </file>
+
+        <!-- Copy the java2cob sample ANT script -->
+        <file>
+            <source>../legstar-java2cob/target/gen-distro/build.xml</source>
+            <outputDirectory>java2cob</outputDirectory>
+            <destName>build.xml</destName>
+        </file>
+
+        <!-- Copy the xsd2cob documentation -->
+        <file>
+            <source>../legstar-xsd2cob/readme.txt</source>
+            <outputDirectory>xsd2cob</outputDirectory>
+            <destName>readme.txt</destName>
+        </file>
+
+        <!-- Copy the documentation -->
+        <file>
+            <source>../legstar-java2cob/readme.txt</source>
+            <outputDirectory>java2cob</outputDirectory>
+            <destName>readme.txt</destName>
+        </file>
+
+        <!-- Copy command files to run xsd2cob executable jar -->
+        <file>
+            <source>../legstar-xsd2cob/run.bat</source>
+            <outputDirectory>xsd2cob</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../legstar-xsd2cob/run.sh</source>
+            <outputDirectory>xsd2cob</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+
+        <!-- Copy command files to run java2cob executable jar -->
+        <file>
+            <source>../legstar-java2cob/run.bat</source>
+            <outputDirectory>java2cob</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../legstar-java2cob/run.sh</source>
+            <outputDirectory>java2cob</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
+
+</assembly>

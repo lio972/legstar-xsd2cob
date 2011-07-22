@@ -1,0 +1,25 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/listssdo" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/listssdo">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element maxOccurs="10" minOccurs="10" name="ListOdo">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="ListOdo" levelNumber="3" maxOccurs="10" minOccurs="10" picture="X(5)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="dfhcommarea" type="tns:Dfhcommarea">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="dfhcommarea" levelNumber="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-xsd2cob-pom</artifactId>
+        <version>0.2.1</version>
+    </parent>
+
+    <artifactId>legstar-xsd2cob-dist</artifactId>
+    <packaging>pom</packaging>
+    
+    <name>LegStar XML schema to COBOL translator distribution</name>
+    <description>Translates XML schema to COBOL structures</description>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <!-- 
+                    Create zip distribution.
+                  -->
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <!-- 
+                    This will check that the distribution file is valid.
+                    -->
+                    <execution>
+                        <id>test-distribution</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/test-distribution.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+          <plugin>
+              <artifactId>maven-site-plugin</artifactId> 
+              <configuration>
+                  <generateReports>false</generateReports>
+              </configuration>
+          </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>

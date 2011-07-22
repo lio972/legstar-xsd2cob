@@ -1,0 +1,23 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://example.org/ord" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:prod="http://example.org/prod" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://example.org/ord">
+    <xs:import namespace="http://example.org/prod" schemaLocation="src/test/resources/cases/product.xsd"/>
+    <xs:element name="order" type="OrderType"/>
+    <xs:complexType name="OrderType">
+        <xs:sequence>
+            <xs:element name="number" type="OrderNumType"/>
+            <xs:element name="customer" type="CustomerType"/>
+            <xs:element name="items" type="prod:ItemsType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="OrderNumType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:complexType name="CustomerType">
+        <xs:sequence>
+            <xs:element name="name" type="CustNameType"/>
+            <xs:element name="number" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="CustNameType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+</xs:schema>
