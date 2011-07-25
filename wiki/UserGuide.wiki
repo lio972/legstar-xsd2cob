@@ -75,7 +75,7 @@ The sample ant script is located under the xsd2cob folder.
 
 The distribution comes with a *build.xml* which shows how to invoke the ant task.
 
-If you need to set additional parameters, all options from [http://www.legsem.com/legstar/legstar-xsd2cob/legstar-xsd2cob/apidocs/com/legstar/xsd/def/Xsd2CobModel.html Xsd2CobModel] are available.
+If you need to set additional parameters, all options from [http://www.legsem.com/legstar/legstar-xsd2cob-pom/legstar-xsd2cob/apidocs/com/legstar/xsd/def/Xsd2CobModel.html Xsd2CobModel] are available.
 
 The rule is that the ant property name does not need the initial "set" prefix and should start
 with a lowercase character. So for instance:
@@ -89,7 +89,7 @@ The sample ant script is located under the java2cob folder.
 
 The distribution comes with a *build.xml* which shows how to invoke the ant task.
 
-If you need to set additional parameters, all options from [http://www.legsem.com/legstar/legstar-java2cob/legstar-java2cob/apidocs/com/legstar/xsd/java/Java2CobModel.html Java2CobModel] are available.
+If you need to set additional parameters, all options from [http://www.legsem.com/legstar/legstar-xsd2cob-pom/legstar-java2cob/apidocs/com/legstar/xsd/java/Java2CobModel.html Java2CobModel] are available.
 
 =Calling the API from your own Java code=
 
@@ -131,8 +131,8 @@ This is a snippet of code that shows a typical use of the java2cob api:
 
 Javadocs available at:
 
- * [http://www.legsem.com/legstar/legstar-xsd2cob/legstar-xsd2cob/apidocs/index.html xsd2cob]
+ * [http://www.legsem.com/legstar/legstar-xsd2cob-pom/legstar-xsd2cob/apidocs/index.html xsd2cob]
 
- * [http://www.legsem.com/legstar/legstar-java2cob/legstar-java2cob/apidocs/index.html java2cob]
+ * [http://www.legsem.com/legstar/legstar-xsd2cob-pom/legstar-java2cob/apidocs/index.html java2cob]
 
 Join us on the [http://groups.google.com/group/legstar-user LegStar discussion group].
