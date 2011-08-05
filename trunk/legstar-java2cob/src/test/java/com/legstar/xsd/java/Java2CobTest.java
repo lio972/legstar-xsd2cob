@@ -1,6 +1,8 @@
 package com.legstar.xsd.java;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.legstar.xsd.AbstractTest;
@@ -59,6 +61,53 @@ public class Java2CobTest extends AbstractTest {
         check("jvmquery", "xsd", results.getCobolXsd());
         check("jvmquery", "cpy", results.getCobolStructure());
 
+    }
+
+    public void testDates() throws Exception {
+
+        Java2Cob java2cob = new Java2Cob();
+        java2cob.getModel().setNewTargetNamespace(
+                "http://datesample.cases.test.xsdc.legstar.com/");
+
+        List < String > classNames = Arrays
+                .asList(new String[] { "com.legstar.xsd.java.Java2CobTest$DateSample" });
+        XsdToCobolStringResult results = java2cob.translate(classNames);
+
+        check("datesample", "xsd", results.getCobolXsd());
+        check("datesample", "cpy", results.getCobolStructure());
+    }
+
+    public static class DateSample {
+        private Date date;
+        private Calendar calendar;
+
+        /**
+         * @return the date
+         */
+        public Date getDate() {
+            return date;
+        }
+
+        /**
+         * @param date the date to set
+         */
+        public void setDate(Date date) {
+            this.date = date;
+        }
+
+        /**
+         * @return the calendar
+         */
+        public Calendar getCalendar() {
+            return calendar;
+        }
+
+        /**
+         * @param calendar the calendar to set
+         */
+        public void setCalendar(Calendar calendar) {
+            this.calendar = calendar;
+        }
     }
 
 }
