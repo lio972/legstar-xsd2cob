@@ -14,7 +14,7 @@ import com.legstar.xsd.XsdReader;
  * Test the COBOL generator.
  * 
  */
-public class Xsd2CobGeneratorTest extends AbstractTest {
+public class Xsd2CobMapperTest extends AbstractTest {
 
     /** True when references should be created. */
     private static final boolean CREATE_REFERENCES = false;
@@ -30,17 +30,17 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
      * 
      * @throws Exception if generation fails
      */
-    public void testGen() throws Exception {
-        Xsd2CobGenerator gen = new Xsd2CobGenerator();
-        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+    public void testMapSingleChild() throws Exception {
+        Xsd2CobMapper mapper = new Xsd2CobMapper();
+        Document doc = DocumentFactory.parse(new File(REF_DIR,
                 "Xsd2CobAnnotatorTest/stockquote.wsdl.xsd"));
         XmlSchema schema = XsdReader.read(doc);
-        gen.setUp();
+        mapper.setUp();
 
-        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        XsdNavigator navigator = new XsdNavigator(schema, mapper);
         navigator.visit();
 
-        check("stockquote.wsdl.xsd", "cpy", gen.toString());
+        check(getName(), "txt", mapper.getRootDataItems().toString());
     }
 
     /**
@@ -48,17 +48,17 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
      * 
      * @throws Exception if generation fails
      */
-    public void testGenWithMultipleDependingOn() throws Exception {
-        Xsd2CobGenerator gen = new Xsd2CobGenerator();
-        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+    public void testMapWithMultipleDependingOn() throws Exception {
+        Xsd2CobMapper mapper = new Xsd2CobMapper();
+        Document doc = DocumentFactory.parse(new File(REF_DIR,
                 "Xsd2CobAnnotatorTest/MSNSearch.wsdl.xsd"));
         XmlSchema schema = XsdReader.read(doc);
-        gen.setUp();
+        mapper.setUp();
 
-        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        XsdNavigator navigator = new XsdNavigator(schema, mapper);
         navigator.visit();
 
-        check("MSNSearch.wsdl.xsd", "cpy", gen.toString());
+        check(getName(), "txt", mapper.getRootDataItems().toString());
     }
 
     /**
@@ -66,16 +66,16 @@ public class Xsd2CobGeneratorTest extends AbstractTest {
      * 
      * @throws Exception if generation fails
      */
-    public void testGenWithFixedSizeArray() throws Exception {
-        Xsd2CobGenerator gen = new Xsd2CobGenerator();
-        Document doc = DocumentFactory.parse(new File(XSD_REF_DIR,
+    public void testMapWithFixedSizeArray() throws Exception {
+        Xsd2CobMapper mapper = new Xsd2CobMapper();
+        Document doc = DocumentFactory.parse(new File(REF_DIR,
                 "Xsd2CobAnnotatorTest/listssdofixed.xsd.xsd"));
         XmlSchema schema = XsdReader.read(doc);
-        gen.setUp();
+        mapper.setUp();
 
-        XsdNavigator navigator = new XsdNavigator(schema, gen);
+        XsdNavigator navigator = new XsdNavigator(schema, mapper);
         navigator.visit();
 
-        check("listssdofixed.xsd.xsd", "cpy", gen.toString());
+        check(getName(), "txt", mapper.getRootDataItems().toString());
     }
 }

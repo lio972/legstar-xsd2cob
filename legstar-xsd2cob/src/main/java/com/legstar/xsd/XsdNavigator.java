@@ -83,8 +83,8 @@ public class XsdNavigator {
      * @throws XsdMappingException if processing fails
      */
     protected void processCollectionElements(
-            final XmlSchemaObjectCollection items,
-            final int level) throws XsdMappingException {
+            final XmlSchemaObjectCollection items, final int level)
+            throws XsdMappingException {
 
         /* Process each element in the collection */
         for (int i = 0; i < items.getCount(); i++) {
@@ -109,8 +109,7 @@ public class XsdNavigator {
      * @param level the current level in the elements hierarchy.
      * @throws XsdMappingException if processing fails
      */
-    public void processElement(
-            final XmlSchemaElement xsdElement,
+    public void processElement(final XmlSchemaElement xsdElement,
             final int level) throws XsdMappingException {
         /*
          * If this element is referencing another, it might not be useful to
@@ -147,9 +146,8 @@ public class XsdNavigator {
      * @param level the current level in the elements hierarchy.
      * @throws XsdMappingException if processing fails
      */
-    public void processComplexType(
-            final XmlSchemaComplexType xsdComplexType, final int level)
-            throws XsdMappingException {
+    public void processComplexType(final XmlSchemaComplexType xsdComplexType,
+            final int level) throws XsdMappingException {
         if (_log.isDebugEnabled()) {
             _log.debug("process started for complex type = "
                     + xsdComplexType.getName());
@@ -160,8 +158,8 @@ public class XsdNavigator {
 
         /* Complex types might particles such as sequence and all */
         XmlSchemaParticle particle = xsdComplexType.getParticle();
-        processParticle(xsdComplexType.getQName(), particle,
-                level + XsdConstants.LEVEL_INCREMENT);
+        processParticle(xsdComplexType.getQName(), particle, level
+                + XsdConstants.DEFAULT_LEVEL_INCREMENT);
 
         if (_log.isDebugEnabled()) {
             _log.debug("process ended for complex type = "
@@ -170,18 +168,17 @@ public class XsdNavigator {
     }
 
     /**
-     * A particle is usually all or sequence. It contains a collection
-     * of other schema objects that need to be processed.
+     * A particle is usually all or sequence. It contains a collection of other
+     * schema objects that need to be processed.
      * 
      * @param parentName the name of the parent schema object for logging
      * @param particle the particle schema object
      * @param level the current level in the elements hierarchy.
      * @throws XsdMappingException if processing fails
      */
-    public void processParticle(
-            final QName parentName,
-            final XmlSchemaParticle particle,
-            final int level) throws XsdMappingException {
+    public void processParticle(final QName parentName,
+            final XmlSchemaParticle particle, final int level)
+            throws XsdMappingException {
 
         if (particle == null) {
             _log.warn("Schema object " + parentName

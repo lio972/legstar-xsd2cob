@@ -1,0 +1,1 @@
+[{level:1,cobolName:body,children:[{level:3,cobolName:tickerSymbol,picture:"X(32)",srceLine:0}],srceLine:0}, {level:1,cobolName:bodyTradePrice,children:[{level:3,cobolName:price,usage:SINGLEFLOAT,srceLine:0}],srceLine:0}]

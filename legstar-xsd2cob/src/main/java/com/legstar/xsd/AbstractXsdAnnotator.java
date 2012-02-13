@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.legstar.cobol.gen.CobolNameResolver;
 import com.legstar.coxb.CobolMarkup;
 import com.legstar.coxb.CobolType;
 import com.legstar.dom.ElementFactory;
@@ -60,7 +61,6 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
     }
 
     public void setUp() throws IOException {
-        _nameResolver.load();
     }
 
     /**
@@ -71,10 +71,8 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
      * @param elc a DOM element holding the annotations
      */
     @SuppressWarnings("unchecked")
-    public void annotate(
-            final XmlSchema schema,
-            final XmlSchemaAnnotated schemaObject,
-            final Element elc) {
+    public void annotate(final XmlSchema schema,
+            final XmlSchemaAnnotated schemaObject, final Element elc) {
 
         /* Schema object might already be annotated */
         XmlSchemaAnnotation annotation = null;
@@ -88,8 +86,7 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
         XmlSchemaAppInfo appInfo = null;
         /* Look for an existing appinfo in annotation */
         for (Iterator < XmlSchemaObject > i = annotation.getItems()
-                .getIterator(); i
-                .hasNext();) {
+                .getIterator(); i.hasNext();) {
             XmlSchemaObject subAnnotation = i.next();
             if (subAnnotation instanceof XmlSchemaAppInfo) {
                 appInfo = (XmlSchemaAppInfo) subAnnotation;
@@ -114,8 +111,8 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
             markup = el.getChildNodes();
         } else {
             /*
-             * Reuse an existing DOM node and append our annotations.
-             * If there was a COBOL annotation already, we replace it.
+             * Reuse an existing DOM node and append our annotations. If there
+             * was a COBOL annotation already, we replace it.
              */
             Document parentdoc = markup.item(0).getOwnerDocument();
             DocumentFragment fragment = parentdoc.createDocumentFragment();
@@ -148,10 +145,8 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
      * @param level the current level in the type hierarchy
      * @throws XsdMappingException if annotation fails
      */
-    public void setComplexTypeAttributes(
-            final XmlSchema schema,
-            final XmlSchemaComplexType xsdComplexType,
-            final Element elc,
+    public void setComplexTypeAttributes(final XmlSchema schema,
+            final XmlSchemaComplexType xsdComplexType, final Element elc,
             final int level) throws XsdMappingException {
 
         if (_log.isDebugEnabled()) {

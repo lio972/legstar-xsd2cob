@@ -272,6 +272,12 @@
             <artifactId>legstar-codegen</artifactId>
         </dependency>
 
+        <!-- LegStar COBOL generator -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cobcgen</artifactId>
+        </dependency>
+
         <!-- JUnit -->    
         <dependency>
             <groupId>junit</groupId>

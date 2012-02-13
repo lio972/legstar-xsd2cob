@@ -1,12 +1,15 @@
 package com.legstar.xsd;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.Vector;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.Project;
@@ -26,8 +29,16 @@ public abstract class AbstractTest extends TestCase {
     public static final File XSD_DIR = new File("src/test/resources/cases");
 
     /** Reference folder. */
-    public static final File XSD_REF_DIR = new File(
-            "src/test/resources/reference");
+    public static final File REF_DIR = new File("src/test/resources/reference");
+
+    /** Extension added to xsd reference files. */
+    public static final String XSD_REF_FILE_EXT = "xsd";
+
+    /** Extension added to copybook reference files. */
+    public static final String CPY_REF_FILE_EXT = "cpy";
+
+    /** Extension added to other reference files. */
+    public static final String OTHER_REF_FILE_EXT = "txt";
 
     /** Generated annotated classes folder. */
     public static final File GEN_XSD_DIR = new File("target/gen/schema");
@@ -41,11 +52,14 @@ public abstract class AbstractTest extends TestCase {
     /** This means references should be created instead of compared to results. */
     private boolean _createReferences = false;
 
-    private Log _log = LogFactory.getLog(getClass());
+    private Log logger = LogFactory.getLog(getClass());
 
     /** @{inheritDoc */
     public void setUp() throws Exception {
         super.setUp();
+        if (isCreateReferences()) {
+            cleanOldReferences();
+        }
         if (GEN_XSD_DIR.exists()) {
             FileUtils.forceDelete(GEN_XSD_DIR);
         }
@@ -55,6 +69,42 @@ public abstract class AbstractTest extends TestCase {
         if (GEN_ANT_DIR.exists()) {
             FileUtils.forceDelete(GEN_ANT_DIR);
         }
+    }
+
+    /**
+     * This is our chance to remove reference files that are no longer used by a
+     * test case. This happens when test cases are renamed or removed.
+     */
+    protected void cleanOldReferences() {
+        if (!getReferenceFolder().exists()) {
+            return;
+        }
+        Method[] methods = getClass().getDeclaredMethods();
+
+        for (File refFile : FileUtils.listFiles(getReferenceFolder(),
+                new String[] { XSD_REF_FILE_EXT, CPY_REF_FILE_EXT,
+                        OTHER_REF_FILE_EXT }, false)) {
+            boolean found = false;
+            for (int i = 0; i < methods.length; i++) {
+                if (methods[i].getName().equals(
+                        FilenameUtils.getBaseName(refFile.getName()))) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                refFile.delete();
+            }
+        }
+    }
+
+    /**
+     * Location where where reference files are stored for this test case.
+     * 
+     * @return the test case reference files folder
+     */
+    public File getReferenceFolder() {
+        return new File(REF_DIR, getClass().getSimpleName());
     }
 
     /**
@@ -79,8 +129,8 @@ public abstract class AbstractTest extends TestCase {
         StringWriter writer = new StringWriter();
         schema.write(writer);
         String result = writer.toString();
-        if (_log.isDebugEnabled()) {
-            _log.debug(result);
+        if (logger.isDebugEnabled()) {
+            logger.debug(result);
         }
         return result;
     }
@@ -121,22 +171,28 @@ public abstract class AbstractTest extends TestCase {
      * 
      * @param fileName the input file (an XSD or WSDL)
      * @param extension the reference file name extension to use
-     * @throws Exception if something fails
+     * @param result the test results
+     * 
+     * @throws IOException if something fails
      */
     protected void check(final String fileName, final String extension,
-            final String result) throws Exception {
-        File referenceFile = new File(XSD_REF_DIR, getUnqualName(getClass())
-                + "/"
-                + fileName
-                + ((extension == null || extension.length() == 0) ? "" : "."
-                        + extension));
+            final String result) {
+        try {
+            logger.debug(getClass().getSimpleName() + "-" + getName() + ":\n"
+                    + result);
+            File referenceFile = new File(getReferenceFolder(), fileName + "."
+                    + extension);
 
-        if (isCreateReferences()) {
-            FileUtils.writeStringToFile(referenceFile, result, "UTF-8");
-        } else {
-            String expected = FileUtils
-                    .readFileToString(referenceFile, "UTF-8");
-            assertEquals(expected, result);
+            if (isCreateReferences()) {
+                FileUtils.writeStringToFile(referenceFile, result, "UTF-8");
+            } else {
+                String expected = FileUtils.readFileToString(referenceFile,
+                        "UTF-8");
+                assertEquals(expected, result);
+            }
+        } catch (IOException e) {
+            logger.error("Test " + getName() + " failed", e);
+            fail(e.getMessage());
         }
 
     }
