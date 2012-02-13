@@ -24,6 +24,8 @@ import org.apache.ws.commons.schema.XmlSchema;
 import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.w3c.dom.Document;
 
+import com.legstar.cobol.gen.CopybookGenerator;
+import com.legstar.cobol.model.CobolDataItem;
 import com.legstar.dom.DocumentFactory;
 import com.legstar.dom.InvalidDocumentException;
 import com.legstar.xsd.InvalidXsdException;
@@ -32,7 +34,7 @@ import com.legstar.xsd.XsdNavigator;
 import com.legstar.xsd.XsdReader;
 import com.legstar.xsd.XsdRootElement;
 import com.legstar.xsd.XsdToCobolStringResult;
-import com.legstar.xsd.cob.Xsd2CobGenerator;
+import com.legstar.xsd.cob.Xsd2CobMapper;
 
 /**
  * XSD to COBOL Translator API.
@@ -170,12 +172,17 @@ public class Xsd2Cob {
             }
 
             /* Produce the COBOL copybook. */
-            Xsd2CobGenerator cobgen = new Xsd2CobGenerator();
-            visitor = new XsdNavigator(resultSchema, cobgen);
+            Xsd2CobMapper mapper = new Xsd2CobMapper();
+            visitor = new XsdNavigator(resultSchema, mapper);
             visitor.visit();
 
+            StringBuilder copyBook = new StringBuilder();
+            for (CobolDataItem cobolDataItem : mapper.getRootDataItems()) {
+                copyBook.append(CopybookGenerator.generate(cobolDataItem));
+            }
+
             return new XsdToCobolStringResult(toString(resultSchema),
-                    cobgen.toString());
+                    copyBook.toString());
 
         } catch (IOException e) {
             throw new InvalidXsdException(e);

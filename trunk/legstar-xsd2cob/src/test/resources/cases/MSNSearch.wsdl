@@ -72,8 +72,8 @@
       </xsd:simpleType>
       <xsd:complexType name="SearchConstants">
         <xsd:sequence>
-          <xsd:element minOccurs="0" maxOccurs="1" default="" name="MarkBegin" type="xsd:string" />
-          <xsd:element minOccurs="0" maxOccurs="1" default="" name="MarkEnd" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" default="?" name="MarkBegin" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" default="?" name="MarkEnd" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="Location">

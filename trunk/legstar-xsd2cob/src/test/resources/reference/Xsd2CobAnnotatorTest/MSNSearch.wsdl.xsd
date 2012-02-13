@@ -69,8 +69,8 @@
     </xsd:simpleType>
     <xsd:complexType name="SearchConstants">
         <xsd:sequence>
-            <xsd:element default="" minOccurs="0" name="MarkBegin" type="xsd:string"/>
-            <xsd:element default="" minOccurs="0" name="MarkEnd" type="xsd:string"/>
+            <xsd:element default="?" minOccurs="0" name="MarkBegin" type="xsd:string"/>
+            <xsd:element default="?" minOccurs="0" name="MarkEnd" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="Location">

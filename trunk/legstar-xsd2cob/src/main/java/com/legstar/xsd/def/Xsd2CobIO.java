@@ -37,7 +37,6 @@ public class Xsd2CobIO extends Xsd2Cob {
      * @throws InvalidXsdException if XML schema read is invalid
      * @throws InvalidParameterException if one of the parameters is invalid
      */
-    @SuppressWarnings("unchecked")
     public void execute() throws IOException, InvalidXsdException,
             InvalidParameterException {
 
