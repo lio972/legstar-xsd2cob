@@ -30,8 +30,8 @@
                  09  ResultFields OCCURS 1 TO 10 DEPENDING ON 
                      ResultFields--C PIC X(32).
                  09  SearchTagFilters.
-                   11  R-string OCCURS 0 TO 10 DEPENDING ON R-string--C
-                       PIC X(32).
+                   11  R-string OCCURS 0 TO 10 DEPENDING ON R-string--C 
+                      PIC X(32).
       * ----------------------------------------------------------------
       * Generated copybook for SearchResponse
       * ----------------------------------------------------------------
@@ -81,14 +81,14 @@
                            SearchTag--C.
                          17  Name PIC X(32).
                          17  R-Value PIC X(32).
-                       13  Summary PIC X(32).
-                       13  ResultType PIC X(32).
-                       13  Image.
-                         15  ImageURL PIC X(32).
-                         15  ImageWidth PIC S9(9) COMP-5.
-                         15  ImageHeight PIC S9(9) COMP-5.
-                         15  ImageFileSize PIC S9(9) COMP-5.
-                         15  ThumbnailURL PIC X(32).
-                         15  ThumbnailWidth PIC S9(9) COMP-5.
-                         15  ThumbnailHeight PIC S9(9) COMP-5.
-                         15  ThumbnailFileSize PIC S9(9) COMP-5.
+                     13  Summary PIC X(32).
+                     13  ResultType PIC X(32).
+                     13  Image.
+                       15  ImageURL PIC X(32).
+                       15  ImageWidth PIC S9(9) COMP-5.
+                       15  ImageHeight PIC S9(9) COMP-5.
+                       15  ImageFileSize PIC S9(9) COMP-5.
+                       15  ThumbnailURL PIC X(32).
+                       15  ThumbnailWidth PIC S9(9) COMP-5.
+                       15  ThumbnailHeight PIC S9(9) COMP-5.
+                       15  ThumbnailFileSize PIC S9(9) COMP-5.
