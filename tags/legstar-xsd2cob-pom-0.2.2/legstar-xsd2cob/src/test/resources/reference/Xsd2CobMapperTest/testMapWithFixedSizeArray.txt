@@ -1,1 +1,0 @@
-[{level:1,cobolName:dfhcommarea,children:[{level:3,cobolName:ListOdo,minOccurs:10,maxOccurs:10,picture:"X(5)",srceLine:0}],srceLine:0}]
