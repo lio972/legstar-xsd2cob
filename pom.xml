@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-xsd2cob-pom</artifactId>
-    <version>0.2.3-SNAPSHOT</version>
+    <version>0.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>LegStar XML schema to COBOL translator parent</name>
