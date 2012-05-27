@@ -11,7 +11,9 @@ import org.apache.ws.commons.schema.XmlSchemaAnnotated;
 import org.apache.ws.commons.schema.XmlSchemaAnnotation;
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
 import org.apache.ws.commons.schema.XmlSchemaComplexType;
+import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaObject;
+import org.apache.ws.commons.schema.XmlSchemaType;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -119,11 +121,18 @@ public abstract class AbstractXsdAnnotator implements XsdObjectProcessor {
             for (int i = 0; i < markup.getLength(); i++) {
                 Node node = markup.item(i);
                 if (node instanceof Element
-                        && node.getLocalName().equals(CobolMarkup.ELEMENT)
-                        && node.getNamespaceURI().equals(CobolMarkup.NS)) {
+                        && node.getLocalName().equals(elc.getLocalName())
+                        && node.getNamespaceURI().equals(elc.getNamespaceURI())) {
+                    String qName = schemaObject.toString();
+                    if (schemaObject instanceof XmlSchemaElement) {
+                        qName = ((XmlSchemaElement) schemaObject).getQName()
+                                .toString();
+                    } else if (schemaObject instanceof XmlSchemaType) {
+                        qName = ((XmlSchemaType) schemaObject).getQName()
+                                .toString();
+                    }
                     _log.warn("Replacing previous COBOL annotation for "
-                            + ((Element) node)
-                                    .getAttribute(CobolMarkup.COBOL_NAME));
+                            + qName);
                 } else {
                     fragment.appendChild(node.cloneNode(true));
                 }
