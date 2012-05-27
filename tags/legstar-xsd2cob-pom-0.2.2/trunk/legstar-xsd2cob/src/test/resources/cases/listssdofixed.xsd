@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://legstar.com/test/coxb/listssdo" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/listssdo">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element minOccurs="10" maxOccurs="10" name="ListOdo">
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="dfhcommarea" type="tns:Dfhcommarea"/>
+</schema>

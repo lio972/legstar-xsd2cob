@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="LegStar Xsd2Cob">
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-classic-skin</artifactId>
+    <version>1.0</version>
+  </skin>
+  <body>
+    <menu ref="parent"  inherit="top"/>
+    <menu name="Modules">
+        <item name="XML schema to COBOL" href="legstar-xsd2cob/index.html" />
+        <item name="Java to COBOL" href="legstar-java2cob/index.html" />
+    </menu>
+    <menu ref="reports" inherit="bottom" />
+  </body>
+</project>

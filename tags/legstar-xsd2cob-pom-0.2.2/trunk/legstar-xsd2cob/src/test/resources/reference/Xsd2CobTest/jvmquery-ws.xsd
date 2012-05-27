@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://jvmquery.ws.cases.test.xsdc.legstar.com/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://jvmquery.ws.cases.test.xsdc.legstar.com/">
+    <xsd:element name="JVMQueryException" type="tns:JVMQueryException">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <cb:cobolElement cobolName="JVMQueryException" levelNumber="1" type="GROUP_ITEM"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="queryJvm" type="tns:queryJvm">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <cb:cobolElement cobolName="queryJvm" levelNumber="1" type="GROUP_ITEM"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="queryJvmResponse" type="tns:queryJvmResponse">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <cb:cobolElement cobolName="queryJvmResponse" levelNumber="1" type="GROUP_ITEM"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:complexType name="queryJvm">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="arg0" type="tns:jvmQueryRequest">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="arg0" levelNumber="3" type="GROUP_ITEM"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="jvmQueryRequest">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="envVarNames" nillable="true" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="envVarNames" levelNumber="5" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="queryJvmResponse">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="return" type="tns:jvmQueryReply">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="R-return" levelNumber="3" type="GROUP_ITEM"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="jvmQueryReply">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="country" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="country" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="currencySymbol" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="currencySymbol" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="envVarValues" nillable="true" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="envVarValues" levelNumber="5" maxOccurs="10" minOccurs="0" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="formattedDate" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="formattedDate" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="language" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="language" levelNumber="5" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="JVMQueryException">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="message" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <cb:cobolElement cobolName="R-message" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://example.com/stockquote.wsdl" xmlns:xsd1="http://example.com/stockquote.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://example.com/stockquote.xsd">
+    <complexType name="TradePriceRequest">
+        <all>
+            <element name="tickerSymbol" type="string">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="tickerSymbol" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    <complexType name="TradePrice">
+        <all>
+            <element name="price" type="float">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="price" levelNumber="3" type="SINGLE_FLOAT_ITEM" usage="COMP-1"/>
+                    </appinfo>
+                </annotation>
+            </element>
+        </all>
+    </complexType>
+    <element name="body" type="xsd1:TradePriceRequest">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="body" levelNumber="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <element name="bodyTradePrice" type="xsd1:TradePrice">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="bodyTradePrice" levelNumber="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>
