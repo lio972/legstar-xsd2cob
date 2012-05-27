@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+    <xs:complexType name="simple">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolComplexType javaClassName="com.legstar.xsd.java.JavaReaderTest$simple"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="0" name="aField" type="xs:string">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="aField" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="simple" type="simple">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="simple" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+</xs:schema>
