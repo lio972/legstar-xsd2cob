@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://datesample.cases.test.xsdc.legstar.com/" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://datesample.cases.test.xsdc.legstar.com/">
+    <xs:complexType name="dateSample">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolComplexType javaClassName="com.legstar.xsd.java.Java2CobTest$DateSample"/>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="0" name="calendar" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="calendar" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="date" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <cb:cobolElement cobolName="R-date" levelNumber="3" picture="X(32)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="dateSample" type="dateSample">
+        <xs:annotation>
+            <xs:appinfo>
+                <cb:cobolElement cobolName="dateSample" levelNumber="1" type="GROUP_ITEM"/>
+            </xs:appinfo>
+        </xs:annotation>
+    </xs:element>
+</xs:schema>
