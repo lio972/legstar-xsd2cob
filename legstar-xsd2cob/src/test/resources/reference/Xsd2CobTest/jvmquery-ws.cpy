@@ -10,8 +10,8 @@
            03  OCCURS-COUNTERS--C.
              05  envVarNames--C PIC 9(9) COMP-5.
            03  arg0.
-             05  envVarNames OCCURS 0 TO 10 DEPENDING ON envVarNames--C
-                 PIC X(32).
+             05  envVarNames OCCURS 0 TO 10 DEPENDING ON envVarNames--C 
+                PIC X(32).
       * ----------------------------------------------------------------
       * Generated copybook for queryJvmResponse
       * ----------------------------------------------------------------
