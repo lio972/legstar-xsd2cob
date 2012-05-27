@@ -110,4 +110,42 @@ public class Java2CobTest extends AbstractTest {
         }
     }
 
+    public void testIssue3() throws Exception {
+
+        Java2Cob java2cob = new Java2Cob();
+        java2cob.getModel().setNewTargetNamespace(
+                "http://issue3.cases.test.xsdc.legstar.com/");
+
+        List < String > classNames = Arrays.asList(new String[] {
+                "com.legstar.xsd.java.Java2CobTest$OuterSample",
+                "com.legstar.xsd.java.Java2CobTest$InnerSample" });
+        XsdToCobolStringResult results = java2cob.translate(classNames);
+
+        check("outersample", "xsd", results.getCobolXsd());
+        check("outersample", "cpy", results.getCobolStructure());
+    }
+
+    public static class OuterSample {
+        private InnerSample innerSample;
+
+        public InnerSample getInnerSample() {
+            return innerSample;
+        }
+
+        public void setInnerSample(InnerSample innerSample) {
+            this.innerSample = innerSample;
+        }
+    }
+
+    public static class InnerSample {
+        private String string;
+
+        public String getString() {
+            return string;
+        }
+
+        public void setString(String string) {
+            this.string = string;
+        }
+    }
 }
