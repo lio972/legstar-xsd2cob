@@ -1,0 +1,13 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:tns="http://legstar.com/test/coxb/listssdo" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://legstar.com/test/coxb/listssdo">
+    <complexType name="Dfhcommarea">
+        <sequence>
+            <element maxOccurs="100" name="ListOdo">
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="5"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+</schema>
