@@ -11,7 +11,7 @@ Starting from XML schema, a WSDL file or Java classes, the tool generates 2 outp
  
  * A COBOL copybook containing a structure definition that matches the input morphology
 
-legstar-xsd2cob is open source and available for [http://code.google.com/p/legstar-xsd2cob/downloads/list download] as a zip archive.
+legstar-xsd2cob is open source and available for [https://code.google.com/p/legstar-xsd2cob/wiki/Download download] as a zip archive.
 
 There are 3 ways you can use it:
 
