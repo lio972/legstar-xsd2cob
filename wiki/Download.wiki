@@ -7,5 +7,5 @@
 
 = Older =
 
-[http://repo1.maven.org/maven2/com/legsem/legstar/legstar-xsd2cob-dist/0.2.2/legstar-xsd2cob-dist-0.2.2-dist.zip legstar-xsd2cob-dist-0.2.2.zip] - May 26, 2012
+[http://repo1.maven.org/maven2/com/legsem/legstar/legstar-xsd2cob-dist/0.2.2/legstar-xsd2cob-dist-0.2.2.zip legstar-xsd2cob-dist-0.2.2.zip] - May 26, 2012
 
